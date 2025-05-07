@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZCarsDriver.Views.Vendor.PeakHoursPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZCarsDriver.Templates"
+    xmlns:vm="clr-namespace:ZCarsDriver.ViewModel"
+    x:Name="PeakHoursUI"
+    x:TypeArguments="vm:PeakHoursViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="auto,*"
+            VerticalOptions="Fill">
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+            <Grid
+                Grid.Row="1"
+                Padding="16"
+                BackgroundColor="White"
+                RowDefinitions="Auto,*">
+
+                <!--  Top Info Section  -->
+                <VerticalStackLayout Grid.Row="0" Spacing="4">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalOptions="Center"
+                        Text="Peak Hours" />
+
+                    <Grid
+                        ColumnDefinitions="auto,*"
+                        HorizontalOptions="Fill"
+                        RowDefinitions="auto,auto"
+                        RowSpacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            Text="City: "
+                            TextColor="Red" />
+                        <ctrl:CustomBorder Grid.Column="1" HorizontalOptions="Fill">
+                            <ctrl:CustomPicker
+                                HorizontalOptions="Fill"
+                                ItemsSource="{Binding Locations}"
+                                PickerSelectedCommand="{Binding RefreshCmd}"
+                                SelectedItem="{Binding SelectedLocation}" />
+                        </ctrl:CustomBorder>
+
+                        <Label
+                            Grid.Row="1"
+                            FontAttributes="Bold"
+                            Text="Date: "
+                            TextColor="Red" />
+                        <ctrl:CustomBorder Grid.Row="1" Grid.Column="1">
+                            <ctrl:CustomDatePicker Date="{Binding SelectedDate}" DateSelectedCommand="{Binding RefreshCmd}" />
+                        </ctrl:CustomBorder>
+
+                    </Grid>
+
+                </VerticalStackLayout>
+
+                <!--  Middle: Time Slots List  -->
+                <CollectionView
+                    Grid.Row="1"
+                    Margin="0,16"
+                    ItemsSource="{Binding TimeSlots}"
+                    SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <ctrl:CustomBorder
+                                Margin="0,5"
+                                Padding="10"
+                                BorderColor="Gray"
+                                CornerRadius="8">
+                                <VerticalStackLayout>
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="From Time:" />
+                                                <Span Text="{Binding FromTime, StringFormat='{0:hh:mm tt}'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="To Time:" />
+                                                <Span Text="{Binding ToTime, StringFormat='{0:hh:mm tt}'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </VerticalStackLayout>
+                            </ctrl:CustomBorder>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </Grid>
+        </Grid>
+    </Grid>
+
+</base:BaseContentPage>

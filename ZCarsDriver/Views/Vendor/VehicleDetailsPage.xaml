@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZCarsDriver.Views.Vendor.VehicleDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZCarsDriver.Templates"
+    xmlns:vm="clr-namespace:ZCarsDriver.ViewModel"
+    x:Name="VehicleDetailsUI"
+    x:TypeArguments="vm:VehicleDetailsViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="auto,*"
+            VerticalOptions="Fill">
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+            <ScrollView
+                Grid.Row="1"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+                <Grid
+                    Padding="15"
+                    RowDefinitions="auto,auto,auto,auto,auto"
+                    RowSpacing="10">
+                    <!--  Vehicle Header (Number Plate & Status)  -->
+                    <ctrl:CustomBorder
+                        Padding="10"
+                        BackgroundColor="#E3F2FD"
+                        CornerRadius="10">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="22"
+                                Text="{Binding Vehicle.RegistrationNumber}" />
+                            <Label
+                                Grid.Column="1"
+                                FontSize="14"
+                                Text="{Binding Vehicle.AssignmentStatus}"
+                                TextColor="Green" />
+                        </Grid>
+                    </ctrl:CustomBorder>
+
+                    <!--  Vehicle Details Section  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="1"
+                        Padding="10"
+                        CornerRadius="10">
+                        <Grid RowDefinitions="Auto,Auto">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Basic Details" />
+                            <StackLayout
+                                Grid.Row="1"
+                                BindableLayout.ItemsSource="{Binding VehicleDetails}"
+                                Spacing="5">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10">
+                                            <Image
+                                                HeightRequest="24"
+                                                Source="{Binding Icon}"
+                                                WidthRequest="24" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontSize="16"
+                                                Text="{Binding Value}"
+                                                VerticalTextAlignment="Center" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </Grid>
+                    </ctrl:CustomBorder>
+
+                    <!--  Pricing & Ride Config  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="2"
+                        Padding="10"
+                        CornerRadius="10">
+                        <Grid RowDefinitions="Auto,Auto">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Pricing Ride Configuration" />
+                            <StackLayout
+                                Grid.Row="1"
+                                BindableLayout.ItemsSource="{Binding VehiclePricing}"
+                                Spacing="5">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*, *">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="16"
+                                                Text="{Binding Key}" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontSize="16"
+                                                Text="{Binding Value}"
+                                                TextColor="DarkGray" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </Grid>
+                    </ctrl:CustomBorder>
+
+                    <!--  GPS & Tracking  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="3"
+                        Padding="10"
+                        CornerRadius="10">
+                        <Grid RowDefinitions="Auto,Auto">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="GPS Tracking" />
+                            <HorizontalStackLayout Grid.Row="1">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    Text="Last Location: " />
+                                <Label
+                                    FontSize="16"
+                                    Text="{Binding Vehicle.CurrentLocation}"
+                                    TextColor="DarkGray" />
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </ctrl:CustomBorder>
+
+                    <!--  Assigned Driver Section  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="4"
+                        Padding="10"
+                        BackgroundColor="#FFF9C4"
+                        CornerRadius="10">
+                        <Grid RowDefinitions="Auto,Auto">
+
+                            <Label
+                                Grid.Row="0"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Driver Info" />
+
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto, *, Auto">
+                                <ctrl:CustomBorder CornerRadius="50">
+                                    <Image
+                                        Aspect="AspectFill"
+                                        HeightRequest="100"
+                                        Source="{Binding AssignedDriver.Photo}"
+                                        WidthRequest="100" />
+                                </ctrl:CustomBorder>
+
+                                <StackLayout Grid.Column="1" Padding="10">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="{Binding AssignedDriver.Name}" />
+                                    <Label
+                                        FontSize="16"
+                                        Text="{Binding AssignedDriver.PhoneNumber}"
+                                        TextColor="Blue" />
+                                </StackLayout>
+
+                                <ctrl:CustomImage
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Command="{Binding CallDriverCommand}"
+                                    HeightRequest="30"
+                                    Source="cell_icon.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="30" />
+
+
+                            </Grid>
+
+                        </Grid>
+                    </ctrl:CustomBorder>
+                </Grid>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="ZCarsDriver.DPopup.OnStartOtpPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    CanBeDismissedByTappingOutsideOfPopup="True"
+    VerticalOptions="End">
+
+    <Grid
+        Margin="50"
+        Padding="20"
+        BackgroundColor="White"
+        HorizontalOptions="Center"
+        VerticalOptions="End">
+
+        <Grid
+            HorizontalOptions="Fill"
+            IsVisible="{Binding ShowOtp}"
+            RowDefinitions="auto,auto,auto,auto,auto"
+            RowSpacing="20"
+            VerticalOptions="Fill">
+
+            <!--  Title and Subtitle  -->
+            <Label
+                Grid.Row="0"
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Verify OTP" />
+
+            <Label
+                Grid.Row="1"
+                FontSize="14"
+                HorizontalOptions="Center"
+                Text="Please enter the OTP to start your trip."
+                TextColor="Gray" />
+
+            <!--  OTP Entry Fields  -->
+            <HorizontalStackLayout
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                Spacing="10">
+                <ctrl:CustomBorder BorderColor="#00796B" CornerRadius="5">
+                    <ctrl:CustomEntry
+                        x:Name="Otp1"
+                        Completed="Otp_Completed"
+                        HorizontalTextAlignment="Center"
+                        Keyboard="Numeric"
+                        MaxLength="1"
+                        ReturnType="Done"
+                        Text="{Binding Otp1}"
+                        TextChanged="OnOtpTextChanged"
+                        WidthRequest="50" />
+                </ctrl:CustomBorder>
+
+                <ctrl:CustomBorder BorderColor="#00796B" CornerRadius="5">
+                    <ctrl:CustomEntry
+                        x:Name="Otp2"
+                        Completed="Otp_Completed"
+                        HorizontalTextAlignment="Center"
+                        Keyboard="Numeric"
+                        MaxLength="1"
+                        ReturnType="Done"
+                        Text="{Binding Otp2}"
+                        TextChanged="OnOtpTextChanged"
+                        WidthRequest="50" />
+                </ctrl:CustomBorder>
+                <ctrl:CustomBorder BorderColor="#00796B" CornerRadius="5">
+                    <ctrl:CustomEntry
+                        x:Name="Otp3"
+                        Completed="Otp_Completed"
+                        HorizontalTextAlignment="Center"
+                        Keyboard="Numeric"
+                        MaxLength="1"
+                        ReturnType="Done"
+                        Text="{Binding Otp3}"
+                        TextChanged="OnOtpTextChanged"
+                        WidthRequest="50" />
+                </ctrl:CustomBorder>
+                <ctrl:CustomBorder BorderColor="#00796B" CornerRadius="5">
+                    <ctrl:CustomEntry
+                        x:Name="Otp4"
+                        Completed="Otp_Completed"
+                        HorizontalTextAlignment="Center"
+                        Keyboard="Numeric"
+                        MaxLength="1"
+                        ReturnType="Done"
+                        Text="{Binding Otp4}"
+                        TextChanged="OnOtpTextChanged"
+                        WidthRequest="50" />
+                </ctrl:CustomBorder>
+            </HorizontalStackLayout>
+
+            <!--  Buttons  -->
+            <Grid
+                Grid.Row="3"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10">
+                <Button
+                    BackgroundColor="LightGray"
+                    Command="{Binding CancelCommand}"
+                    Text="Cancel"
+                    TextColor="Black" />
+
+                <Button
+                    Grid.Column="1"
+                    BackgroundColor="{x:StaticResource Primary}"
+                    Command="{Binding VerifyCommand}"
+                    Text="Verify"
+                    TextColor="White" />
+            </Grid>
+        </Grid>
+
+        <Grid
+            Padding="20"
+            IsVisible="{Binding ShowEndTrip}"
+            RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+
+
+            <!--  Warning Icon  -->
+
+            <Image
+                Grid.Row="0"
+                HeightRequest="50"
+                HorizontalOptions="Center"
+                Source="pin.png"
+                WidthRequest="50" />
+
+
+            <!--  Info Title  -->
+
+            <Label
+                Grid.Row="1"
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Info" />
+
+
+            <!--  Message  -->
+
+            <Label
+                Grid.Row="2"
+                Margin="0,10"
+                FontSize="16"
+                HorizontalOptions="Center"
+                Text="Are you sure you want to end the trip?"
+                TextColor="Black" />
+
+
+            <!--  Button Layout  -->
+
+            <Grid
+                Grid.Row="3"
+                ColumnDefinitions="*, *"
+                ColumnSpacing="10">
+
+
+                <!--  Cancel Button  -->
+
+                <Button
+                    BackgroundColor="#E0E0E0"
+                    Command="{Binding CancelCommand}"
+                    CornerRadius="10"
+                    HeightRequest="50"
+                    Text="Cancel"
+                    TextColor="Black" />
+
+
+                <!--  End Trip Button  -->
+
+                <Button
+                    Grid.Column="1"
+                    BackgroundColor="{x:StaticResource Primary}"
+                    Command="{Binding EndTripCommand}"
+                    CornerRadius="10"
+                    HeightRequest="50"
+                    Text="End Trip"
+                    TextColor="White" />
+            </Grid>
+        </Grid>
+
+
+        <Grid
+            Padding="30"
+            ColumnDefinitions="*"
+            IsVisible="{Binding ShowRideSuccess}"
+            RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+
+
+            <!--  Success Icon  -->
+
+            <Image
+                Grid.Row="0"
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                Source="pin.png"
+                WidthRequest="100" />
+
+
+            <!--  Success Message  -->
+
+            <Label
+                Grid.Row="1"
+                Margin="0,10"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Trip Completed Successfully"
+                TextColor="Black" />
+
+
+            <!--  Fare Amount  -->
+
+            <Label
+                Grid.Row="2"
+                FontAttributes="Bold"
+                FontSize="48"
+                HorizontalOptions="Center"
+                Text="{Binding FareAmount}"
+                TextColor="Black" />
+
+
+            <!--  Ride Fare Text  -->
+
+            <Label
+                Grid.Row="3"
+                FontSize="14"
+                HorizontalOptions="Center"
+                Text="Ride Fare"
+                TextColor="Gray" />
+
+
+            <!--  Collect Cash Button  -->
+
+            <Button
+                Grid.Row="4"
+                Margin="0,30"
+                BackgroundColor="{x:StaticResource Primary}"
+                Command="{Binding CancelCommand}"
+                CornerRadius="25"
+                FontSize="16"
+                HorizontalOptions="Center"
+                Text="Ok"
+                TextColor="{x:StaticResource White}"
+                WidthRequest="200" />
+        </Grid>
+
+    </Grid>
+
+</toolkit:Popup>

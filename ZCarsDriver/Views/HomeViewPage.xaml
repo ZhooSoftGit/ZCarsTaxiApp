@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZCarsDriver.Views.HomeViewPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:resource="clr-namespace:ZCarsDriver.Resources.Strings"
+    xmlns:vm="clr-namespace:ZCarsDriver.ViewModel"
+    x:TypeArguments="vm:HomeViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill">
+
+            <!--  Home Main View  -->
+            <Grid
+                x:Name="mainLayout"
+                Padding="0"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid
+                    x:Name="headerLayout"
+                    Grid.Row="0"
+                    Padding="15"
+                    BackgroundColor="{x:StaticResource Primary}"
+                    HorizontalOptions="Fill"
+                    RowSpacing="1"
+                    VerticalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        x:Name="menuImage"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="10,0,0,0"
+                        HorizontalOptions="Start"
+                        Source="menu.png"
+                        VerticalOptions="Center">
+
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalOptions="Center"
+                        Source="drivericon.png"
+                        VerticalOptions="Center">
+                        <Image.WidthRequest>
+                            <OnIdiom x:TypeArguments="x:Double">
+                                <OnIdiom.Phone>100</OnIdiom.Phone>
+                                <OnIdiom.Tablet>200</OnIdiom.Tablet>
+                            </OnIdiom>
+                        </Image.WidthRequest>
+                        <Image.HeightRequest>
+                            <OnIdiom x:TypeArguments="x:Double">
+                                <OnIdiom.Phone>30</OnIdiom.Phone>
+                                <OnIdiom.Tablet>50</OnIdiom.Tablet>
+                            </OnIdiom>
+                        </Image.HeightRequest>
+                    </Image>
+
+                </Grid>
+
+                <Grid
+                    Grid.Row="1"
+                    Padding="20"
+                    HorizontalOptions="Fill"
+                    RowDefinitions="auto,*"
+                    RowSpacing="10"
+                    VerticalOptions="Fill">
+
+                    <ctrl:CustomBorder
+                        Grid.Row="0"
+                        Margin="15"
+                        BackgroundColor="#00796B"
+                        CornerRadius="10">
+                        <Grid
+                            ColumnDefinitions="*, Auto"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill">
+
+                            <Image
+                                HeightRequest="200"
+                                Source="banner1.png"
+                                WidthRequest="200" />
+                        </Grid>
+                    </ctrl:CustomBorder>
+
+                    <!--  Booking Options  -->
+                    <Grid
+                        Grid.Row="1"
+                        Padding="5"
+                        ColumnDefinitions="*, *"
+                        ColumnSpacing="10"
+                        RowDefinitions="Auto, Auto, Auto, Auto"
+                        RowSpacing="10">
+                        <!--  Driver Register  -->
+                        <ctrl:CustomBorder
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Padding="10"
+                            BackgroundColor="#00796B"
+                            CornerRadius="10">
+                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Image
+                                    HeightRequest="40"
+                                    Source="tile_driver.png"
+                                    WidthRequest="40" />
+                                <Label
+                                    FontSize="14"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{x:Static resource:AppResources.Driver}"
+                                    TextColor="{x:StaticResource White}" />
+                            </StackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TileClickCmd}" CommandParameter="{x:Static resource:AppResources.Driver}" />
+                            </Border.GestureRecognizers>
+                        </ctrl:CustomBorder>
+
+                        <!--  Vendor Register  -->
+                        <ctrl:CustomBorder
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Padding="10"
+                            BackgroundColor="#00796B"
+                            CornerRadius="10">
+                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Image
+                                    HeightRequest="40"
+                                    Source="tile_vendor.png"
+                                    WidthRequest="40" />
+                                <Label
+                                    FontSize="14"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{x:Static resource:AppResources.Vendor}"
+                                    TextColor="{x:StaticResource White}" />
+
+                            </StackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TileClickCmd}" CommandParameter="{x:Static resource:AppResources.Vendor}" />
+                            </Border.GestureRecognizers>
+                        </ctrl:CustomBorder>
+
+                        <!--  Service Provider Register  -->
+                        <ctrl:CustomBorder
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Padding="10"
+                            BackgroundColor="#00796B"
+                            CornerRadius="10">
+                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Image
+                                    HeightRequest="40"
+                                    Source="tile_service.png"
+                                    WidthRequest="40" />
+                                <Label
+                                    FontSize="14"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{x:Static resource:AppResources.ServiceProvider}"
+                                    TextColor="{x:StaticResource White}" />
+
+                            </StackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TileClickCmd}" CommandParameter="{x:Static resource:AppResources.ServiceProvider}" />
+                            </Border.GestureRecognizers>
+                        </ctrl:CustomBorder>
+
+                        <!--  Spar Parts Register  -->
+                        <ctrl:CustomBorder
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Padding="10"
+                            BackgroundColor="#00796B"
+                            CornerRadius="10">
+                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Image
+                                    HeightRequest="40"
+                                    Source="profile.png"
+                                    WidthRequest="40" />
+                                <Label
+                                    FontSize="14"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{x:Static resource:AppResources.SparParts}"
+                                    TextColor="{x:StaticResource White}" />
+
+                            </StackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TileClickCmd}" CommandParameter="{x:Static resource:AppResources.SparParts}" />
+                            </Border.GestureRecognizers>
+                        </ctrl:CustomBorder>
+
+                        <!--  Buy and Sell  -->
+                        <ctrl:CustomBorder
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Padding="10"
+                            BackgroundColor="#00796B"
+                            CornerRadius="10">
+                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Image
+                                    HeightRequest="40"
+                                    Source="tile_vendor.png"
+                                    WidthRequest="40" />
+                                <Label
+                                    FontSize="14"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{x:Static resource:AppResources.BuyAndSell}"
+                                    TextColor="{x:StaticResource White}" />
+
+                            </StackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TileClickCmd}" CommandParameter="{x:Static resource:AppResources.BuyAndSell}" />
+                            </Border.GestureRecognizers>
+                        </ctrl:CustomBorder>
+
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+
+            <!--  Transparent Layout  -->
+
+            <StackLayout
+                x:Name="transparentLayout"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="#7700796B"
+                HorizontalOptions="Fill"
+                IsVisible="{Binding ShowSideLayout}"
+                VerticalOptions="Fill">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+
+            <!--  Menu Layer Start  -->
+            <Grid
+                x:Name="menuLayer"
+                AbsoluteLayout.LayoutBounds="0, 0, 0.75, 1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="White"
+                HorizontalOptions="Fill"
+                IsVisible="False"
+                RowDefinitions="auto,auto,*"
+                VerticalOptions="Fill">
+
+                <StackLayout
+                    Grid.Row="0"
+                    Padding="5,5,50,5"
+                    HorizontalOptions="Start"
+                    Spacing="0"
+                    VerticalOptions="Start">
+                    <Image
+                        x:Name="iconImage"
+                        HorizontalOptions="Center"
+                        Source="profile.png"
+                        VerticalOptions="Start">
+                        <Image.WidthRequest>
+                            <OnIdiom x:TypeArguments="x:Double">
+                                <OnIdiom.Phone>50</OnIdiom.Phone>
+                                <OnIdiom.Tablet>100</OnIdiom.Tablet>
+                            </OnIdiom>
+                        </Image.WidthRequest>
+                        <Image.HeightRequest>
+                            <OnIdiom x:TypeArguments="x:Double">
+                                <OnIdiom.Phone>50</OnIdiom.Phone>
+                                <OnIdiom.Tablet>100</OnIdiom.Tablet>
+                            </OnIdiom>
+                        </Image.HeightRequest>
+                    </Image>
+                    <Label
+                        x:Name="UserInfo"
+                        Margin="2,5,0,0"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Start"
+                        Text="{Binding UserName}"
+                        TextColor="{x:StaticResource Black}"
+                        VerticalOptions="Start">
+                        <Label.FontSize>
+                            <OnIdiom x:TypeArguments="x:Double">
+                                <OnIdiom.Phone>16</OnIdiom.Phone>
+                                <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                            </OnIdiom>
+                        </Label.FontSize>
+                    </Label>
+                    <Label
+                        x:Name="UserRole"
+                        Margin="2,0,0,0"
+                        FontAttributes="None"
+                        HorizontalOptions="Start"
+                        Text="{Binding UserRole}"
+                        TextColor="Black"
+                        VerticalOptions="Start">
+                        <Label.FontSize>
+                            <OnIdiom x:TypeArguments="x:Double">
+                                <OnIdiom.Phone>16</OnIdiom.Phone>
+                                <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                            </OnIdiom>
+                        </Label.FontSize>
+                    </Label>
+                </StackLayout>
+
+                <BoxView
+                    Grid.Row="1"
+                    BackgroundColor="#80a0c2"
+                    HeightRequest="1"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"
+                    Color="#80a0c2" />
+
+                <ScrollView
+                    Grid.Row="2"
+                    HorizontalOptions="Fill"
+                    Orientation="Vertical"
+                    VerticalOptions="Fill">
+                    <StackLayout
+                        HorizontalOptions="Fill"
+                        Orientation="Vertical"
+                        VerticalOptions="Start">
+
+                        <StackLayout
+                            Padding="10"
+                            HorizontalOptions="Fill"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalOptions="Fill">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShowRideHistory}" />
+                            </StackLayout.GestureRecognizers>
+                            <Image
+                                HorizontalOptions="Start"
+                                Source="ride_history.png"
+                                VerticalOptions="Fill">
+                                <Image.WidthRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.WidthRequest>
+                                <Image.HeightRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.HeightRequest>
+                            </Image>
+                            <Label
+                                HorizontalOptions="Start"
+                                HorizontalTextAlignment="Start"
+                                Text="{x:Static resource:AppResources.RideHistory}"
+                                TextColor="Black"
+                                VerticalOptions="Center">
+                                <Label.FontSize>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>16</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Label.FontSize>
+                            </Label>
+                        </StackLayout>
+
+                        <BoxView
+                            x:Name="Boxviewline"
+                            BackgroundColor="#80a0c2"
+                            HeightRequest="1"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Start"
+                            Color="#80a0c2" />
+
+                        <StackLayout
+                            Padding="10"
+                            HorizontalOptions="Fill"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalOptions="Fill">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShowPayment}" />
+                            </StackLayout.GestureRecognizers>
+                            <Image
+                                HorizontalOptions="Start"
+                                Source="payment.png"
+                                VerticalOptions="Fill">
+                                <Image.WidthRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.WidthRequest>
+                                <Image.HeightRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.HeightRequest>
+                            </Image>
+                            <Label
+                                HorizontalOptions="Start"
+                                HorizontalTextAlignment="Start"
+                                Text="{x:Static resource:AppResources.Payment}"
+                                TextColor="Black"
+                                VerticalOptions="Center">
+                                <Label.FontSize>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>16</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Label.FontSize>
+                            </Label>
+                        </StackLayout>
+
+                        <BoxView
+                            BackgroundColor="#80a0c2"
+                            HeightRequest="1"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Start"
+                            Color="#80a0c2" />
+
+                        <StackLayout
+                            Padding="10"
+                            HorizontalOptions="Fill"
+                            IsVisible="False"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalOptions="Fill">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenNotification}" />
+                            </StackLayout.GestureRecognizers>
+                            <Image
+                                HorizontalOptions="Start"
+                                Source="notification.png"
+                                VerticalOptions="Fill">
+                                <Image.WidthRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.WidthRequest>
+                                <Image.HeightRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.HeightRequest>
+                            </Image>
+                            <Label
+                                HorizontalOptions="Start"
+                                HorizontalTextAlignment="Start"
+                                Text="{x:Static resource:AppResources.Notification}"
+                                TextColor="Black"
+                                VerticalOptions="Center">
+                                <Label.FontSize>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>16</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Label.FontSize>
+                            </Label>
+                        </StackLayout>
+
+                        <BoxView
+                            BackgroundColor="#80a0c2"
+                            HeightRequest="2"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Start"
+                            Color="#80a0c2" />
+
+                        <StackLayout
+                            Padding="10"
+                            HorizontalOptions="Fill"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalOptions="Fill">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenReferFriend}" />
+                            </StackLayout.GestureRecognizers>
+                            <Image
+                                HorizontalOptions="Start"
+                                Source="share.png"
+                                VerticalOptions="Fill">
+                                <Image.WidthRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.WidthRequest>
+                                <Image.HeightRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.HeightRequest>
+                            </Image>
+                            <Label
+                                HorizontalOptions="Start"
+                                HorizontalTextAlignment="Start"
+                                Text="{x:Static resource:AppResources.ReferFriend}"
+                                TextColor="Black"
+                                VerticalOptions="Center">
+                                <Label.FontSize>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>16</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Label.FontSize>
+                            </Label>
+                        </StackLayout>
+
+                        <!--  work Area  -->
+                        <BoxView
+                            BackgroundColor="#80a0c2"
+                            HeightRequest="1"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Start"
+                            Color="#80a0c2" />
+
+                        <StackLayout
+                            Padding="10"
+                            HorizontalOptions="Fill"
+                            IsVisible="false"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalOptions="Fill">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OpenSettings}" />
+                            </StackLayout.GestureRecognizers>
+                            <Image
+                                HorizontalOptions="Start"
+                                Source="settings_menu.png"
+                                VerticalOptions="Fill">
+                                <Image.WidthRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.WidthRequest>
+                                <Image.HeightRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.HeightRequest>
+                            </Image>
+                            <Label
+                                HorizontalOptions="Start"
+                                HorizontalTextAlignment="Start"
+                                Text="{x:Static resource:AppResources.Settings}"
+                                TextColor="Black"
+                                VerticalOptions="Center">
+                                <Label.FontSize>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>16</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Label.FontSize>
+                            </Label>
+                        </StackLayout>
+
+
+                        <!--  work area  -->
+                        <BoxView
+                            BackgroundColor="#80a0c2"
+                            HeightRequest="1"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Start"
+                            Color="#80a0c2" />
+
+                        <StackLayout
+                            Padding="10"
+                            HorizontalOptions="Fill"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            VerticalOptions="Fill">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LogoutCmd}" />
+                            </StackLayout.GestureRecognizers>
+                            <Image
+                                HorizontalOptions="Start"
+                                Source="logout.png"
+                                VerticalOptions="Fill">
+                                <Image.WidthRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.WidthRequest>
+                                <Image.HeightRequest>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>25</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>40</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Image.HeightRequest>
+                            </Image>
+                            <Label
+                                HorizontalOptions="Start"
+                                HorizontalTextAlignment="Start"
+                                Text="{x:Static resource:AppResources.Logout}"
+                                TextColor="{x:StaticResource Red}"
+                                VerticalOptions="Center">
+                                <Label.FontSize>
+                                    <OnIdiom x:TypeArguments="x:Double">
+                                        <OnIdiom.Phone>16</OnIdiom.Phone>
+                                        <OnIdiom.Tablet>20</OnIdiom.Tablet>
+                                    </OnIdiom>
+                                </Label.FontSize>
+                            </Label>
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+            </Grid>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+
+</base:BaseContentPage>

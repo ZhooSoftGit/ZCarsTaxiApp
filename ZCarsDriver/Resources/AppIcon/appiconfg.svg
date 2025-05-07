@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="100" viewBox="0 0 150 100">
+    <rect width="200" height="100" fill="teal"/>
+    <path d="M20,70 L80,70 L80,60 L35,60 L80,30 L80,20 L20,20 L20,30 L65,30 L20,60 Z" fill="white"/>
+      <text x="80" y="70" font-family="Arial" font-size="20" fill="white">cars</text>
+
+</svg>

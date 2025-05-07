@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZCarsDriver.Views.Rides.RideDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZCarsDriver.Templates"
+    xmlns:vm="clr-namespace:ZCarsDriver.ViewModel"
+    x:Name="RideDetailsUI"
+    x:TypeArguments="vm:RideDetailsViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="auto,*"
+            VerticalOptions="Fill">
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+            <ScrollView Grid.Row="1">
+                <Grid
+                    Padding="15"
+                    RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                    RowSpacing="5">
+
+                    <!--  Driver Info  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="0"
+                        Padding="15"
+                        BackgroundColor="#006666"
+                        CornerRadius="10">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                            <ctrl:CustomBorder CornerRadius="20">
+                                <Image
+                                    HeightRequest="40"
+                                    Source="{Binding DriverPhoto}"
+                                    WidthRequest="40" />
+                            </ctrl:CustomBorder>
+
+                            <StackLayout Grid.Column="1">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    Text="{Binding DriverName}"
+                                    TextColor="White" />
+                                <Label
+                                    FontSize="14"
+                                    Text="Arrives in 3 minutes"
+                                    TextColor="White" />
+                            </StackLayout>
+                            <StackLayout
+                                Grid.Column="2"
+                                HorizontalOptions="End"
+                                Orientation="Horizontal">
+                                <Image
+                                    HeightRequest="24"
+                                    Source="chat_icon.png"
+                                    WidthRequest="24" />
+                                <Image
+                                    Margin="10,0,0,0"
+                                    HeightRequest="24"
+                                    Source="cell_icon.png"
+                                    WidthRequest="24" />
+                            </StackLayout>
+                        </Grid>
+                    </ctrl:CustomBorder>
+
+
+                    <!--  Ride Info  -->
+
+                    <Label
+                        Grid.Row="1"
+                        Text="Ride Details"
+                        TextColor="{x:StaticResource Primary}" />
+
+                    <ctrl:CustomBorder
+                        Grid.Row="2"
+                        Padding="10"
+                        BackgroundColor="White"
+                        CornerRadius="10">
+                        <Grid RowDefinitions="auto,auto,auto,auto,auto, auto">
+
+                            <Grid
+                                Grid.Row="0"
+                                ColumnDefinitions="*,auto"
+                                HorizontalOptions="Fill">
+                                <Label
+                                    FontSize="16"
+                                    HorizontalOptions="Fill"
+                                    Text="Cost" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    HorizontalOptions="End"
+                                    HorizontalTextAlignment="End"
+                                    Text="₹72.86" />
+                            </Grid>
+
+
+                            <Grid Grid.Row="2" ColumnDefinitions="*,auto">
+                                <Label
+                                    Margin="0,10,0,0"
+                                    FontSize="16"
+                                    Text="Date and Time" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    Text="Dec 13, 2024 | 8:50 A.M" />
+                            </Grid>
+
+
+                            <StackLayout
+                                Grid.Row="3"
+                                Margin="0,10,0,0"
+                                Orientation="Horizontal"
+                                Spacing="10">
+                                <Image
+                                    HeightRequest="20"
+                                    Source="current_loc.png"
+                                    WidthRequest="20" />
+                                <Label FontSize="16" Text="San Francisco Airport" />
+                            </StackLayout>
+
+                            <StackLayout
+                                Grid.Row="4"
+                                Orientation="Horizontal"
+                                Spacing="10">
+                                <Image
+                                    HeightRequest="20"
+                                    Source="current_loc.png"
+                                    WidthRequest="20" />
+                                <Label FontSize="16" Text="San Francisco 44 street" />
+                            </StackLayout>
+
+                            <Label
+                                Grid.Row="5"
+                                FontSize="14"
+                                Text="Your travel takes 13 minutes."
+                                TextColor="Gray" />
+                        </Grid>
+                    </ctrl:CustomBorder>
+
+                    <!--  Fare Details  -->
+
+                    <Label
+                        Grid.Row="3"
+                        Text="Fare Details"
+                        TextColor="{x:StaticResource Primary}" />
+                    <ctrl:CustomBorder
+                        Grid.Row="4"
+                        Padding="10"
+                        BackgroundColor="Yellow"
+                        CornerRadius="10">
+                        <StackLayout>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalOptions="Center"
+                                Text="₹72.86" />
+                            <Label
+                                FontSize="14"
+                                HorizontalOptions="Center"
+                                Text="Estimated Fare" />
+
+                            <Grid
+                                Padding="5"
+                                ColumnDefinitions="*,Auto"
+                                RowDefinitions="Auto,Auto,Auto">
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    FontSize="16"
+                                    Text="Trip Fare" />
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Text="₹50.86" />
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    FontSize="16"
+                                    Text="Convenience" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Text="₹10.00" />
+
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    FontSize="16"
+                                    Text="Taxes Fees" />
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Text="₹12.00" />
+                            </Grid>
+                        </StackLayout>
+                    </ctrl:CustomBorder>
+
+                    <!--  Reviews  -->
+                    <StackLayout
+                        Grid.Row="5"
+                        HorizontalOptions="Start"
+                        Orientation="Vertical"
+                        Spacing="20">
+                        <!--  Section Title  -->
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="User Rating Review" />
+
+                        <StackLayout
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="5">
+                            <Image
+                                HeightRequest="20"
+                                Source="rating_star.png"
+                                WidthRequest="20" />
+                            <Image
+                                HeightRequest="20"
+                                Source="rating_star.png"
+                                WidthRequest="20" />
+                            <Image
+                                HeightRequest="20"
+                                Source="rating_star.png"
+                                WidthRequest="20" />
+                            <Image
+                                HeightRequest="20"
+                                Source="rating_star.png"
+                                WidthRequest="20" />
+                            <Image
+                                HeightRequest="20"
+                                Source="rating_star.png"
+                                WidthRequest="20" />
+                        </StackLayout>
+
+                        <!--  Review Text  -->
+                        <Label
+                            Padding="10,0,0,0"
+                            FontSize="14"
+                            Text="{Binding RideReview.ReviewText}"
+                            TextColor="Black" />
+                    </StackLayout>
+
+
+                </Grid>
+            </ScrollView>
+
+
+        </Grid>
+    </Grid>
+
+</base:BaseContentPage>

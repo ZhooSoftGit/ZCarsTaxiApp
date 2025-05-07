@@ -1,0 +1,116 @@
+<base:BaseContentPage
+    x:Class="ZCarsDriver.Views.Driver.VehicleListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZCarsDriver.Templates"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZCarsDriver.ViewModel"
+    x:Name="VehicleListUI"
+    x:TypeArguments="vm:VehicleListViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid
+        HorizontalOptions="Fill"
+        RowDefinitions="auto,*"
+        VerticalOptions="Fill">
+
+        <!--  Title  -->
+        <header:CustomNavigationHeader Grid.Row="0" />
+
+        <!--  MainContent  -->
+        <Grid
+            Grid.Row="1"
+            Padding="20"
+            ColumnDefinitions="*"
+            RowDefinitions="Auto, *, Auto">
+
+            <!--  Search Bar  -->
+            <SearchBar
+                x:Name="SearchVehicles"
+                Grid.Row="0"
+                Placeholder="Search Vehicles"
+                Text="{Binding SearchText, Mode=TwoWay}">
+                <SearchBar.Behaviors>
+                    <toolkit:EventToCommandBehavior Command="{Binding SearchCommand}" EventName="TextChanged" />
+                </SearchBar.Behaviors>
+            </SearchBar>
+
+            <!--  Vehicle List  -->
+            <StackLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding FilteredVehicles}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <ctrl:CustomBorder
+                            Margin="5"
+                            Padding="10"
+                            BackgroundColor="White"
+                            BorderColor="LightGray"
+                            CornerRadius="10">
+                            <Grid Padding="5" ColumnDefinitions="Auto, *, Auto">
+
+                                <!--  Vehicle Image  -->
+                                <Image
+                                    Grid.Column="0"
+                                    HeightRequest="40"
+                                    Source="car_icon.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="40" />
+
+                                <!--  Vehicle Details  -->
+                                <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{Binding VehicleRegistrationNumber}" />
+                                    <Label
+                                        FontSize="14"
+                                        Text="{Binding VehicleModel}"
+                                        TextColor="Gray" />
+                                </VerticalStackLayout>
+
+                                <!--  Actions Container  -->
+                                <HorizontalStackLayout
+                                    Grid.Column="2"
+                                    HorizontalOptions="Fill"
+                                    IsVisible="{Binding ShowRegistrationOption}"
+                                    Spacing="20"
+                                    VerticalOptions="Fill">
+                                    <!--  Edit Button with Image  -->
+                                    <ctrl:CustomImage
+                                        Command="{Binding Path=BindingContext.EditVehicleCommand, Source={x:Reference VehicleListUI}}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="16"
+                                        Source="edit_icon.png"
+                                        WidthRequest="16" />
+
+                                    <!--  Delete Button with Image  -->
+                                    <ctrl:CustomImage
+                                        Command="{Binding Path=BindingContext.DeleteVehicleCommand, Source={x:Reference VehicleListUI}}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="16"
+                                        Source="delete_icon.png"
+                                        WidthRequest="16" />
+                                </HorizontalStackLayout>
+                            </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ViewVehicleCommand, Source={x:Reference VehicleListUI}}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                        </ctrl:CustomBorder>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+
+            <!--  Add Vehicle Button  -->
+            <Button
+                x:Name="AddVehicleButton"
+                Grid.Row="2"
+                BackgroundColor="{x:StaticResource Primary}"
+                Command="{Binding AddVehicleCommand}"
+                HeightRequest="50"
+                IsVisible="{Binding ShowRegistrationOption}"
+                Text="Add Vehicle"
+                TextColor="White" />
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

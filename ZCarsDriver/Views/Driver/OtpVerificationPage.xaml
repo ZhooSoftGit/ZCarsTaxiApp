@@ -1,0 +1,155 @@
+<base:BaseContentPage
+    x:Class="ZCarsDriver.Views.Driver.OtpVerificationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZCarsDriver.Templates"
+    xmlns:resource="clr-namespace:ZCarsDriver.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZCarsDriver.ViewModel"
+    x:TypeArguments="vm:OtpVerificationViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="Auto, *, Auto"
+            VerticalOptions="Fill">
+
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+            <VerticalStackLayout
+                Grid.Row="1"
+                Padding="20"
+                BackgroundColor="White"
+                HorizontalOptions="Start"
+                Spacing="15"
+                VerticalOptions="Start">
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    HorizontalOptions="Start"
+                    Text="Verify OTP" />
+                <Label FontSize="12" HorizontalTextAlignment="Start">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontSize="14" Text="Please enter the OTP sent to your Vendor. " />
+                            <Span
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                Text="{Binding PhoneNumber}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label
+                    FontSize="12"
+                    HorizontalOptions="Center"
+                    Text="{Binding TimerText}"
+                    TextColor="#00796B" />
+
+                <HorizontalStackLayout HorizontalOptions="Start" Spacing="10">
+                    <ctrl:CustomBorder BorderColor="#00796B" CornerRadius="5">
+                        <ctrl:CustomEntry
+                            x:Name="otp1"
+                            HorizontalTextAlignment="Center"
+                            Keyboard="Numeric"
+                            MaxLength="1"
+                            ReturnType="Done"
+                            Text="{Binding Otp1}"
+                            TextChanged="OtpEntry_TextChanged"
+                            Unfocused="OtpEntry_Unfocused"
+                            WidthRequest="50" />
+                    </ctrl:CustomBorder>
+
+                    <ctrl:CustomBorder BorderColor="#00796B" CornerRadius="5">
+                        <ctrl:CustomEntry
+                            x:Name="otp2"
+                            HorizontalTextAlignment="Center"
+                            Keyboard="Numeric"
+                            MaxLength="1"
+                            ReturnType="Done"
+                            Text="{Binding Otp2}"
+                            TextChanged="OtpEntry_TextChanged"
+                            Unfocused="OtpEntry_Unfocused"
+                            WidthRequest="50" />
+                    </ctrl:CustomBorder>
+                    <ctrl:CustomBorder BorderColor="#00796B" CornerRadius="5">
+                        <ctrl:CustomEntry
+                            x:Name="otp3"
+                            HorizontalTextAlignment="Center"
+                            Keyboard="Numeric"
+                            MaxLength="1"
+                            ReturnType="Done"
+                            Text="{Binding Otp3}"
+                            TextChanged="OtpEntry_TextChanged"
+                            Unfocused="OtpEntry_Unfocused"
+                            WidthRequest="50" />
+                    </ctrl:CustomBorder>
+                    <ctrl:CustomBorder BorderColor="#00796B" CornerRadius="5">
+                        <ctrl:CustomEntry
+                            x:Name="otp4"
+                            HorizontalTextAlignment="Center"
+                            Keyboard="Numeric"
+                            MaxLength="1"
+                            ReturnType="Done"
+                            Text="{Binding Otp4}"
+                            TextChanged="OtpEntry_TextChanged"
+                            Unfocused="OtpEntry_Unfocused"
+                            WidthRequest="50" />
+                    </ctrl:CustomBorder>
+                </HorizontalStackLayout>
+
+                <!--  Error Message for Invalid OTP  -->
+                <Label
+                    x:Name="OtpErrorLabel"
+                    FontSize="14"
+                    HorizontalOptions="Start"
+                    IsVisible="{Binding ShowError}"
+                    Text="Invalid OTP. Please try again."
+                    TextColor="Red" />
+
+
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Row="2"
+                Padding="30"
+                HorizontalOptions="Fill">
+                <Button
+                    BackgroundColor="#00796B"
+                    Command="{Binding SubmitCommand}"
+                    Text="Submit"
+                    TextColor="White" />
+
+                <HorizontalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="5"
+                    VerticalOptions="Center">
+                    <Label
+                        FontSize="12"
+                        Text="Do you want to"
+                        TextColor="Gray"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="resend"
+                        TextColor="#00796B"
+                        VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ResendCodeCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+        </Grid>
+    </Grid>
+
+
+</base:BaseContentPage>

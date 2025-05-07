@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="ZCarsDriver.DPopup.ActionPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <VerticalStackLayout Padding="50" Spacing="20">
+        <!--  Trip Details  -->
+        <ctrl:CustomBorder
+            BackgroundColor="{x:StaticResource Primary}"
+            CornerRadius="10"
+            HorizontalOptions="Fill">
+            <HorizontalStackLayout Padding="20" Spacing="10">
+                <Image
+                    HeightRequest="24"
+                    Source="profile.png"
+                    WidthRequest="24" />
+                <Label
+                    Text="Profile"
+                    TextColor="{x:StaticResource White}"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <ctrl:CustomBorder.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding TripDetailsCommand}" />
+            </ctrl:CustomBorder.GestureRecognizers>
+        </ctrl:CustomBorder>
+
+        <!--  Call Customer  -->
+        <ctrl:CustomBorder BackgroundColor="{x:StaticResource Primary}" CornerRadius="10">
+            <HorizontalStackLayout Padding="20" Spacing="10">
+                <Image
+                    BackgroundColor="{x:StaticResource White}"
+                    HeightRequest="24"
+                    Source="dashboard.png"
+                    WidthRequest="24" />
+                <Label
+                    Text="Call Customer"
+                    TextColor="{x:StaticResource White}"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <ctrl:CustomBorder.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CallCustomerCommand}" />
+            </ctrl:CustomBorder.GestureRecognizers>
+        </ctrl:CustomBorder>
+    </VerticalStackLayout>
+</toolkit:Popup>

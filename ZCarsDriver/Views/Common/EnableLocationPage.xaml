@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             x:Class="ZCarsDriver.Views.Common.EnableLocationPage"
+             Title="EnableLocationPage">
+    <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+        <Image Source="enablelocation.png" HeightRequest="250" HorizontalOptions="Center"/>
+
+        <Label Text="Enable Your" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+        <Label Text="Location" FontSize="24" FontAttributes="Bold" TextColor="{x:StaticResource Primary}" HorizontalTextAlignment="Center"/>
+
+        <Label Text="We need to access your location."
+               FontSize="14" TextColor="Gray" HorizontalTextAlignment="Center"/>
+
+        <Button Text="Enable Location" BackgroundColor="{x:StaticResource Primary}" TextColor="White"
+                Command="{Binding EnableLocationCommand}"/>
+    </VerticalStackLayout>
+</ContentPage>

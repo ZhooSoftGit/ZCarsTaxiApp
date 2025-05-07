@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="ZCarsDriver.Views.Common.CommonMenu"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="CommonMenuUI"
+    CanBeDismissedByTappingOutsideOfPopup="True"
+    HorizontalOptions="Start"
+    VerticalOptions="Fill">
+    <!--  Menu Layer Start  -->
+    <Grid
+        x:Name="menuLayer"
+        BackgroundColor="White"
+        HorizontalOptions="Start"
+        RowDefinitions="auto,auto,*, *"
+        VerticalOptions="Start"
+        WidthRequest="300">
+
+        <!--  Header Section  -->
+        <StackLayout Padding="20" BackgroundColor="#F5F5F5">
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="{Binding Header.UserName}" />
+            <Label
+                FontSize="14"
+                Text="{Binding Header.PhoneNumber}"
+                TextColor="Gray" />
+            <Grid Margin="10,20,10,10" ColumnDefinitions="*,*">
+                <StackLayout>
+                    <Label
+                        FontSize="12"
+                        Text="Cab Number"
+                        TextColor="Gray" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{Binding Header.CabNumber}" />
+                </StackLayout>
+                <StackLayout Grid.Column="1">
+                    <Label
+                        FontSize="12"
+                        Text="Driver ID"
+                        TextColor="Gray" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{Binding Header.DriverId}" />
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+
+        <BoxView
+            Grid.Row="1"
+            BackgroundColor="#80a0c2"
+            HeightRequest="1"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start"
+            Color="#80a0c2" />
+
+
+        <StackLayout Grid.Row="2" BindableLayout.ItemsSource="{Binding Options}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Margin="10" Orientation="Horizontal">
+                        <Image
+                            HeightRequest="24"
+                            Source="{Binding Icon}"
+                            WidthRequest="24" />
+                        <Label
+                            Margin="10,0"
+                            Text="{Binding Title}"
+                            VerticalOptions="Center" />
+                        <ctrl:CustomBorder
+                            Padding="5"
+                            BackgroundColor="{x:StaticResource Primary}"
+                            CornerRadius="12"
+                            IsVisible="{Binding HasNotification}">
+                            <Label
+                                FontSize="12"
+                                Text="{Binding NotificationCount}"
+                                TextColor="White" />
+                        </ctrl:CustomBorder>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BindingContext.OnSelectOption, Source={x:Reference CommonMenuUI}}" CommandParameter="{Binding .}" />
+                        </StackLayout.GestureRecognizers>
+
+                    </StackLayout>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </StackLayout>
+
+        <Grid
+            Grid.Row="3"
+            HorizontalOptions="Fill"
+            VerticalOptions="FillAndExpand" />
+
+    </Grid>
+</toolkit:Popup>

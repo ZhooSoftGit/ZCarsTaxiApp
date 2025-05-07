@@ -1,0 +1,28 @@
+<base:BaseContentPage
+    x:Class="ZCarsDriver.Views.CustomMapWebView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZCarsDriver.ViewModel"
+    x:TypeArguments="vm:CustomMapWebViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill">
+        <WebView
+            x:Name="MapWebView"
+            AbsoluteLayout.LayoutBounds="0,0.2,1,0.8"
+            AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill" />
+        <ImageButton
+            AbsoluteLayout.LayoutBounds="0,0.9,50,50"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            BackgroundColor="{x:StaticResource Primary}"
+            Command="{Binding OpenDashBoardCommand}"
+            CornerRadius="10"
+            HeightRequest="100"
+            Source="tile_driver.png"
+            WidthRequest="100" />
+    </AbsoluteLayout>
+</base:BaseContentPage>
