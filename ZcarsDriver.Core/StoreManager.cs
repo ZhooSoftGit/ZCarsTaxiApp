@@ -1,9 +1,9 @@
 ﻿using SQLite;
-using ZCarsDriver.Core.DBModel;
+using ZTaxiApp.Core.DBModel;
 using ZhooSoft.LocalData;
 using ZhooSoft.LocalData.Util;
 
-namespace ZCarsDriver.Core
+namespace ZTaxiApp.Core
 {
     public class StoreManager : IStoreManager
     {

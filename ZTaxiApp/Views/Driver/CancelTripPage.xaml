@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Driver.CancelTripPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:Name="CancelTripUI"
+    x:TypeArguments="vm:CancelTripViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="Auto, *"
+            VerticalOptions="Fill">
+
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+            <ScrollView Grid.Row="1" Padding="20">
+                <Grid
+                    BackgroundColor="White"
+                    ColumnDefinitions="*"
+                    RowDefinitions="Auto, Auto, Auto, Auto, *">
+
+                    <Label
+                        Grid.Row="0"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="Cancel Trip - Reason" />
+
+                    <Label
+                        Grid.Row="1"
+                        Margin="0,5"
+                        FontSize="12"
+                        Text="After submitting the reason, our team will reach you over a phone call."
+                        TextColor="Gray" />
+
+                    <StackLayout Grid.Row="2" BindableLayout.ItemsSource="{Binding CancelReasons}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <ctrl:CustomBorder Margin="0,10">
+                                    <Grid Padding="10" ColumnDefinitions="*, Auto">
+                                        <Label Text="{Binding Reason}" VerticalOptions="Center" />
+                                        <RadioButton
+                                            GroupName="Cancel"
+                                            HorizontalOptions="End"
+                                            IsChecked="{Binding IsSelected}" />
+                                    </Grid>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectReasonCommand, Source={x:Reference CancelTripUI}}" CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                </ctrl:CustomBorder>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+
+                    <ctrl:CustomBorder Grid.Row="3">
+                        <Editor
+                            Margin="10"
+                            BackgroundColor="Transparent"
+                            HeightRequest="200"
+                            Text="{Binding ReasonText}" />
+                    </ctrl:CustomBorder>
+
+
+                    <VerticalStackLayout Grid.Row="4" VerticalOptions="End">
+                        <Button
+                            BackgroundColor="{x:StaticResource Primary}"
+                            Command="{Binding SubmitCommand}"
+                            Text="Submit"
+                            TextColor="White" />
+                        <Button
+                            BackgroundColor="Transparent"
+                            BorderColor="Gray"
+                            Command="{Binding CloseCommand}"
+                            Text="Close"
+                            TextColor="#007AFF" />
+                    </VerticalStackLayout>
+
+
+                </Grid>
+            </ScrollView>
+
+
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

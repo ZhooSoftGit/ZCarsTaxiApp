@@ -1,6 +1,6 @@
-﻿using ZhooCars.Common;
+﻿using ZTaxiApp.Common;
 
-namespace ZhooCars.Model.DTOs.DriverApp
+namespace ZTaxiApp.Model.DTOs.DriverApp
 {
     public class VehicleLocationDto
     {

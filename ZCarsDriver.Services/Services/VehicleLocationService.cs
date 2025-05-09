@@ -1,8 +1,8 @@
-﻿using ZCarsDriver.Services.Contracts;
-using ZhooCars.Model.DTOs.DriverApp;
+﻿using ZTaxiApp.Services.Contracts;
+using ZTaxiApp.Model.DTOs.DriverApp;
 using ZhooSoft.ServiceBase;
 
-namespace ZCarsDriver.Services.Services
+namespace ZTaxiApp.Services.Services
 {
     public class VehicleLocationService : IVehicleLocationService
     {

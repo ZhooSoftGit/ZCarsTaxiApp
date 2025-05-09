@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Driver.ProfilePhotoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:TypeArguments="vm:ProfilePhotoViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <Grid
+        HorizontalOptions="Fill"
+        RowDefinitions="Auto, *"
+        VerticalOptions="Fill">
+        <!--  Title  -->
+        <header:CustomNavigationHeader Grid.Row="0" />
+
+        <!--  Page Content  -->
+        <Grid
+            Grid.Row="1"
+            Padding="20"
+            HorizontalOptions="Fill"
+            RowDefinitions="*,auto"
+            VerticalOptions="Fill">
+            <VerticalStackLayout
+                Grid.Row="0"
+                HorizontalOptions="Center"
+                Spacing="20"
+                VerticalOptions="Fill">
+
+                <!--  Profile Photo  -->
+                <ctrl:CustomBorder
+                    BackgroundColor="White"
+                    CornerRadius="60"
+                    HeightRequest="120"
+                    Stroke="Gray"
+                    StrokeThickness="2"
+                    WidthRequest="120">
+                    <Image
+                        x:Name="ProfileImage"
+                        Aspect="AspectFill"
+                        HeightRequest="120"
+                        Source="{Binding ProfilePhoto}"
+                        WidthRequest="120" />
+                </ctrl:CustomBorder>
+
+                <!--  Remove Photo  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ProfilePhoto, Converter={StaticResource InvertedBool}}"
+                    Text="Remove Photo"
+                    TextColor="Red">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding RemovePhotoCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <!--  Upload & Capture Buttons  -->
+                <HorizontalStackLayout Spacing="15">
+                    <Button Command="{Binding UploadPhotoCommand}" Text="Upload Photo" />
+                    <Button Command="{Binding TakePhotoCommand}" Text="Take Photo" />
+                </HorizontalStackLayout>
+
+                <!--  Instructions  -->
+                <ctrl:CustomBorder
+                    Padding="10"
+                    BackgroundColor="White"
+                    CornerRadius="10">
+                    <VerticalStackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Instructions" />
+                        <Label Text="• The photo must be clear and well-lit." />
+                        <Label Text="• No caps, masks, or sunglasses allowed." />
+                        <Label Text="• No shadows or reflections on the face." />
+                    </VerticalStackLayout>
+                </ctrl:CustomBorder>
+            </VerticalStackLayout>
+
+            <!--  Save & Continue Button  -->
+            <Button
+                Grid.Row="1"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SaveCommand}"
+                CornerRadius="10"
+                FontSize="18"
+                HeightRequest="50"
+                Text="Save  Continue"
+                TextColor="White"
+                VerticalOptions="End" />
+
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

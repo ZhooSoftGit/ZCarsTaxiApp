@@ -1,8 +1,8 @@
 ﻿using SQLite;
-using ZhooCars.Model.DTOs;
+using ZTaxiApp.Model.DTOs;
 using ZhooSoft.LocalData.DataStore;
 
-namespace ZCarsDriver.Core.DBModel
+namespace ZTaxiApp.Core.DBModel
 {
     public class VehicleModel : VehicleModelDto, IBaseDataObject
     {

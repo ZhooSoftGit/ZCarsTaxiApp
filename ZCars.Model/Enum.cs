@@ -1,4 +1,4 @@
-﻿namespace ZhooCars.Common
+﻿namespace ZTaxiApp.Common
 {
     #region Enums
 

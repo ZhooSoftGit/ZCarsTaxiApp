@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="ZTaxiApp.DPopup.BookingRequestPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <VerticalStackLayout
+        Padding="20"
+        BackgroundColor="White"
+        Spacing="15">
+
+        <Grid
+            ColumnDefinitions="*,*"
+            HorizontalOptions="Fill"
+            RowDefinitions="50,50">
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Booking Request" />
+
+            <ctrl:CustomBorder
+                Grid.Row="1"
+                BackgroundColor="{x:StaticResource Primary}"
+                CornerRadius="10"
+                HorizontalOptions="Fill">
+                <Label
+                    Padding="5"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding BookingRequest.BookingType}"
+                    TextColor="{x:StaticResource White}" />
+            </ctrl:CustomBorder>
+            <ctrl:CustomBorder
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                BackgroundColor="{x:StaticResource Primary}"
+                CornerRadius="30"
+                HorizontalOptions="End"
+                WidthRequest="100">
+
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding ProgressValue}"
+                        TextColor="{x:StaticResource White}" />
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Text="sec"
+                        TextColor="{x:StaticResource White}" />
+                </VerticalStackLayout>
+
+
+            </ctrl:CustomBorder>
+            <!--<Button
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                BackgroundColor="{x:StaticResource Primary}"
+                CornerRadius="20"
+                FontAttributes="Bold"
+                HeightRequest="100"
+                HorizontalOptions="EndAndExpand"
+                Text="{Binding ProgressValue}"
+                TextColor="{x:StaticResource White}"
+                WidthRequest="100" />-->
+        </Grid>
+
+
+
+        <Grid ColumnDefinitions="auto" HorizontalOptions="End" />
+
+
+        <Label
+            FontAttributes="Bold"
+            FontSize="36"
+            HorizontalOptions="Start"
+            Text="{Binding BookingRequest.Fare}" />
+        <Label FontSize="14" Text="{Binding BookingRequest.DistanceAndPayment}" />
+
+        <ctrl:CustomBorder
+            Padding="10"
+            BackgroundColor="{x:StaticResource Primary}"
+            CornerRadius="10">
+            <VerticalStackLayout>
+                <Label LineBreakMode="WordWrap" TextColor="{x:StaticResource White}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Pickup Location: " TextColor="{x:StaticResource White}" />
+                            <Span
+                                FontAttributes="Bold"
+                                Text="{Binding BookingRequest.PickupLocation}"
+                                TextColor="{x:StaticResource White}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label
+                    FontAttributes="Bold"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding BookingRequest.PickupAddress}"
+                    TextColor="{x:StaticResource White}" />
+                <Label
+                    FontAttributes="Bold"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding BookingRequest.PickupTime}"
+                    TextColor="{x:StaticResource White}" />
+                <Label LineBreakMode="WordWrap">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="DropoffLocation: " TextColor="{x:StaticResource White}" />
+                            <Span
+                                FontAttributes="Bold"
+                                Text="{Binding BookingRequest.DropoffLocation}"
+                                TextColor="{x:StaticResource White}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </VerticalStackLayout>
+        </ctrl:CustomBorder>
+
+        <Grid
+            ColumnDefinitions="*,*"
+            ColumnSpacing="20"
+            HorizontalOptions="Fill">
+            <Button
+                Grid.Column="0"
+                BackgroundColor="{x:StaticResource Gray100}"
+                Command="{Binding RejectCommand}"
+                HorizontalOptions="Fill"
+                Text="Reject"
+                TextColor="{x:StaticResource Black}" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="{x:StaticResource Primary}"
+                Command="{Binding AcceptCommand}"
+                HorizontalOptions="Fill"
+                Text="Accept"
+                TextColor="{x:StaticResource White}" />
+        </Grid>
+
+    </VerticalStackLayout>
+</toolkit:Popup>

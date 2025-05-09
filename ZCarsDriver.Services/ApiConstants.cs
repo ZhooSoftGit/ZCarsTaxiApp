@@ -1,6 +1,6 @@
 ﻿using ZhooSoft.Core;
 
-namespace ZCarsDriver.Services
+namespace ZTaxiApp.Services
 {
     public static class ApiConstants
     {

@@ -1,6 +1,6 @@
-﻿using ZhooCars.Common;
+﻿using ZTaxiApp.Common;
 
-namespace ZhooCars.Model.DTOs
+namespace ZTaxiApp.Model.DTOs
 {
     public class AcceptRideRequest
     {

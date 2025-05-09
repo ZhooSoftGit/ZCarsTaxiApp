@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZhooCars.Model.DTOs
+namespace ZTaxiApp.Model.DTOs
 {
     public class PeakHourDto
     {

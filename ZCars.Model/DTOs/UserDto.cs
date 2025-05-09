@@ -1,4 +1,4 @@
-﻿using ZhooCars.Common;
+﻿using ZTaxiApp.Common;
 public class UserDetailDto
 {
     #region Properties

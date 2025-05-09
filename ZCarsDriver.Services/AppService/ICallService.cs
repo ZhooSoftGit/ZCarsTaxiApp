@@ -1,4 +1,4 @@
-﻿namespace ZCarsDriver.Services.AppService
+﻿namespace ZTaxiApp.Services.AppService
 {
     public interface ICallService
     {

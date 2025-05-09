@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZhooCars.Common;
+using ZTaxiApp.Common;
 
-namespace ZhooCars.Model.DTOs
+namespace ZTaxiApp.Model.DTOs
 {
     public class UserRoleDto
     {

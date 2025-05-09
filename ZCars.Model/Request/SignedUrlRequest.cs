@@ -1,6 +1,6 @@
-﻿using ZhooCars.Common;
+﻿using ZTaxiApp.Common;
 
-namespace ZhooCars.Model.Request
+namespace ZTaxiApp.Model.Request
 {
     public class SignedUrlRequest
     {

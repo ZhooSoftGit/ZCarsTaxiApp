@@ -1,6 +1,6 @@
-﻿using ZhooCars.Common;
+﻿using ZTaxiApp.Common;
 
-namespace ZhooCars.Model
+namespace ZTaxiApp.Model
 {
     public class PhoneNumberDto
     {

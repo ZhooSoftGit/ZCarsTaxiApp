@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Vendor.DashboardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:Name="DashboardUI"
+    x:TypeArguments="vm:DashboardViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="auto,*"
+            VerticalOptions="Fill">
+            <Grid
+                x:Name="headerLayout"
+                Grid.Row="0"
+                Padding="15"
+                BackgroundColor="{x:StaticResource Primary}"
+                HorizontalOptions="Fill"
+                RowSpacing="1"
+                VerticalOptions="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+                <ctrl:CustomImage
+                    x:Name="menuImage"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    Command="{Binding OpenSideBarCmd}"
+                    HorizontalOptions="Start"
+                    Source="menu.png"
+                    VerticalOptions="Center" />
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalOptions="Center"
+                    Source="drivericon.png"
+                    VerticalOptions="Center">
+                    <Image.WidthRequest>
+                        <OnIdiom x:TypeArguments="x:Double">
+                            <OnIdiom.Phone>100</OnIdiom.Phone>
+                            <OnIdiom.Tablet>200</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Image.WidthRequest>
+                    <Image.HeightRequest>
+                        <OnIdiom x:TypeArguments="x:Double">
+                            <OnIdiom.Phone>30</OnIdiom.Phone>
+                            <OnIdiom.Tablet>50</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </Image.HeightRequest>
+                </Image>
+
+                <ctrl:CustomImage
+                    Grid.Column="2"
+                    Command="{Binding GotoDashboard}"
+                    HeightRequest="30"
+                    Source="home.png"
+                    WidthRequest="30" />
+
+            </Grid>
+
+            <ScrollView
+                Grid.Row="1"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+                <Grid
+                    Padding="10"
+                    HorizontalOptions="Fill"
+                    RowDefinitions="Auto,Auto,Auto,200"
+                    RowSpacing="10"
+                    VerticalOptions="Fill">
+
+                    <!--  Top Summary Cards  -->
+                    <Grid
+                        ColumnDefinitions="*,*,*"
+                        ColumnSpacing="20"
+                        Row="0">
+                        <ctrl:CustomBorder
+                            Padding="10"
+                            BackgroundColor="{x:StaticResource Primary}"
+                            CornerRadius="10">
+                            <VerticalStackLayout>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="24"
+                                    HorizontalOptions="Center"
+                                    Text="1"
+                                    TextColor="White" />
+                                <Label
+                                    FontSize="14"
+                                    HorizontalOptions="Center"
+                                    Text="Active Cabs"
+                                    TextColor="White" />
+                            </VerticalStackLayout>
+                        </ctrl:CustomBorder>
+                        <ctrl:CustomBorder
+                            Grid.Column="1"
+                            Padding="10"
+                            BackgroundColor="#757575"
+                            CornerRadius="10">
+                            <VerticalStackLayout>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="24"
+                                    HorizontalOptions="Center"
+                                    Text="0"
+                                    TextColor="White" />
+                                <Label
+                                    FontSize="14"
+                                    HorizontalOptions="Center"
+                                    Text="Inactive Cabs"
+                                    TextColor="White" />
+                            </VerticalStackLayout>
+                        </ctrl:CustomBorder>
+                        <ctrl:CustomBorder
+                            Grid.Column="2"
+                            Padding="10"
+                            BackgroundColor="#BDBDBD"
+                            CornerRadius="10">
+                            <VerticalStackLayout>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="24"
+                                    HorizontalOptions="Center"
+                                    Text="0"
+                                    TextColor="White" />
+                                <Label
+                                    FontSize="14"
+                                    HorizontalOptions="Center"
+                                    Text="Blocked Cabs"
+                                    TextColor="White" />
+                            </VerticalStackLayout>
+                        </ctrl:CustomBorder>
+                    </Grid>
+
+                    <!--  Revenue Section  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="1"
+                        Padding="10"
+                        BackgroundColor="#F5F5F5"
+                        CornerRadius="10">
+                        <Grid ColumnDefinitions="*,*,auto">
+                            <Label
+                                Grid.Column="0"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Today's Revenue" />
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                FontSize="24"
+                                Text="₹ 292.99"
+                                TextColor="Red" />
+                            <ctrl:CustomImage Grid.Column="2" Source="right_arrow.png" />
+                        </Grid>
+                    </ctrl:CustomBorder>
+
+                    <Label
+                        Grid.Row="2"
+                        Margin="10,10,10,5"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Quick Actions" />
+
+                    <CollectionView
+                        Grid.Row="3"
+                        ItemsSource="{Binding QuickActions}"
+                        SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="4" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <ctrl:CustomBorder Margin="5" Padding="5">
+                                    <StackLayout HorizontalOptions="Center">
+                                        <Image
+                                            HeightRequest="50"
+                                            Source="{Binding Icon}"
+                                            WidthRequest="50" />
+                                        <Label
+                                            FontSize="14"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding Name}" />
+                                    </StackLayout>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.OnActionCmd, Source={x:Reference DashboardUI}}" CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                </ctrl:CustomBorder>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </ScrollView>
+        </Grid>
+
+    </Grid>
+
+</base:BaseContentPage>

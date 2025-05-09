@@ -1,4 +1,4 @@
-﻿namespace ZhooCars.Model.Request
+﻿namespace ZTaxiApp.Model.Request
 {
     public class CheckInRequest
     {

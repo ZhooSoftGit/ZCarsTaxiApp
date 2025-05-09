@@ -1,7 +1,7 @@
 ﻿using SQLite;
-using ZhooCars.Common;
+using ZTaxiApp.Common;
 
-namespace ZCarsDriver.Core.DBModel
+namespace ZTaxiApp.Core.DBModel
 {
     public class LiveRideDetails
     {

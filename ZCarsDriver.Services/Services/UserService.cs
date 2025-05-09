@@ -1,7 +1,7 @@
-﻿using ZCarsDriver.Services.Contracts;
+﻿using ZTaxiApp.Services.Contracts;
 using ZhooSoft.ServiceBase;
 
-namespace ZCarsDriver.Services.Services
+namespace ZTaxiApp.Services.Services
 {
     public class UserService : IUserService
     {

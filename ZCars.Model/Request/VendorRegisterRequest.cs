@@ -1,7 +1,7 @@
 ﻿
-using ZhooCars.Model.DTOs;
+using ZTaxiApp.Model.DTOs;
 
-namespace ZhooCars.Model.Request
+namespace ZTaxiApp.Model.Request
 {
     public class VendorRegisterRequest
     {

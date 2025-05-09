@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Driver.DriverDashboardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:TypeArguments="vm:DriverDashboardViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+
+        <ctrl:CustomMapView
+            x:Name="MyMap"
+            Grid.Row="0"
+            HorizontalOptions="Fill"
+            IsShowingUser="True"
+            VerticalOptions="Fill" />
+
+        <Grid
+            Margin="10"
+            Padding="10"
+            BackgroundColor="Transparent"
+            ColumnDefinitions="*">
+
+            <Image
+                BackgroundColor="Green"
+                HeightRequest="50"
+                HorizontalOptions="Start"
+                Source="home.png"
+                VerticalOptions="Start"
+                WidthRequest="50">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenSideBarCmd}" />
+                </Image.GestureRecognizers>
+            </Image>
+
+            <ctrl:CustomBorder
+                Padding="5"
+                BackgroundColor="White"
+                CornerRadius="20"
+                HorizontalOptions="Center"
+                VerticalOptions="Start">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                    <Image Source="home.png" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Dashboard"
+                        VerticalTextAlignment="Center" />
+                </StackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GotoDashboard}" />
+                </Border.GestureRecognizers>
+            </ctrl:CustomBorder>
+
+        </Grid>
+
+
+
+        <ctrl:CustomBorder
+            Margin="20,80,20,0"
+            Padding="10"
+            BackgroundColor="White"
+            CornerRadius="20"
+            VerticalOptions="Start">
+            <Grid ColumnDefinitions="auto,auto,*" HorizontalOptions="Fill">
+                <Label
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    HorizontalOptions="Start"
+                    Text="0 Trips" />
+                <Label
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    HorizontalOptions="Start"
+                    Text=" ₹ 0.00" />
+                <Image
+                    Grid.Column="2"
+                    HeightRequest="20"
+                    HorizontalOptions="End"
+                    Source="right_arrow.png"
+                    VerticalOptions="Center"
+                    WidthRequest="20" />
+            </Grid>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ShowTripCmd}" />
+            </Border.GestureRecognizers>
+        </ctrl:CustomBorder>
+
+
+
+        <!--  Bottom Section  -->
+        <Grid
+            Margin="10,0,50,100"
+            Padding="10"
+            BackgroundColor="Transparent"
+            ColumnDefinitions="Auto, * , Auto"
+            RowDefinitions="Auto, Auto"
+            VerticalOptions="End">
+            <!--  Google Maps Icon  -->
+
+            <ctrl:CustomBorder
+                BackgroundColor="{x:StaticResource Primary}"
+                CornerRadius="20"
+                HeightRequest="40"
+                HorizontalOptions="Start"
+                IsVisible="{Binding OnTrip}"
+                VerticalOptions="Center"
+                WidthRequest="40">
+                <Image
+                    HeightRequest="24"
+                    Source="cell_icon.png"
+                    WidthRequest="24" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenCallCommand}" />
+                </Border.GestureRecognizers>
+            </ctrl:CustomBorder>
+
+
+            <!--  User Name Section  -->
+            <ctrl:CustomBorder
+                Grid.Column="1"
+                Padding="10"
+                BackgroundColor="White"
+                HorizontalOptions="Center"
+                IsVisible="{Binding OnTrip}"
+                VerticalOptions="Center">
+                <Grid
+                    ColumnDefinitions="auto,auto,auto"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding OnTrip}"
+                    VerticalOptions="Center">
+                    <Image
+                        HeightRequest="24"
+                        Source="profile.png"
+                        VerticalOptions="Center"
+                        WidthRequest="24" />
+                    <Label
+                        Grid.Column="1"
+                        Padding="10"
+                        FontSize="16"
+                        Text="rajesh"
+                        VerticalOptions="Center" />
+                    <ImageButton
+                        Grid.Column="2"
+                        Command="{Binding ToggleDropdownCommand}"
+                        HeightRequest="30"
+                        Source="right_arrow.png"
+                        VerticalOptions="Center"
+                        WidthRequest="30" />
+                </Grid>
+
+                <ctrl:CustomBorder.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenRideOptionCmd}" />
+                </ctrl:CustomBorder.GestureRecognizers>
+            </ctrl:CustomBorder>
+
+
+            <!--  Move to region  -->
+
+            <ctrl:CustomBorder
+                Grid.Column="2"
+                BackgroundColor="{x:StaticResource Primary}"
+                CornerRadius="20"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                WidthRequest="40">
+                <Image
+                    HeightRequest="24"
+                    Source="current_gps.png"
+                    WidthRequest="24">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CurrentLocCommand}" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CurrentLocCommand}" />
+                </Border.GestureRecognizers>
+            </ctrl:CustomBorder>
+        </Grid>
+
+
+
+        <StackLayout
+            Margin="10"
+            Padding="10"
+            BackgroundColor="White"
+            HorizontalOptions="Start"
+            IsVisible="{Binding OnTrip, Converter={toolkit:InvertedBoolConverter}}"
+            Orientation="Horizontal"
+            VerticalOptions="End">
+            <Switch x:Name="onlineSwitch" IsToggled="{Binding IsOnline}">
+                <Switch.Behaviors>
+                    <toolkit:EventToCommandBehavior Command="{Binding ToggleOnlineStatusCommand}" EventName="Toggled" />
+                </Switch.Behaviors>
+            </Switch>
+            <Label Margin="10,0,0,0" VerticalOptions="Center">
+                <Label.Triggers>
+                    <DataTrigger
+                        Binding="{Binding IsOnline}"
+                        TargetType="Label"
+                        Value="True">
+                        <Setter Property="Text" Value="Online (Ready)" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding IsOnline}"
+                        TargetType="Label"
+                        Value="False">
+                        <Setter Property="Text" Value="Offline (Tap to Go)" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+        </StackLayout>
+
+        <Button
+            Margin="100,10"
+            Padding="10"
+            BackgroundColor="{x:StaticResource Primary}"
+            Command="{Binding OnTripAction}"
+            CommandParameter="{Binding NextStatus}"
+            HorizontalOptions="Fill"
+            IsVisible="{Binding OnTrip}"
+            Text="{Binding ActionText}"
+            VerticalOptions="End" />
+
+    </Grid>
+
+    <!--<Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+    -->
+    <!--  Map View  -->
+    <!--
+
+        <ctrl:CustomMapView
+            x:Name="MyMap"
+            Grid.Row="0"
+            HorizontalOptions="Fill"
+            IsShowingUser="True"
+            VerticalOptions="Fill" />
+
+
+    -->
+    <!--  Dashboard Header  -->
+    <!--
+        <StackLayout
+            Padding="10"
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            Orientation="Vertical"
+            VerticalOptions="Start">
+            <ctrl:CustomBorder
+                Padding="10"
+                BackgroundColor="White"
+                CornerRadius="20">
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Dashboard" />
+                </StackLayout>
+            </ctrl:CustomBorder>
+        </StackLayout>
+
+    -->
+    <!--  Trip Details  -->
+    <!--
+        <ctrl:CustomBorder
+            Margin="20,80,20,0"
+            Padding="10"
+            BackgroundColor="White"
+            CornerRadius="20"
+            VerticalOptions="Start">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="0 Trips" />
+                <Label
+                    Margin="20,0,0,0"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text=" ₹ 0.00" />
+            </StackLayout>
+        </ctrl:CustomBorder>
+
+    -->
+    <!--  Bottom Controls  -->
+    <!--
+        <StackLayout
+            Padding="10"
+            BackgroundColor="White"
+            HorizontalOptions="Fill"
+            Orientation="Horizontal"
+            VerticalOptions="End">
+            <Switch x:Name="onlineSwitch" IsToggled="False" />
+            <Label
+                Margin="10,0,0,0"
+                Text="Offline (Tap to Go)"
+                VerticalOptions="Center" />
+        </StackLayout>-->
+    <!--
+    </Grid>-->
+</base:BaseContentPage>

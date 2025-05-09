@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using ZhooCars.Common;
+using ZTaxiApp.Common;
 using ZhooSoft.Core.Session;
 
-namespace ZCarsDriver.Services.Session
+namespace ZTaxiApp.Services.Session
 {
     public class UserSessionManager : IUserSessionManager
     {

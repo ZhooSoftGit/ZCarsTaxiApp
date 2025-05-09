@@ -1,8 +1,8 @@
-﻿using ZCarsDriver.Services.Contracts;
-using ZhooCars.Model.DTOs;
+﻿using ZTaxiApp.Services.Contracts;
+using ZTaxiApp.Model.DTOs;
 using ZhooSoft.ServiceBase;
 
-namespace ZCarsDriver.Services.Services
+namespace ZTaxiApp.Services.Services
 {
     public class PeakHoursService : IPeakHoursService
     {

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using ZCarsDriver.Services.AppService;
+using ZTaxiApp.Services.AppService;
 
-namespace ZCarsDriver.Services
+namespace ZTaxiApp.Services
 {
     public class OsrmService : IOsrmService
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZhooCars.Common;
+using ZTaxiApp.Common;
 using ZhooSoft.Core.Session;
 
-namespace ZCarsDriver.Services.Session
+namespace ZTaxiApp.Services.Session
 {
     public interface IUserSessionManager
     {

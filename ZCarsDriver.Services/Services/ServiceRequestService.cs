@@ -1,10 +1,10 @@
-﻿using ZCarsDriver.Services.Contracts;
-using ZhooCars.Common;
-using ZhooCars.Model.DTOs;
-using ZhooCars.Model.Response;
+﻿using ZTaxiApp.Services.Contracts;
+using ZTaxiApp.Common;
+using ZTaxiApp.Model.DTOs;
+using ZTaxiApp.Model.Response;
 using ZhooSoft.ServiceBase;
 
-namespace ZCarsDriver.Services.Services
+namespace ZTaxiApp.Services.Services
 {
     public class ServiceRequestService : IServiceRequestService
     {

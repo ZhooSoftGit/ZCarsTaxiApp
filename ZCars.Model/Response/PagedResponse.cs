@@ -1,4 +1,4 @@
-﻿namespace ZhooCars.Model.Response
+﻿namespace ZTaxiApp.Model.Response
 {
     public class PagedResponse<T>
     {

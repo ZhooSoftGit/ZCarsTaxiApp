@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Driver.RegistrationBasePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:TypeArguments="vm:RegistrationBaseViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InverseBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="Auto, *"
+            VerticalOptions="Fill">
+
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+            <Grid
+                Grid.Row="1"
+                Padding="10"
+                RowDefinitions="*,Auto">
+                <!--  Document List  -->
+                <CollectionView
+                    x:Name="CheckListView"
+                    Grid.Row="0"
+                    ItemsSource="{Binding CheckListItems}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <ctrl:CustomBorder
+                                Margin="5"
+                                Padding="10"
+                                BackgroundColor="White"
+                                BorderColor="{x:StaticResource Primary}"
+                                CornerRadius="10">
+                                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                                    <Image
+                                        BackgroundColor="Gray"
+                                        HeightRequest="24"
+                                        Source="right_icon.png"
+                                        WidthRequest="24">
+                                        <Image.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding IsCompleted}"
+                                                TargetType="Image"
+                                                Value="False">
+                                                <Setter Property="Source" Value="notification.png" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding IsCompleted}"
+                                                TargetType="Image"
+                                                Value="True">
+                                                <Setter Property="Source" Value="location.png" />
+                                            </DataTrigger>
+                                        </Image.Triggers>
+                                    </Image>
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="18"
+                                        Text="{Binding ItemName}"
+                                        VerticalOptions="Center" />
+                                    <Image
+                                        Grid.Column="2"
+                                        HeightRequest="30"
+                                        Source="right_arrow.png"
+                                        WidthRequest="30" />
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.CheckListCmd, Source={x:Reference CheckListView}}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </ctrl:CustomBorder>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!--  Submit Button  -->
+                <Button
+                    Grid.Row="1"
+                    Margin="20"
+                    BackgroundColor="{x:StaticResource Primary}"
+                    Command="{Binding SubmitApplicationCommand}"
+                    CornerRadius="10"
+                    FontSize="18"
+                    HeightRequest="50"
+                    IsEnabled="{Binding IsSubmitEnabled}"
+                    Text="Submit Application"
+                    TextColor="White">
+                    <Button.Triggers>
+                        <DataTrigger
+                            Binding="{Binding IsSubmitEnabled}"
+                            TargetType="Button"
+                            Value="False">
+                            <Setter Property="Opacity" Value="0.7" />
+                        </DataTrigger>
+                        <DataTrigger
+                            Binding="{Binding IsSubmitEnabled}"
+                            TargetType="Button"
+                            Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+
+
+        </Grid>
+    </Grid>
+
+</base:BaseContentPage>

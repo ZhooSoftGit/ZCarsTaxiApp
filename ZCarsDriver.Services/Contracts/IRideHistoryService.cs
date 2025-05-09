@@ -1,7 +1,7 @@
-﻿using ZhooCars.Model.DTOs;
+﻿using ZTaxiApp.Model.DTOs;
 using ZhooSoft.ServiceBase;
 
-namespace ZCarsDriver.Services.Contracts
+namespace ZTaxiApp.Services.Contracts
 {
     #region Interfaces
 

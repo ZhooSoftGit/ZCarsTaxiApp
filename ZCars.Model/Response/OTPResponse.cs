@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZhooCars.Model.DTOs;
-using ZhooCars.Model.Response;
+using ZTaxiApp.Model.DTOs;
+using ZTaxiApp.Model.Response;
 
 namespace ZTaxi.Model.Response
 {

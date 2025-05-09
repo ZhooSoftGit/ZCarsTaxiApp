@@ -1,4 +1,4 @@
-﻿namespace ZhooCars.Services
+﻿namespace ZTaxiApp.Services
 {
     public class CreateAccountRequest
     {

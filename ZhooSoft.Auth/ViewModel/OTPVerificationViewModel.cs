@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
-using ZCarsDriver.Services.Session;
-using ZhooCars.Common;
-using ZhooCars.Model.DTOs;
-using ZhooCars.Services;
+using ZTaxiApp.Services.Session;
+using ZTaxiApp.Common;
+using ZTaxiApp.Model.DTOs;
+using ZTaxiApp.Services;
 using ZhooSoft.Auth.Model;
 using ZhooSoft.Core;
 
@@ -87,12 +87,12 @@ namespace ZhooSoft.Auth.ViewModel
                         PhoneNumber = PhoneNumber,
                         RefreshToken = result.Data.TokenResponse.RefreshToken,
                         Token = result.Data.TokenResponse.Token,
-                        Roles = new List<ZhooCars.Common.UserRoles> { ZhooCars.Common.UserRoles.User }
+                        Roles = new List<ZTaxiApp.Common.UserRoles> { ZTaxiApp.Common.UserRoles.User }
                     });
 
 
                     UserDetails.getInstance().Phone1 = PhoneNumber;
-                    UserDetails.getInstance().UserRoles = new List<ZhooCars.Common.UserRoles> { ZhooCars.Common.UserRoles.User };
+                    UserDetails.getInstance().UserRoles = new List<ZTaxiApp.Common.UserRoles> { ZTaxiApp.Common.UserRoles.User };
                     ServiceHelper.GetService<IMainAppNavigation>().NavigateToMain(true);
                 }
                 else

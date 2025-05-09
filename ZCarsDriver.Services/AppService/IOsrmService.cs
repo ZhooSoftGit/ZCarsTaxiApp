@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZCarsDriver.Services.AppService
+namespace ZTaxiApp.Services.AppService
 {
     public interface IOsrmService
     {

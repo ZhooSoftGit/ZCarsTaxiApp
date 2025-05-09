@@ -1,8 +1,8 @@
 ﻿using ZTaxi.Model.Response;
-using ZhooCars.Model.Response;
+using ZTaxiApp.Model.Response;
 using ZhooSoft.ServiceBase;
 
-namespace ZhooCars.Services
+namespace ZTaxiApp.Services
 {
     #region Interfaces
 

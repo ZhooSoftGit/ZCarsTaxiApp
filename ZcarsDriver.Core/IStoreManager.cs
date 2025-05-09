@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZCarsDriver.Core
+namespace ZTaxiApp.Core
 {
     public interface IStoreManager
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZhooSoft.ServiceBase;
 
-namespace ZCarsDriver.Services.Contracts
+namespace ZTaxiApp.Services.Contracts
 {
     #region Interfaces
 

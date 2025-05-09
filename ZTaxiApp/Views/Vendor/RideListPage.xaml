@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Vendor.RideListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:Name="RideListUI"
+    x:TypeArguments="vm:RideListViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="auto,*"
+            VerticalOptions="Fill">
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+            <Grid
+                Grid.Row="1"
+                Padding="15"
+                RowDefinitions="Auto,Auto,*"
+                RowSpacing="10">
+                <!--  Cab Picker Row  -->
+                <VerticalStackLayout
+                    Grid.Row="0"
+                    HorizontalOptions="Fill"
+                    Spacing="10">
+
+                    <!--  Vehicle Picker  -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="Select Vehicle"
+                        TextColor="Black" />
+                    <ctrl:CustomBorder Padding="6,0" HorizontalOptions="Fill">
+                        <Picker
+                            Title="Select Cab"
+                            ItemsSource="{Binding CabOptions}"
+                            SelectedItem="{Binding SelectedCab}" />
+                    </ctrl:CustomBorder>
+                </VerticalStackLayout>
+
+                <!--  From and To Date Picker Row  -->
+
+                <Grid
+                    Grid.Row="1"
+                    ColumnDefinitions="*,*"
+                    ColumnSpacing="20">
+                    <!--  From Date Picker  -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="From"
+                            TextColor="Black" />
+                        <ctrl:CustomBorder
+                            Padding="6"
+                            BorderColor="LightGray"
+                            CornerRadius="10">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Image
+                                    HeightRequest="20"
+                                    Source="calendar_icon.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="20" />
+                                <ctrl:CustomDatePicker
+                                    x:Name="FromDatePicker"
+                                    Margin="10,0,0,0"
+                                    Date="{Binding FromDate}"
+                                    DateSelectedCommand="{Binding OnDateChanged}"
+                                    Format="dd MMM yyyy"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </ctrl:CustomBorder>
+                    </VerticalStackLayout>
+
+                    <!--  To Date Picker  -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="6">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="To"
+                            TextColor="Black" />
+                        <ctrl:CustomBorder
+                            Padding="6"
+                            BorderColor="LightGray"
+                            CornerRadius="10">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Image
+                                    HeightRequest="20"
+                                    Source="calendar_icon.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="20" />
+                                <ctrl:CustomDatePicker
+                                    x:Name="ToDatePicker"
+                                    Margin="10,0,0,0"
+                                    Date="{Binding ToDate}"
+                                    DateSelectedCommand="{Binding OnDateChanged}"
+                                    Format="dd MMM yyyy"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </ctrl:CustomBorder>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!--  Ride List  -->
+                <CollectionView
+                    Grid.Row="2"
+                    ItemsSource="{Binding Rides}"
+                    SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <ctrl:CustomBorder
+                                Margin="0,10"
+                                Padding="10"
+                                BackgroundColor="#FAFAFA"
+                                CornerRadius="10">
+                                <Grid
+                                    ColumnDefinitions="Auto,*,*,Auto"
+                                    ColumnSpacing="15"
+                                    VerticalOptions="Center">
+                                    <!--  Column 1: Car Image and Number  -->
+                                    <StackLayout Grid.Column="0" HorizontalOptions="Center">
+                                        <Image
+                                            HeightRequest="40"
+                                            Source="{Binding CabImage}"
+                                            WidthRequest="40" />
+                                        <Label
+                                            FontSize="14"
+                                            HorizontalOptions="Center"
+                                            Text="{Binding CabNumber}" />
+                                    </StackLayout>
+
+                                    <!--  Column 2: From and To Locations  -->
+                                    <StackLayout Grid.Column="1">
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontSize="16" Text="From:" />
+                                                    <Span FontSize="14" Text="{Binding FromLocation}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontSize="16" Text="To:" />
+                                                    <Span FontSize="14" Text="{Binding ToLocation}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+
+                                    <!--  Column 3: Distance and Fare  -->
+                                    <StackLayout Grid.Column="2">
+                                        <Label FontSize="16" Text="{Binding Distance}" />
+                                        <Label FontSize="16" Text="₹{Binding Fare}" />
+                                    </StackLayout>
+
+                                    <!--  Column 4: Driver Info  -->
+                                    <StackLayout
+                                        Grid.Column="4"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center">
+                                        <ctrl:CustomBorder CornerRadius="20">
+                                            <Image
+                                                Aspect="AspectFill"
+                                                HeightRequest="40"
+                                                Source="{Binding DriverPhoto}"
+                                                WidthRequest="40" />
+                                        </ctrl:CustomBorder>
+                                        <Label
+                                            FontSize="12"
+                                            HorizontalOptions="Center"
+                                            Text="{Binding DriverName}" />
+                                    </StackLayout>
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.OnRideDetailCmd, Source={x:Reference RideListUI}}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </ctrl:CustomBorder>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <CollectionView.EmptyView>
+                        <Label Text="No items to display" />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

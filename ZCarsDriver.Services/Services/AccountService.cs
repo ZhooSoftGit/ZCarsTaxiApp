@@ -1,9 +1,9 @@
 ﻿using ZTaxi.Model.Response;
-using ZCarsDriver.Services;
-using ZhooCars.Model.Response;
+using ZTaxiApp.Services;
+using ZTaxiApp.Model.Response;
 using ZhooSoft.ServiceBase;
 
-namespace ZhooCars.Services
+namespace ZTaxiApp.Services
 {
     public class AccountService : BaseService, IAccountService
     {

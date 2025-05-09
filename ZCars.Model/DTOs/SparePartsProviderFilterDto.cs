@@ -1,4 +1,4 @@
-﻿namespace ZhooCars.Model.DTOs
+﻿namespace ZTaxiApp.Model.DTOs
 {
     public class SparePartsProviderFilterDto
     {
