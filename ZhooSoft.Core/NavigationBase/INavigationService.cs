@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Maui.Views;
-using ZCars.Model.DTOs.DriverApp;
+using ZTaxi.Model.DTOs.DriverApp;
 
 namespace ZhooSoft.Core.NavigationBase
 {

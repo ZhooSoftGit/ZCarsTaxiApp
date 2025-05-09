@@ -32,18 +32,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\ZCarsDriver.Services\ZTaxi.Services.csproj" />
+	  <ProjectReference Include="..\ZhooSoft.Controls\ZhooSoft.Controls.csproj" />
+	  <ProjectReference Include="..\ZhooSoft.Core\ZhooSoft.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\OTPVerificationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\ZCarsDriver.Services\ZCarsDriver.Services.csproj" />
-	  <ProjectReference Include="..\ZhooSoft.Controls\ZhooSoft.Controls.csproj" />
-	  <ProjectReference Include="..\ZhooSoft.Core\ZhooSoft.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

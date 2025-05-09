@@ -35,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\ZCars.Model\ZCars.Model.csproj" />
+	  <ProjectReference Include="..\ZCars.Model\ZTaxi.Model.csproj" />
 	</ItemGroup>
 
 </Project>

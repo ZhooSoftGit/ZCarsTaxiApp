@@ -1,6 +1,6 @@
 ﻿using ZhooCars.Common;
 
-namespace ZCars.Model.DTOs.DriverApp
+namespace ZTaxi.Model.DTOs.DriverApp
 {
     public class BookingRequestModel
     {

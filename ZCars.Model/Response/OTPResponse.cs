@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ZhooCars.Model.DTOs;
 using ZhooCars.Model.Response;
 
-namespace ZCars.Model.Response
+namespace ZTaxi.Model.Response
 {
     public class OTPResponse
     {
