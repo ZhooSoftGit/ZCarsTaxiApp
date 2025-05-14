@@ -1,21 +1,31 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
-using ZTaxiApp.DPopup;
+using ZhooSoft.Core;
 using ZTaxiApp.Helpers;
 using ZTaxiApp.Services.Contracts;
 using ZTaxiApp.Services.Session;
+using ZTaxiApp.UIModel;
 using ZTaxiApp.Views.Driver;
-using ZTaxiApp.Common;
-using ZhooSoft.Auth.Model;
-using ZhooSoft.Core;
 
 namespace ZTaxiApp.ViewModel
 {
     public partial class HomeViewModel : ViewModelBase
     {
         #region Fields
+
+        private readonly IUserSessionManager _sessionManager;
+
+        private readonly IUserService _userService;
+
+        [ObservableProperty]
+        private ObservableCollection<QuickAction> _bookingItems;
+
+        [ObservableProperty]
+        private ObservableCollection<QuickAction> _serviceItems;
+
+        
 
         [ObservableProperty]
         private string userName = "User Name";
@@ -29,15 +39,9 @@ namespace ZTaxiApp.ViewModel
 
         public HomeViewModel()
         {
-            ShowRideHistoryCommand = new RelayCommand(ShowRideHistory);
-            ShowPaymentCommand = new RelayCommand(ShowPayment);
-            OpenNotificationCommand = new RelayCommand(OpenNotification);
-            OpenReferFriendCommand = new RelayCommand(OpenReferFriend);
-            OpenSettingsCommand = new RelayCommand(OpenSettings);
-            LogoutCommand = new RelayCommand(Logout);
-            TileClickCmd = new RelayCommand<string>(OnTileClicked);
-
             _userService = ServiceHelper.GetService<IUserService>();
+            OnActionCmd = new AsyncRelayCommand<QuickAction>(async (obj) => await OnAction(obj));
+            LoadData();
         }
 
         #endregion
@@ -46,20 +50,7 @@ namespace ZTaxiApp.ViewModel
 
         public ICommand LogoutCommand { get; }
 
-        public ICommand OpenNotificationCommand { get; }
-
-        public ICommand OpenReferFriendCommand { get; }
-
-        public ICommand OpenSettingsCommand { get; }
-
-        public ICommand ShowPaymentCommand { get; }
-
-        public ICommand ShowRideHistoryCommand { get; }
-
-        public ICommand TileClickCmd { get; }
-
-        private readonly IUserService _userService;
-        private readonly IUserSessionManager _sessionManager;
+        public IAsyncRelayCommand<QuickAction> OnActionCmd { get; }
 
         #endregion
 
@@ -73,6 +64,36 @@ namespace ZTaxiApp.ViewModel
             IsBusy = false;
         }
 
+        private void LoadData()
+        {
+            var Items = new List<QuickAction>
+            {
+                new QuickAction { Name = "Cab", Icon = "cab_icon.png", Action = ActionEnum.Cab, ActionType = DashboardActionType.Ride },
+                new QuickAction { Name = "Auto", Icon = "auto_icon.png", Action = ActionEnum.Auto, ActionType = DashboardActionType.Ride },
+                new QuickAction { Name = "Outstation", Icon = "outstation_icon.png", Action = ActionEnum.OutStation, ActionType = DashboardActionType.Ride },
+                new QuickAction { Name = "Rental", Icon = "rental_icon.png", Action = ActionEnum.Rental, ActionType = DashboardActionType.Ride },
+                new QuickAction { Name = "Request Driver", Icon = "request_driver.png", Action = ActionEnum.RequestDriver, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "Request Service", Icon = "request_service.png", Action = ActionEnum.RequestService, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "Request Parts", Icon = "spare_parts.png", Action = ActionEnum.RequestSparParts, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "Buy Vehicle", Icon = "buy_vehicle.png", Action = ActionEnum.BuyVehicle, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "Sell Vehicle", Icon = "sell_vehicle.png", Action = ActionEnum.SellVehicle, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "Insurance", Icon = "insurance.png", Action = ActionEnum.Insurance, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "Loan", Icon = "loan.png", Action = ActionEnum.Loan, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "FastTag", Icon = "fasttag.png", Action = ActionEnum.FastTag, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "Emergency", Icon = "emergency.png", Action = ActionEnum.Emergency, ActionType = DashboardActionType.Service },
+            };
+
+            //TODO Temp
+            foreach (var item in Items)
+            {
+                item.Icon = "car_icon.png";
+            }
+
+            BookingItems = new ObservableCollection<QuickAction>(Items.Where(x => x.ActionType == DashboardActionType.Ride));
+
+            ServiceItems = new ObservableCollection<QuickAction>(Items.Where(x => x.ActionType != DashboardActionType.Ride));
+        }
+
         private async Task LoadUserdata()
         {
             var userdata = await _userService.GetUserDetailsAsync();
@@ -83,81 +104,15 @@ namespace ZTaxiApp.ViewModel
             }
         }
 
-        private void Logout()
+        private async Task OnAction(QuickAction obj)
         {
-        }
-
-        private async void OnTileClicked(string option)
-        {
-            if (string.IsNullOrEmpty(option))
-                return;
-            option = option.Replace(" ", "");
-            var nvparam = new Dictionary<string, object>();
-            var userroles = UserDetails.getInstance().UserRoles;
-            switch (option)
+            if (obj is QuickAction action)
             {
-                case "Driver":
-                    AppHelper.CurrentModule = MobileModule.Driver;
-                    if (userroles.Contains(UserRoles.Driver))
-                    {
-                        await _navigationService.PushAsync(ServiceHelper.GetService<DriverDashboardPage>());
-                    }
-                    else
-                    {
-                        var page2 = ServiceHelper.GetService<BaseProfilePage>();
-                        await _navigationService.PushAsync(ServiceHelper.GetService<BaseProfilePage>());
-                    }
-                    break;
-
-                case "Vendor":
-                    AppHelper.CurrentModule = MobileModule.Vendor;
-                    await _navigationService.PushAsync(ServiceHelper.GetService<BaseProfilePage>());
-                    break;
-
-                case "ServiceProvider":
-                    AppHelper.CurrentModule = MobileModule.ServiceProvider;
-                    await _navigationService.PushAsync(ServiceHelper.GetService<BaseProfilePage>());
-                    break;
-
-                case "SparParts":
-                    AppHelper.CurrentModule = MobileModule.SparParts;
-                    await _navigationService.PushAsync(ServiceHelper.GetService<BaseProfilePage>());
-                    break;
-
-                case "BuyAndSell":
-                    AppHelper.CurrentModule = MobileModule.BuyAndSell;
-                    var page = ServiceHelper.GetService<RegistrationBasePage>();
-                    nvparam = new Dictionary<string, object>
-                    {
-                        {"Tile", UserRoles.BuyAndSell }
-                    };
-                    await _navigationService.PushAsync(page, nvparam);
-                    break;
-
-                default:
-                    // Handle unknown case
-                    break;
+                if (action.Action == ActionEnum.Cab)
+                {
+                    await _navigationService.PushAsync(ServiceHelper.GetService<RideMapBasePage>());
+                }
             }
-        }
-
-        private void OpenNotification()
-        {
-        }
-
-        private void OpenReferFriend()
-        {
-        }
-
-        private void OpenSettings()
-        {
-        }
-
-        private void ShowPayment()
-        {
-        }
-
-        private void ShowRideHistory()
-        {
         }
 
         #endregion

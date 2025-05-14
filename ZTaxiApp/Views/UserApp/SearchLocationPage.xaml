@@ -1,5 +1,5 @@
 <base:BaseContentPage
-    x:Class="ZTaxiApp.Views.Driver.LinkDriverPage"
+    x:Class="ZTaxiApp.Views.Driver.SearchLocationPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
@@ -8,7 +8,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
     x:Name="LinkDriverUI"
-    x:TypeArguments="vm:LinkDriverViewModel"
+    x:TypeArguments="vm:SearchLocationViewModel"
     NavigationPage.HasNavigationBar="False">
 
     <Grid

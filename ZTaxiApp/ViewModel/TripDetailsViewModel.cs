@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using ZTaxiApp.Helpers;
 using ZTaxiApp.Model.DTOs;
 using ZhooSoft.Core;
-using ZTaxi.Model.DTOs.DriverApp;
+using ZTaxi.Model.DTOs.UserApp;
 
 namespace ZTaxiApp.ViewModel
 {

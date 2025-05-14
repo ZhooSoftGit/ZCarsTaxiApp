@@ -3,9 +3,9 @@ using ZhooSoft.Core;
 
 namespace ZTaxiApp.Views.Driver;
 
-public partial class LinkDriverPage : BaseContentPage<LinkDriverViewModel>
+public partial class SearchLocationPage : BaseContentPage<SearchLocationViewModel>
 {
-	public LinkDriverPage()
+	public SearchLocationPage()
 	{
 		InitializeComponent();
 	}

@@ -1,6 +1,6 @@
 ﻿using ZTaxiApp.Common;
 
-namespace ZTaxi.Model.DTOs.DriverApp
+namespace ZTaxi.Model.DTOs.UserApp
 {
     public class BookingRequestModel
     {

@@ -51,4 +51,11 @@ namespace ZTaxiApp.UIModel
         public int Rating { get; set; }
         public string ReviewText { get; set; }
     }
+
+    public class UserLocation
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string? Address { get; set; }
+    }
 }

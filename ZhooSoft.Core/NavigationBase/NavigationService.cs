@@ -2,7 +2,7 @@
 
 
 using CommunityToolkit.Maui.Views;
-using ZTaxi.Model.DTOs.DriverApp;
+using ZTaxi.Model.DTOs.UserApp;
 
 namespace ZhooSoft.Core.NavigationBase
 {

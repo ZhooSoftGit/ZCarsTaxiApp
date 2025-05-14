@@ -121,11 +121,11 @@ public static class MauiProgram
         services.AddTransient<HomeViewPage>();
         services.AddTransient<RegistrationBasePage>();
         services.AddTransient<DocumentUploadPage>();
-        services.AddTransient<DriverDashboardPage>();
+        services.AddTransient<RideMapBasePage>();
         services.AddTransient<BaseProfilePage>();
 
         services.AddTransient<VendorOtpPage>();
-        services.AddTransient<LinkDriverPage>();
+        services.AddTransient<SearchLocationPage>();
         services.AddTransient<OtpVerificationPage>();
 
         services.AddTransient<VehicleListPage>();
@@ -211,15 +211,14 @@ public static class MauiProgram
 
         services.AddTransient<VehicleListViewModel>();
 
-        services.AddTransient<DriverDashboardViewModel>();
+        services.AddTransient<RideMapBaseViewModel>();
         services.AddTransient<CustomMapWebViewModel>();
 
-        services.AddTransient<LinkDriverViewModel>();
+        services.AddTransient<SearchLocationViewModel>();
         services.AddTransient<VendorOtpViewModel>();
         services.AddTransient<OtpVerificationViewModel>();
 
 
-        services.AddTransient<DashboardViewModel>();
         services.AddTransient<VehicleDetailsViewModel>();
         services.AddTransient<RideListViewModel>();
         services.AddTransient<RideDetailsViewModel>();

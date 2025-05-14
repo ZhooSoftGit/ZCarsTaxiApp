@@ -29,13 +29,25 @@ namespace ZTaxiApp.Helpers
 
     public enum ActionEnum
     {
-        Vehicles,
-        Drivers,
-        PeekHrs,
-        Reports,
-        Earnings,
-        Rides,
-        Others
+        Cab,
+        Auto,
+        OutStation,
+        Rental,
+        RequestDriver,
+        RequestService,
+        RequestSparParts,
+        BuyVehicle,
+        SellVehicle,
+        Insurance,
+        Loan,
+        FastTag,
+        Emergency
+    }
+
+    public enum DashboardActionType
+    {
+        Ride,
+        Service
     }
 
 }

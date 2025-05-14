@@ -25,6 +25,7 @@ using ZCarsDriver.Services;
 using ZCarsDriver.Views.Common;
 using ZCarsDriver.Views.Rides;
 using ZCarsDriver.Views.Vendor;
+using ZTaxiApp.Services.Contracts;
 #if ANDROID
 using ZCarsDriver.PlatformHelper;
 using ZhooSoft.Controls.Platforms.Android;

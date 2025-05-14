@@ -1,6 +1,6 @@
 ﻿using ZTaxiApp.Common;
 using ZTaxiApp.Model.DTOs;
-using ZTaxi.Model.DTOs.DriverApp;
+using ZTaxi.Model.DTOs.UserApp;
 
 namespace ZTaxiApp.UIModel
 {

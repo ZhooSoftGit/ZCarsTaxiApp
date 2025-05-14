@@ -205,7 +205,5 @@
                 </Grid>
             </ScrollView>
         </Grid>
-
     </Grid>
-
 </base:BaseContentPage>

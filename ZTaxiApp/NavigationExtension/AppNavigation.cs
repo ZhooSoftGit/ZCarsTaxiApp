@@ -1,14 +1,9 @@
 ﻿using CommunityToolkit.Maui.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ZhooSoft.Core;
+using ZTaxi.Model.DTOs.UserApp;
+using ZTaxiApp.Common;
 using ZTaxiApp.ViewModel;
 using ZTaxiApp.Views.Driver;
-using ZTaxiApp.Common;
-using ZhooSoft.Core;
-using ZTaxi.Model.DTOs.DriverApp;
 
 namespace ZTaxiApp.NavigationExtension
 {
@@ -20,16 +15,16 @@ namespace ZTaxiApp.NavigationExtension
             {
                 if (Application.Current.Windows[0].Page is NavigationPage nvpage)
                 {
-                    if (nvpage.Navigation.NavigationStack.LastOrDefault() is DriverDashboardPage dvPage)
+                    if (nvpage.Navigation.NavigationStack.LastOrDefault() is RideMapBasePage dvPage)
                     {
-                        if (dvPage.BindingContext is DriverDashboardViewModel vm)
+                        if (dvPage.BindingContext is RideMapBaseViewModel vm)
                         {
                             await vm.RefreshPage();
                         }
                     }
                     else
                     {
-                        Application.Current.MainPage = new NavigationPage(new DriverDashboardPage());
+                        Application.Current.MainPage = new NavigationPage(new RideMapBasePage());
                     }
                 }
             }

@@ -7,7 +7,7 @@ using ZTaxiApp.Services.Contracts;
 using ZTaxiApp.UIModel;
 using ZTaxiApp.Common;
 using ZhooSoft.Core;
-using ZTaxi.Model.DTOs.DriverApp;
+using ZTaxi.Model.DTOs.UserApp;
 
 namespace ZTaxiApp.DPopup
 {

@@ -58,7 +58,7 @@ namespace ZTaxiApp.ViewModel
 
         private async Task OnLinkDriver()
         {
-            await _navigationService.PushAsync(ServiceHelper.GetService<LinkDriverPage>());
+            await _navigationService.PushAsync(ServiceHelper.GetService<SearchLocationPage>());
         }
 
         private async Task OnVehiclesCmd()
@@ -99,7 +99,7 @@ namespace ZTaxiApp.ViewModel
             if(AppHelper.CurrentModule == MobileModule.Driver)
             {
                 await _navigationService.PopToRootAsync();
-                await _navigationService.PushAsync(ServiceHelper.GetService<DriverDashboardPage>());
+                await _navigationService.PushAsync(ServiceHelper.GetService<RideMapBasePage>());
             }
             else if(AppHelper.CurrentModule == MobileModule.Vendor)
             {
