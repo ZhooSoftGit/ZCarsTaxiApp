@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ZTaxiApp.UIHelper;
 
 namespace ZTaxiApp.UIModel
 {
@@ -13,6 +9,8 @@ namespace ZTaxiApp.UIModel
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
+
+        public LocationType LocationType { get; set; }
     }
 
     public class RideOption

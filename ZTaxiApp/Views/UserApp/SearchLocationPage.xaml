@@ -7,7 +7,7 @@
     xmlns:header="clr-namespace:ZTaxiApp.Templates"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
-    x:Name="LinkDriverUI"
+    x:Name="SearchLocationUI"
     x:TypeArguments="vm:SearchLocationViewModel"
     NavigationPage.HasNavigationBar="False">
 
@@ -24,146 +24,89 @@
             Grid.Row="1"
             Padding="20"
             ColumnDefinitions="*"
-            RowDefinitions="Auto, Auto, *, Auto, Auto, Auto">
+            RowDefinitions="Auto, Auto, Auto, *, Auto"
+            RowSpacing="10">
 
-            <!--  Search Bar  -->
-            <SearchBar
-                x:Name="SearchCabs"
-                Grid.Row="0"
-                Placeholder="Search"
-                Text="{Binding SearchText, Mode=TwoWay}">
-                <SearchBar.Behaviors>
-                    <toolkit:EventToCommandBehavior Command="{Binding SearchCommand}" EventName="TextChanged" />
-                </SearchBar.Behaviors>
-            </SearchBar>
 
-            <!--  Label for Available Cabs  -->
-            <Label
+            <!--  Search locations  -->
+            <Label Grid.Row="0" Text="{Binding LocationType}" />
+
+            <ctrl:CustomBorder
                 Grid.Row="1"
-                Margin="5,10,0,5"
-                FontAttributes="Bold"
-                FontSize="14"
-                Text="AVAILABLE CABS"
-                TextColor="Gray" />
+                Padding="10"
+                BackgroundColor="#F5F5F5"
+                CornerRadius="12"
+                Stroke="{DynamicResource Primary}">
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                    <Image
+                        HeightRequest="16"
+                        Source="select_loc.png"
+                        WidthRequest="16" />
 
-            <!--  Available Cabs List  -->
+                    <ctrl:CustomEntry
+                        Grid.Column="1"
+                        BackgroundColor="Transparent"
+                        FontSize="12"
+                        HorizontalTextAlignment="Start"
+                        Placeholder="Enter your Area"
+                        Text="{Binding SearchText}"
+                        TextColor="#4D4D4D"
+                        VerticalTextAlignment="Center">
+                        <ctrl:CustomEntry.Behaviors>
+                            <toolkit:EventToCommandBehavior Command="{Binding SearchCommand}" EventName="TextChanged" />
+                        </ctrl:CustomEntry.Behaviors>
+                    </ctrl:CustomEntry>
+                </HorizontalStackLayout>
+            </ctrl:CustomBorder>
 
-            <StackLayout Grid.Row="2" BindableLayout.ItemsSource="{Binding FilteredCabs}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <ctrl:CustomBorder
-                            Margin="5"
-                            Padding="10"
-                            BackgroundColor="White"
-                            BorderColor="LightGray"
-                            CornerRadius="10">
-                            <Grid Padding="5" ColumnDefinitions="Auto, *, Auto">
 
-                                <!--  Car Image  -->
-                                <Image
-                                    Grid.Column="0"
-                                    HeightRequest="40"
-                                    Source="car_icon.png"
-                                    VerticalOptions="Center"
-                                    WidthRequest="40" />
-
-                                <!--  Cab Details  -->
-
-                                <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0">
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="16"
-                                        Text="{Binding RegistrationNumber}" />
-                                    <Label
-                                        FontSize="14"
-                                        Text="{Binding Model}"
-                                        TextColor="Gray" />
-                                </VerticalStackLayout>
-
-                                <!--  Selection Radio Button  -->
-                                <RadioButton
-                                    Grid.Column="2"
-                                    GroupName="CabSelection"
-                                    IsChecked="{Binding IsSelected}" />
-                            </Grid>
-
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectCabCommand, Source={x:Reference LinkDriverUI}}" CommandParameter="{Binding .}" />
-                            </Border.GestureRecognizers>
-                        </ctrl:CustomBorder>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </StackLayout>
-
-            <!--  Checkbox for RC Book  -->
-            <Grid
-                Grid.Row="3"
-                Padding="10,5"
-                ColumnDefinitions="Auto, *">
-                <CheckBox
-                    x:Name="RcBookCheckBox"
-                    Grid.Column="0"
-                    IsChecked="{Binding HasRcBook, Mode=TwoWay}" />
-                <Label
-                    Grid.Column="1"
-                    FontSize="14"
-                    Text="Have Original RC Book?"
-                    TextColor="Black"
-                    VerticalOptions="Center" />
-            </Grid>
-
-            <!--  Continue Button  -->
-            <Button
-                x:Name="ContinueButton"
-                Grid.Row="4"
-                BackgroundColor="{x:StaticResource Primary}"
-                Command="{Binding ContinueCommand}"
+            <ctrl:CustomBorder
+                Grid.Row="2"
+                Padding="0"
+                BackgroundColor="{x:StaticResource White}"
+                ClickCommand="{Binding MapviewClicked}"
+                CornerRadius="10"
                 HeightRequest="50"
-                IsEnabled="{Binding CanContinue}"
-                Text="Continue"
-                TextColor="White">
-                <Button.Triggers>
-                    <DataTrigger
-                        Binding="{Binding CanContinue}"
-                        TargetType="Button"
-                        Value="False">
-                        <Setter Property="Opacity" Value="0.7" />
-                    </DataTrigger>
-                    <DataTrigger
-                        Binding="{Binding CanContinue}"
-                        TargetType="Button"
-                        Value="True">
-                        <Setter Property="Opacity" Value="1" />
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
+                HorizontalOptions="Start"
+                StrokeShape="RoundRectangle 25">
+                <StackLayout
+                    Padding="10,0"
+                    Orientation="Horizontal"
+                    Spacing="6">
+                    <ctrl:CustomImage
+                        HorizontalOptions="Start"
+                        Source="pin.png"
+                        VerticalOptions="Center"
+                        WidthRequest="12" />
+                    <Label Text="Use my Location" VerticalOptions="Center" />
+                </StackLayout>
+            </ctrl:CustomBorder>
 
-
-            <!--  Change Vendor Link  -->
-            <Grid
-                Grid.Row="5"
-                Padding="10,10"
-                ColumnDefinitions="Auto, Auto"
-                ColumnSpacing="20"
-                VerticalOptions="Center">
-                <Label
-                    Grid.Column="0"
-                    FontSize="14"
-                    Text="Need to Switch Vendor ?"
-                    VerticalOptions="Center" />
-                <Button
-                    Grid.Column="1"
-                    Command="{Binding ChangeVendorCommand}"
-                    FontSize="14"
-                    Text=" Change Vendor"
-                    TextColor="{x:StaticResource White}"
-                    VerticalOptions="Center" />
-            </Grid>
-
+            <CollectionView
+                x:Name="LocationFilter"
+                Grid.Row="3"
+                EmptyView="Search your location"
+                ItemsSource="{Binding SearchLocations}"
+                SelectionMode="None"
+                VerticalOptions="Start">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ctrl:CustomStackLayout Padding="10">
+                            <ctrl:CustomStackLayout
+                                Padding="2"
+                                Orientation="Horizontal"
+                                Spacing="6">
+                                <Image Source="pin.png" WidthRequest="16" />
+                                <ctrl:CustomLabel Text="{Binding Name}" />
+                            </ctrl:CustomStackLayout>
+                            <ctrl:CustomLabel Text="{Binding FormattedAddress}" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.OnSelectLocationCmd, Source={x:Reference SearchLocationUI}}" CommandParameter="{Binding .}" />
+                            </StackLayout.GestureRecognizers>
+                        </ctrl:CustomStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
-
     </Grid>
-
-
-
 </base:BaseContentPage>

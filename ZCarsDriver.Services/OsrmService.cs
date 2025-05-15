@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using ZTaxi.Model.Response;
 using ZTaxiApp.Services.AppService;
 
 namespace ZTaxiApp.Services
@@ -40,6 +41,23 @@ namespace ZTaxiApp.Services
                 Console.WriteLine($"Error fetching OSRM route: {ex.Message}");
                 return (null, null);
             }
+        }
+
+        public async Task<PhotonResult?> SearchPlacesAsync(string query)
+        {
+            var url = $"https://photon.komoot.io/api/?q={Uri.EscapeDataString(query)}";
+
+            var response = await _httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<PhotonResult>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
         }
     }
 }

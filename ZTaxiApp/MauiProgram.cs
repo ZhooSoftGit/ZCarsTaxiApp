@@ -24,6 +24,10 @@ using ZTaxiApp.Views.Common;
 using ZTaxiApp.Views.Driver;
 using ZTaxiApp.Views.Rides;
 using ZTaxiApp.Views.Vendor;
+using ZTaxi.Services.Contracts;
+using ZTaxi.Services;
+
+
 
 #if ANDROID
 using ZTaxiApp.PlatformHelper;
@@ -146,6 +150,8 @@ public static class MauiProgram
         services.AddTransient<EarningsPage>();
         services.AddTransient<PeakHoursPage>();
 
+        services.AddTransient<MapViewPage>();
+
         return services;
     }
 
@@ -190,6 +196,7 @@ public static class MauiProgram
         #region
         services.AddSingleton<IOsrmService, OsrmService>();
         services.AddSingleton<ICallService, CallService>();
+        services.AddSingleton<IAddressService, AddressService>();
         #endregion
 
         return services;
@@ -225,6 +232,8 @@ public static class MauiProgram
 
         services.AddTransient<EarningsViewModel>();
         services.AddTransient<PeakHoursViewModel>();
+
+        services.AddTransient<MapViewViewModel>();
         return services;
     }
 }

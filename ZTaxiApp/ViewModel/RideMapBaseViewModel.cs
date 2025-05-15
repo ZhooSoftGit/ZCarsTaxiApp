@@ -1,14 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Controls.Maps;
+using Microsoft.Maui.Devices.Sensors;
+using Microsoft.Maui.Maps;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ZhooSoft.Controls;
 using ZhooSoft.Core;
-using ZTaxi.Model.DTOs.UserApp;
+using ZTaxi.Services.Contracts;
+using ZTaxiApp.Helpers;
 using ZTaxiApp.Services.AppService;
 using ZTaxiApp.Services.Contracts;
 using ZTaxiApp.UIModel;
 using ZTaxiApp.Views.Common;
+using ZTaxiApp.Views.Driver;
 
 namespace ZTaxiApp.ViewModel
 {
@@ -18,28 +23,25 @@ namespace ZTaxiApp.ViewModel
 
         public CustomMapView CurrentMap;
 
-        [ObservableProperty]
-        private LocationInfo _pickupLocation;
+        private ICallService? _callService;
 
         [ObservableProperty]
         private LocationInfo _dropLocation;
 
+        private IOsrmService _osrmService;
+
         [ObservableProperty]
-        private bool _showCabOptions;
+        private LocationInfo _pickupLocation;
 
         [ObservableProperty]
         private ObservableCollection<RideOption> _rideOptions = new();
 
-        public ICommand SelectPickupLocationCommand { get; }
-        public ICommand SelectDropLocationCommand { get; }
-
-
-        private IOsrmService _osrmService;
-        private ICallService? _callService;
         private IRideTripService? _rideTripService;
-        private ITaxiBookingService? _taxiService;
 
-        public IRelayCommand OpenSideBarCmd { get; }
+        [ObservableProperty]
+        private bool _showCabOptions;
+
+        private ITaxiBookingService? _taxiService;
 
         #endregion
 
@@ -52,25 +54,103 @@ namespace ZTaxiApp.ViewModel
             PickupLocation = new LocationInfo();
             DropLocation = new LocationInfo();
 
-            SelectPickupLocationCommand = new RelayCommand(OnSelectPickupLocation);
-            SelectDropLocationCommand = new RelayCommand(OnSelectDropLocation);
+            SelectPickupLocationCommand = new AsyncRelayCommand(OnSelectPickupLocation);
+            SelectDropLocationCommand = new AsyncRelayCommand(OnSelectDropLocation);
 
             LoadRideOptions();
 
             InitializeService();
         }
 
-        private void OnSelectPickupLocation()
+        #endregion
+
+        #region Properties
+
+        public IRelayCommand OpenSideBarCmd { get; }
+
+        public ICommand SelectDropLocationCommand { get; }
+
+        public ICommand SelectPickupLocationCommand { get; }
+
+        #endregion
+
+        #region Methods
+
+        public async void InitializeMap()
         {
-            // Simulate a location selection
-            PickupLocation = new LocationInfo { Address = "123 Main Street" };
+            try
+            {
+                var location = await AppHelper.GetUserLocation();
+                if (location != null)
+                {
+                    CurrentMap.MapElements.Clear();
+                    CurrentMap.Pins.Clear();
+                    var position = new Location(location.Latitude, location.Longitude);
+                    var pin = new CustomPin
+                    {
+                        Label = "Your Location",
+                        Type = PinType.Place,
+                        Location = position,
+                        Address = "Location",
+                        ImageSource = "car_icon.png"
+                    };
+
+                    CurrentMap.Pins.Add(pin);
+
+                    CurrentMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(1)));
+
+                    var placedetails = await ServiceHelper.GetService<IAddressService>().GetPlaceNameAsync(location.Latitude, location.Longitude);
+
+                    if (placedetails != null)
+                    {
+                        PickupLocation = new LocationInfo { Address = placedetails, Latitude = location.Latitude, Longitude = location.Longitude, LocationType = UIHelper.LocationType.Pickup };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting location: {ex.Message}");
+            }
+        }
+
+        public async override void OnAppearing()
+        {
+            base.OnAppearing();
+            await GetCurrentRide();
+            if (!IsLoaded && AppHelper.CurrentRide == null)
+            {
+                InitializeMap();
+            }
+            else if (!IsLoaded && AppHelper.CurrentRide != null)
+            {
+                await RefreshPage();
+            }
+
+            IsLoaded = true;
+
+            if (AppHelper.SelectedLocation != null)
+            {
+                if (AppHelper.SelectedLocation.LocationType == UIHelper.LocationType.Pickup)
+                {
+                    PickupLocation = AppHelper.SelectedLocation;
+                }
+                else
+                {
+                    DropLocation = AppHelper.SelectedLocation;
+                }
+            }
+
+            AppHelper.SelectedLocation = null;
             EvaluateRideOptionsVisibility();
         }
 
-        private void OnSelectDropLocation()
+        public override void OnDisappearing()
         {
-            DropLocation = new LocationInfo { Address = "456 Elm Street" };
-            EvaluateRideOptionsVisibility();
+            base.OnDisappearing();
+        }
+
+        internal async Task RefreshPage()
+        {
         }
 
         private void EvaluateRideOptionsVisibility()
@@ -79,21 +159,11 @@ namespace ZTaxiApp.ViewModel
                           && !string.IsNullOrWhiteSpace(DropLocation?.Address);
         }
 
-        private void LoadRideOptions()
+        private async Task GetCurrentRide()
         {
-            RideOptions.Add(new RideOption { Name = "Mini", Price = "$10", Icon = "cab.png" });
-            RideOptions.Add(new RideOption { Name = "Sedan", Price = "$15", Icon = "cab.png" });
-            RideOptions.Add(new RideOption { Name = "SUV", Price = "$20", Icon = "cab.png" });
         }
 
-        private async Task OpenSideBar()
-        {
-            IsBusy = true;
-            var result = await _navigationService.OpenPopup(new CommonMenu());
-
-            await Task.Delay(100);
-            IsBusy = false;
-        }
+       
 
         private void InitializeService()
         {
@@ -103,23 +173,38 @@ namespace ZTaxiApp.ViewModel
             _taxiService = ServiceHelper.GetService<ITaxiBookingService>();
         }
 
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Methods
-
-        public async override void OnAppearing()
+        private void LoadRideOptions()
         {
-            base.OnAppearing();
-            IsLoaded = true;
+            RideOptions.Add(new RideOption { Name = "Mini", Price = "$10", Icon = "cab.png" });
+            RideOptions.Add(new RideOption { Name = "Sedan", Price = "$15", Icon = "cab.png" });
+            RideOptions.Add(new RideOption { Name = "SUV", Price = "$20", Icon = "cab.png" });
         }
 
-        internal async Task RefreshPage()
+        private async Task OnSelectDropLocation()
         {
-            throw new NotImplementedException();
+            var parameter = new Dictionary<string, object>
+            {
+                { "locationInfo", new LocationInfo{ LocationType =  UIHelper.LocationType.Drop} }
+            };
+            await _navigationService.PushAsync(ServiceHelper.GetService<SearchLocationPage>(), parameter);
+        }
+
+        private async Task OnSelectPickupLocation()
+        {
+            var parameter = new Dictionary<string, object>
+            {
+                { "locationInfo", new LocationInfo{ LocationType =  UIHelper.LocationType.Pickup} }
+            };
+            await _navigationService.PushAsync(ServiceHelper.GetService<SearchLocationPage>(), parameter);
+        }
+
+        private async Task OpenSideBar()
+        {
+            IsBusy = true;
+            var result = await _navigationService.OpenPopup(new CommonMenu());
+
+            await Task.Delay(100);
+            IsBusy = false;
         }
 
         #endregion

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Common.MapViewPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:Name="MapViewUI"
+    x:TypeArguments="vm:MapViewViewModel"
+    NavigationPage.HasNavigationBar="False">
+
+
+    <Grid
+        HorizontalOptions="Fill"
+        RowDefinitions="auto,*"
+        VerticalOptions="Fill">
+
+        <!--  Title  -->
+        <header:CustomNavigationHeader Grid.Row="0" />
+
+        <!--  MainContent  -->
+        <Grid Grid.Row="1" ColumnDefinitions="*">
+            <ctrl:CustomGrid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <ctrl:CustomMapView
+                    x:Name="MyMap"
+                    Grid.Row="0"
+                    IsShowingUser="True" />
+
+                <Image
+                    Grid.Row="0"
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Source="pin.png"
+                    VerticalOptions="Center"
+                    WidthRequest="16" />
+
+                <!--  Bottom Sheet Panel  -->
+                <Border
+                    Grid.Row="1"
+                    Padding="20"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 20"
+                    VerticalOptions="End">
+
+                    <VerticalStackLayout Spacing="20">
+                        <!--  Top Row  -->
+                        <Grid ColumnDefinitions="*" VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                HorizontalOptions="Start"
+                                Text="Select your location"
+                                VerticalOptions="Center" />
+                        </Grid>
+
+                        <!--  Address Card  -->
+                        <Border
+                            Padding="12"
+                            BackgroundColor="#F5F5F5"
+                            StrokeShape="RoundRectangle 12">
+                            <Grid
+                                ColumnDefinitions="auto,*"
+                                ColumnSpacing="10"
+                                VerticalOptions="Center">
+                                <Image
+                                    HeightRequest="16"
+                                    Source="select_loc.png"
+                                    WidthRequest="16" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontSize="14"
+                                    HorizontalOptions="Fill"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding PinLocationDetails}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+
+                        <!--  Select Pickup Button  -->
+                        <Button
+                            BackgroundColor="{DynamicResource Primary}"
+                            Command="{Binding OnSelectAddress}"
+                            CornerRadius="25"
+                            FontAttributes="Bold"
+                            HeightRequest="50"
+                            Text="{Binding ButtonText}"
+                            TextColor="{DynamicResource White}" />
+                    </VerticalStackLayout>
+                </Border>
+            </ctrl:CustomGrid>
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

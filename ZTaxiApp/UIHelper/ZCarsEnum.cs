@@ -16,5 +16,11 @@
         GSTDocument
     }
 
+    public enum LocationType
+    {
+        Pickup,
+        Drop
+    }
+
     #endregion
 }
