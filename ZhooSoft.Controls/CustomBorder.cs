@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace ZhooSoft.Controls
@@ -26,11 +27,6 @@ namespace ZhooSoft.Controls
 
         public CustomBorder()
         {
-            StrokeThickness = 2;
-            CornerRadius = 10;
-            StrokeShape = new RoundRectangle { CornerRadius = CornerRadius };
-            Stroke = BorderColor;
-
             var tapgesture = new TapGestureRecognizer();
             GestureRecognizers.Add(tapgesture);
             tapgesture.Tapped -= Tapgesture_Tapped;
@@ -51,6 +47,21 @@ namespace ZhooSoft.Controls
         private void Tapgesture_Tapped(object sender, System.EventArgs e)
         {
             ClickCommand?.Execute(e);
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName == nameof(BorderColor))
+            {
+                Stroke = BorderColor;
+            }
+
+            if (propertyName == nameof(CornerRadius))
+            {
+                StrokeShape = new RoundRectangle() { CornerRadius = CornerRadius };
+            }
         }
 
         #endregion

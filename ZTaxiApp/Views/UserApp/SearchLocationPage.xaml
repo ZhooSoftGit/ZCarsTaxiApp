@@ -37,7 +37,10 @@
                 BackgroundColor="#F5F5F5"
                 CornerRadius="12"
                 Stroke="{DynamicResource Primary}">
-                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <Grid
+                    ColumnDefinitions="auto,*"
+                    ColumnSpacing="10"
+                    VerticalOptions="Center">
                     <Image
                         HeightRequest="16"
                         Source="select_loc.png"
@@ -47,6 +50,7 @@
                         Grid.Column="1"
                         BackgroundColor="Transparent"
                         FontSize="12"
+                        HorizontalOptions="Fill"
                         HorizontalTextAlignment="Start"
                         Placeholder="Enter your Area"
                         Text="{Binding SearchText}"
@@ -56,7 +60,7 @@
                             <toolkit:EventToCommandBehavior Command="{Binding SearchCommand}" EventName="TextChanged" />
                         </ctrl:CustomEntry.Behaviors>
                     </ctrl:CustomEntry>
-                </HorizontalStackLayout>
+                </Grid>
             </ctrl:CustomBorder>
 
 
@@ -78,7 +82,7 @@
                         Source="pin.png"
                         VerticalOptions="Center"
                         WidthRequest="12" />
-                    <Label Text="Use my Location" VerticalOptions="Center" />
+                    <Label Text="Select From Map" VerticalOptions="Center" />
                 </StackLayout>
             </ctrl:CustomBorder>
 

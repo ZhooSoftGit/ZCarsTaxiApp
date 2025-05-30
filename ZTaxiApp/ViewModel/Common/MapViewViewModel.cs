@@ -161,10 +161,10 @@ namespace ZTaxiApp.ViewModel
                     Longitude = _selectedLocation.Longitude,
                     LocationType = _locationInfo.LocationType
                 };
-                AppHelper.SelectedLocation = selectedAddress;
                 await _navigationService.PopAsync();
                 await Task.Delay(100);
-                await _navigationService.PopAsync();
+                var nvparam = new Dictionary<string, object> { { "selectedlocation", selectedAddress } };
+                await _navigationService.PopAsync(nvparam);
             }
         }
 

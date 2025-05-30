@@ -64,16 +64,12 @@ namespace ZhooSoft.Core.NavigationBase
         {
             if (NavigationParams != null)
             {
-                var pages = navigation.NavigationStack.ToList();
-                if (pages.Count > 2)
-                {
-                    var page = pages.LastOrDefault();
+                var page = navigation.NavigationStack.LastOrDefault();
 
-                    if (page is ContentPage cpage && cpage.BindingContext is ViewModelBase vm)
-                    {
-                        vm.NavigationParams = NavigationParams;
-                        vm.OnAppearing();
-                    }
+                if (page is ContentPage cpage && cpage.BindingContext is ViewModelBase vm)
+                {
+                    vm.NavigationParams = NavigationParams;
+                    vm.OnAppearing();
                 }
             }
         }

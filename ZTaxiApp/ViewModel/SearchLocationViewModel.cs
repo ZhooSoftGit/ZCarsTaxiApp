@@ -57,14 +57,21 @@ namespace ZTaxiApp.ViewModel
             }
         }
 
-        private void OnSelectLocation(object obj)
+        private async void OnSelectLocation(object obj)
         {
-            if (_locationinfo != null)
+            if (_locationinfo != null && obj is SearchAddressResult result)
             {
                 var vm = new Dictionary<string, object>();
-                vm.Add("selectedAddress", obj);
-                vm.Add("locationInfo", _locationinfo);
-                _navigationService.PushAsync(ServiceHelper.GetService<MapViewPage>(), vm);
+                var selectedAddress = new LocationInfo
+                {
+                    Address = result.FormattedAddress,
+                    Latitude = result.Geometry.Location.Lat,
+                    Longitude = result.Geometry.Location.Lng,
+                    LocationType = _locationinfo.LocationType
+                };
+
+                var nvparam = new Dictionary<string, object> { { "selectedlocation", selectedAddress } };
+                await _navigationService.PopAsync(nvparam);
             }
         }
 

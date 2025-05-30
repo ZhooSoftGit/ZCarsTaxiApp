@@ -13,7 +13,7 @@ namespace ZTaxiApp.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<(double? Distance, List<Location> Locations)> GetRoutePoints(double startLat, double startLng, double endLat, double endLng)
+        public async Task<(double? Distance, List<Location> Locations, double? duration)> GetRoutePoints(double startLat, double startLng, double endLat, double endLng)
         {
             try
             {
@@ -29,17 +29,18 @@ namespace ZTaxiApp.Services
                 {
                     var geometry = routes[0].GetProperty("geometry").GetString();
                     var distance = routes[0].GetProperty("distance").GetDouble() / 1000;
+                    var duration = routes[0].GetProperty("duration").GetDouble() / 3600;
                     var locations = PolylineDecoder.DecodePolyline(geometry);
-                    return (distance, locations);
+                    return (distance, locations, duration);
                 }
 
                 Console.WriteLine("No route found.");
-                return (null, null);
+                return (null, null, null);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error fetching OSRM route: {ex.Message}");
-                return (null, null);
+                return (null, null, null);
             }
         }
 

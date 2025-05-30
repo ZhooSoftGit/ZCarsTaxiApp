@@ -24,109 +24,253 @@
 
 
         <!--  Bottom Sheet Panel  -->
-        <ctrl:CustomBorder
-            x:Name="BottomSheet"
+        <ctrl:CustomGrid
             Grid.Row="0"
-            Padding="20"
-            BackgroundColor="White"
-            Stroke="{DynamicResource Primary}"
+            RowDefinitions="auto,*"
+            RowSpacing="10"
             VerticalOptions="End">
 
-            <Grid
-                HorizontalOptions="Fill"
-                RowDefinitions="auto,auto,*,auto"
-                RowSpacing="10"
-                VerticalOptions="Fill">
+            <ctrl:CustomBorder
+                Margin="10,0"
+                BackgroundColor="{DynamicResource White}"
+                ClickCommand="{Binding BackCommand}"
+                HeightRequest="60"
+                HorizontalOptions="Start"
+                Stroke="{DynamicResource Primary}"
+                StrokeShape="RoundRectangle 30"
+                WidthRequest="60">
+                <Image
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Source="back.png"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
 
-                <!--  Pickup Location Field  -->
-                <ctrl:CustomBorder
-                    Grid.Row="0"
-                    Padding="10"
-                    BackgroundColor="#F5F5F5"
-                    CornerRadius="12"
-                    Stroke="{DynamicResource Primary}">
-                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                        <Image
-                            HeightRequest="16"
-                            Source="pickup_loc.png"
-                            WidthRequest="16" />
-                        <!--  Tappable Label acting like Entry  -->
+            </ctrl:CustomBorder>
+
+            <ctrl:CustomBorder
+                x:Name="BottomSheet"
+                Grid.Row="1"
+                Padding="20"
+                BackgroundColor="White"
+                IsVisible="{Binding ShowPickup}"
+                Stroke="{DynamicResource Primary}"
+                VerticalOptions="End">
+
+                <Grid
+                    HorizontalOptions="Fill"
+                    RowDefinitions="auto,auto,*,auto"
+                    RowSpacing="10"
+                    VerticalOptions="Fill">
+
+                    <!--  Pickup Location Field  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="0"
+                        Padding="10"
+                        BackgroundColor="#F5F5F5"
+                        CornerRadius="12"
+                        Stroke="{DynamicResource Primary}">
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Image
+                                HeightRequest="16"
+                                Source="pickup_loc.png"
+                                WidthRequest="16" />
+                            <!--  Tappable Label acting like Entry  -->
+                            <Label
+                                FontSize="18"
+                                HorizontalOptions="Fill"
+                                Text="{Binding PickupLocation.Address}"
+                                TextColor="Black"
+                                VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <ctrl:CustomBorder.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectPickupLocationCommand}" />
+                        </ctrl:CustomBorder.GestureRecognizers>
+                    </ctrl:CustomBorder>
+
+                    <!--  Drop Location Field  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="1"
+                        Padding="10"
+                        BackgroundColor="#F5F5F5"
+                        CornerRadius="12"
+                        Stroke="{DynamicResource Primary}">
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Image
+                                HeightRequest="16"
+                                Source="select_loc.png"
+                                WidthRequest="16" />
+                            <!--  Tappable Label acting like Entry  -->
+                            <Label
+                                FontSize="18"
+                                HorizontalOptions="Fill"
+                                Text="{Binding DropLocation.Address}"
+                                TextColor="Black"
+                                VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <ctrl:CustomBorder.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectDropLocationCommand}" />
+                        </ctrl:CustomBorder.GestureRecognizers>
+                    </ctrl:CustomBorder>
+
+                    <Grid
+                        Grid.Row="2"
+                        IsVisible="{Binding ShowCabOptions}"
+                        RowDefinitions="auto,auto"
+                        RowSpacing="6">
+
+                        <Grid ColumnDefinitions="*,*">
+                            <HorizontalStackLayout Grid.Column="0" HorizontalOptions="Start">
+                                <Label Text="Approx Distance:" />
+                                <Label Text="{Binding Distance}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
+                                <Label Text="Approx Duration:" />
+                                <Label Text="{Binding Duration}" />
+                            </HorizontalStackLayout>
+                        </Grid>
+
+                        <CollectionView
+                            Grid.Row="1"
+                            ItemsSource="{Binding RideOptions}"
+                            VerticalOptions="Center">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout
+                                    HorizontalItemSpacing="10"
+                                    Orientation="Vertical"
+                                    Span="3" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <ctrl:CustomBorder>
+                                        <StackLayout Padding="10" Orientation="Horizontal">
+                                            <Image
+                                                HeightRequest="40"
+                                                Source="car_icon.png"
+                                                WidthRequest="40" />
+                                            <StackLayout>
+                                                <Label FontAttributes="Bold" Text="{Binding Name}" />
+                                                <Label FontSize="12" Text="{Binding Price}" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </ctrl:CustomBorder>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </Grid>
+
+                    <Button
+                        Grid.Row="3"
+                        BackgroundColor="{DynamicResource Primary}"
+                        Command="{Binding ConfirmBookingCmd}"
+                        CornerRadius="20"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Confirm Booking"
+                        TextColor="White" />
+                </Grid>
+
+            </ctrl:CustomBorder>
+
+            <ctrl:CustomBorder
+                Grid.Row="1"
+                Padding="20,10"
+                BackgroundColor="White"
+                IsVisible="{Binding ShowDriver}"
+                Stroke="{DynamicResource Primary}"
+                VerticalOptions="End">
+                <ctrl:CustomGrid RowDefinitions="auto,auto,auto" RowSpacing="10">
+                    <!--  OTP Header  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="0"
+                        Margin="0,10,0,5"
+                        Padding="5"
+                        BackgroundColor="#00A65A"
+                        CornerRadius="8">
                         <Label
-                            FontSize="18"
-                            HorizontalOptions="Fill"
-                            Text="{Binding PickupLocation.Address}"
-                            TextColor="Black"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="Trip Start OTP - 5306"
+                            TextColor="White"
                             VerticalOptions="Center" />
+                    </ctrl:CustomBorder>
+
+                    <!--  Driver Info Card  -->
+                    <HorizontalStackLayout
+                        Grid.Row="1"
+                        Spacing="10"
+                        VerticalOptions="Center">
+                        <!--  Driver Image  -->
+                        <Image Aspect="AspectFill" Source="driver_book.png" />
+
+                        <!--  Driver Info  -->
+                        <VerticalStackLayout>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="balaji" />
+                            <Label
+                                FontSize="14"
+                                Text="TN10AZ7078 (Mini)"
+                                TextColor="Gray" />
+                            <Label
+                                FontSize="14"
+                                Text="TIB1509ZMMQ2GX"
+                                TextColor="Gray" />
+                        </VerticalStackLayout>
                     </HorizontalStackLayout>
-                    <ctrl:CustomBorder.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectPickupLocationCommand}" />
-                    </ctrl:CustomBorder.GestureRecognizers>
-                </ctrl:CustomBorder>
 
-                <!--  Drop Location Field  -->
-                <ctrl:CustomBorder
-                    Grid.Row="1"
-                    Padding="10"
-                    BackgroundColor="#F5F5F5"
-                    CornerRadius="12"
-                    Stroke="{DynamicResource Primary}">
-                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                        <Image
-                            HeightRequest="16"
-                            Source="select_loc.png"
-                            WidthRequest="16" />
-                        <!--  Tappable Label acting like Entry  -->
-                        <Label
-                            FontSize="18"
-                            HorizontalOptions="Fill"
-                            Text="{Binding DropLocation.Address}"
-                            TextColor="Black"
-                            VerticalOptions="Center" />
-                    </HorizontalStackLayout>
-                    <ctrl:CustomBorder.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectDropLocationCommand}" />
-                    </ctrl:CustomBorder.GestureRecognizers>
-                </ctrl:CustomBorder>
+                    <!--  Action Buttons  -->
+                    <Grid
+                        Grid.Row="2"
+                        Margin="0"
+                        Padding="0"
+                        ColumnSpacing="10"
+                        RowSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                <CollectionView
-                    Grid.Row="2"
-                    IsVisible="{Binding ShowCabOptions}"
-                    ItemsSource="{Binding RideOptions}"
-                    VerticalOptions="Center">
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout
-                            HorizontalItemSpacing="10"
-                            Orientation="Vertical"
-                            Span="3" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <ctrl:CustomBorder>
-                                <StackLayout Padding="10" Orientation="Horizontal">
-                                    <Image
-                                        HeightRequest="40"
-                                        Source="car_icon.png"
-                                        WidthRequest="40" />
-                                    <StackLayout>
-                                        <Label FontAttributes="Bold" Text="{Binding Name}" />
-                                        <Label FontSize="12" Text="{Binding Price}" />
-                                    </StackLayout>
-                                </StackLayout>
-                            </ctrl:CustomBorder>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                        <Button
+                            Grid.Column="0"
+                            BackgroundColor="{DynamicResource Primary}"
+                            BorderColor="White"
+                            BorderWidth="2"
+                            Command="{Binding CancelCommand}"
+                            ContentLayout="Top,5"
+                            ImageSource="close_w.png"
+                            Text="Cancel Booking"
+                            TextColor="Black" />
 
-                <Button
-                    Grid.Row="3"
-                    BackgroundColor="Yellow"
-                    CornerRadius="20"
-                    FontAttributes="Bold"
-                    Text="Book Auto"
-                    TextColor="Black" />
-            </Grid>
+                        <Button
+                            Grid.Column="1"
+                            BackgroundColor="{DynamicResource Primary}"
+                            Command="{Binding ShareCommand}"
+                            ContentLayout="Top,5"
+                            ImageSource="settings_menu.png"
+                            Text="Show Details"
+                            TextColor="Black" />
 
-        </ctrl:CustomBorder>
+                        <Button
+                            Grid.Column="2"
+                            BackgroundColor="{DynamicResource Primary}"
+                            Command="{Binding CallCommand}"
+                            ContentLayout="Top,5"
+                            ImageSource="cell_icon.png"
+                            Text="Call Driver"
+                            TextColor="Black" />
+                    </Grid>
+
+                </ctrl:CustomGrid>
+            </ctrl:CustomBorder>
+
+        </ctrl:CustomGrid>
+
+
 
 
 
