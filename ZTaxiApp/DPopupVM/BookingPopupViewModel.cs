@@ -17,39 +17,17 @@ namespace ZTaxiApp.DPopupVM
 
         public Popup CurrentPopup;
 
-        public int TimerValue { get; set; }
-
-        private System.Timers.Timer _timer;
-        private const int TotalTime = 15;
         public BookingPopupViewModel()
         {
             InitiateTimer();
-
         }
 
-        private void InitiateTimer()
+        private async void InitiateTimer()
         {
-            TimerValue = TotalTime;
-            _timer = new System.Timers.Timer(1200);
-            _timer.Elapsed += OnTimerElapsed;
-            _timer.Start();
-        }
-
-        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            TimerValue--;
-
-            if (TimerValue <= 5)
-            {
-                ShowLoader = false;
-            }
-
-            if (TimerValue <= 0)
-            {
-                _timer.Close();
-                _timer.Dispose();
-                CurrentPopup.Close(true);
-            }
+            await Task.Delay(8000); // 10 seconds delay
+            ShowLoader = false;
+            await Task.Delay(2000); // 10 seconds delay
+            await CurrentPopup.CloseAsync(true);
         }
     }
 }

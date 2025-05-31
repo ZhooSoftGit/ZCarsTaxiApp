@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ZhooSoft.Controls;
 using ZhooSoft.Core;
+using ZTaxi.Model.DTOs.UserApp;
 using ZTaxi.Services.Contracts;
+using ZTaxiApp.Common;
 using ZTaxiApp.DPopup;
 using ZTaxiApp.Helpers;
+using ZTaxiApp.NavigationExtension;
 using ZTaxiApp.Services.AppService;
 using ZTaxiApp.Services.Contracts;
 using ZTaxiApp.UIModel;
@@ -68,7 +71,7 @@ namespace ZTaxiApp.ViewModel
             SelectDropLocationCommand = new AsyncRelayCommand(OnSelectDropLocation);
 
             CancelCommand = new AsyncRelayCommand(OnCancel);
-            ShareCommand = new AsyncRelayCommand(OnShare);
+            ShareCommand = new AsyncRelayCommand(OnShowDetails);
             CallCommand = new RelayCommand(OnCall);
 
             InitializeService();
@@ -84,10 +87,27 @@ namespace ZTaxiApp.ViewModel
             }
         }
 
-        private async Task OnShare()
+        private async Task OnShowDetails()
         {
-            var pp = new BookingRequestPopup();
-            await _navigationService.OpenPopup(pp);
+            var model = new BookingRequestModel
+            {
+                BookingType = RideTypeEnum.Local,
+                Fare = "₹ 194",
+                DistanceAndPayment = "0.1 Km / Cash",
+                PickupLocation = "Muthanampalayam, Tiruppur",
+                PickupAddress = "3/21, Muthanampalayam, Tiruppur, Tamil Nadu 641606, India",
+                PickupLatitude = 11.0176,
+                PickupLongitude = 76.9674,
+                PickupTime = "06 Feb 2024, 07:15 PM",
+                DropoffLocation = "Tiruppur Old Bus Stand",
+                DropLatitude = 10.9902,
+                DropLongitude = 76.9629,
+                RemainingBids = 3
+            };
+
+            var nvparam = new Dictionary<string, object> { { "BookingDetails", model } };
+
+            await _navigationService.OpenPopup(ServiceHelper.GetService<BookingDetailsPopup>(), nvparam);
         }
 
         private async void OnCall()

@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 namespace ZTaxiApp.DPopup;
 
-public partial class BookingRequestPopup : Popup
+public partial class BookingDetailsPopup : Popup
 {
-    public BookingRequestPopup()
+    public BookingDetailsPopup()
     {
         InitializeComponent();
-        BindingContext = new BookingRequestViewModel();
-        if (BindingContext is BookingRequestViewModel vm)
+        BindingContext = new BookingDetailsViewModel();
+        if (BindingContext is BookingDetailsViewModel vm)
         {
             vm.CurrentPopup = this;
         }
@@ -22,7 +22,7 @@ public partial class BookingRequestPopup : Popup
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-        if (BindingContext is BookingRequestViewModel vm)
+        if (BindingContext is BookingDetailsViewModel vm)
         {
             vm.RejectCommand.Execute(e);
             await CloseAsync();
@@ -31,7 +31,7 @@ public partial class BookingRequestPopup : Popup
 
     private async void Button_Clicked_1(object sender, EventArgs e)
     {
-        if (BindingContext is BookingRequestViewModel vm)
+        if (BindingContext is BookingDetailsViewModel vm)
         {
             vm.AcceptCommand.Execute(e);
             await CloseAsync();

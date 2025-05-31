@@ -12,7 +12,7 @@ namespace ZhooSoft.Core.NavigationBase
 
         Task<object?> OpenPopup(Popup popup);
 
-        //Task OpenPopup(PopupPage page, Dictionary<string, object> navigationParams);
+        Task<object> OpenPopup(Popup popup, Dictionary<string, object> navigationParams);
 
         Task ClosePopup();
 

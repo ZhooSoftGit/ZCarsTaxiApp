@@ -111,6 +111,23 @@ namespace ZhooSoft.Core.NavigationBase
             throw new NotImplementedException();
         }
 
-        
+        public async Task<object> OpenPopup(Popup popup, Dictionary<string, object> navigationParams)
+        {
+            if (Application.Current != null && Application.Current.Windows != null && Application.Current.Windows.Count > 0)
+            {
+                if (Application.Current.Windows[0].Page is NavigationPage nvpage && nvpage.Navigation.NavigationStack.Count > 0)
+                {
+                    var currentPage = nvpage.Navigation.NavigationStack.Last();
+                    if (popup.BindingContext is ViewModelBase vm)
+                    {
+                        vm.NavigationParams = navigationParams;
+                        vm.OnNavigatedTo();
+                    }
+                    return await currentPage.ShowPopupAsync(popup);
+                }
+            }
+
+            return null;
+        }
     }
 }

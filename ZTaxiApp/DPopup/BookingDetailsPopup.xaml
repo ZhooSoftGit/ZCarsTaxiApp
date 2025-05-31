@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <toolkit:Popup
-    x:Class="ZTaxiApp.DPopup.BookingRequestPopup"
+    x:Class="ZTaxiApp.DPopup.BookingDetailsPopup"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
@@ -9,74 +9,40 @@
     <VerticalStackLayout
         Padding="20"
         BackgroundColor="White"
-        Spacing="15">
+        Spacing="6">
 
-        <Grid
-            ColumnDefinitions="*,*"
-            HorizontalOptions="Fill"
-            RowDefinitions="50,50">
+        <Grid HorizontalOptions="Fill" RowDefinitions="auto,auto">
 
             <Label
                 FontAttributes="Bold"
                 FontSize="20"
-                Text="Booking Request" />
+                HorizontalOptions="Center"
+                Text="Booking Details" />
 
             <ctrl:CustomBorder
                 Grid.Row="1"
                 BackgroundColor="{x:StaticResource Primary}"
                 CornerRadius="10"
-                HorizontalOptions="Fill">
+                HorizontalOptions="End">
                 <Label
                     Padding="5"
                     FontAttributes="Bold"
                     FontSize="Medium"
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
-                    Text="{Binding BookingRequest.BookingType}"
-                    TextColor="{x:StaticResource White}" />
+                    TextColor="{x:StaticResource White}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Booking Type:" />
+                            <Span
+                                FontSize="18"
+                                Text="{Binding BookingRequest.BookingType}"
+                                TextColor="{DynamicResource Primary}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
             </ctrl:CustomBorder>
-            <ctrl:CustomBorder
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                Grid.Column="1"
-                BackgroundColor="{x:StaticResource Primary}"
-                CornerRadius="30"
-                HorizontalOptions="End"
-                WidthRequest="100">
-
-                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="Medium"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding ProgressValue}"
-                        TextColor="{x:StaticResource White}" />
-                    <Label
-                        HorizontalTextAlignment="Center"
-                        Text="sec"
-                        TextColor="{x:StaticResource White}" />
-                </VerticalStackLayout>
-
-
-            </ctrl:CustomBorder>
-            <!--<Button
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                Grid.Column="1"
-                BackgroundColor="{x:StaticResource Primary}"
-                CornerRadius="20"
-                FontAttributes="Bold"
-                HeightRequest="100"
-                HorizontalOptions="EndAndExpand"
-                Text="{Binding ProgressValue}"
-                TextColor="{x:StaticResource White}"
-                WidthRequest="100" />-->
         </Grid>
-
-
-
-        <Grid ColumnDefinitions="auto" HorizontalOptions="End" />
-
 
         <Label
             FontAttributes="Bold"
@@ -86,10 +52,10 @@
         <Label FontSize="14" Text="{Binding BookingRequest.DistanceAndPayment}" />
 
         <ctrl:CustomBorder
-            Padding="10"
+            Padding="6"
             BackgroundColor="{x:StaticResource Primary}"
             CornerRadius="10">
-            <VerticalStackLayout>
+            <VerticalStackLayout Spacing="10">
                 <Label LineBreakMode="WordWrap" TextColor="{x:StaticResource White}">
                     <Label.FormattedText>
                         <FormattedString>
@@ -126,22 +92,14 @@
         </ctrl:CustomBorder>
 
         <Grid
-            ColumnDefinitions="*,*"
+            ColumnDefinitions="*"
             ColumnSpacing="20"
             HorizontalOptions="Fill">
             <Button
-                Grid.Column="0"
-                BackgroundColor="{x:StaticResource Gray100}"
-                Command="{Binding RejectCommand}"
-                HorizontalOptions="Fill"
-                Text="Reject"
-                TextColor="{x:StaticResource Black}" />
-            <Button
-                Grid.Column="1"
                 BackgroundColor="{x:StaticResource Primary}"
                 Command="{Binding AcceptCommand}"
                 HorizontalOptions="Fill"
-                Text="Accept"
+                Text="Ok"
                 TextColor="{x:StaticResource White}" />
         </Grid>
 

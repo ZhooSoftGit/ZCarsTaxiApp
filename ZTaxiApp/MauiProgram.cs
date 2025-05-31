@@ -138,7 +138,7 @@ public static class MauiProgram
         services.AddTransient<TripDetailsPage>();
 
         services.AddTransient<CustomMapWebView>();
-        services.AddTransient<BookingRequestPopup>();
+        services.AddTransient<BookingDetailsPopup>();
 
         services.AddTransient<CommonFormPage>();
 
