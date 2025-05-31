@@ -252,7 +252,7 @@
                             Command="{Binding ShareCommand}"
                             ContentLayout="Top,5"
                             ImageSource="settings_menu.png"
-                            Text="Show Details"
+                            Text="Trip Details"
                             TextColor="Black" />
 
                         <Button

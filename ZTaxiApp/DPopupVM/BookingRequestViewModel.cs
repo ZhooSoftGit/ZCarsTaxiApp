@@ -28,7 +28,6 @@ namespace ZTaxiApp.DPopup
         public BookingDetailsViewModel()
         {
             AcceptCommand = new AsyncRelayCommand(OnAccept);
-            RejectCommand = new AsyncRelayCommand(OnReject);
             _taxiBookingService = ServiceHelper.GetService<ITaxiBookingService>();
         }
 

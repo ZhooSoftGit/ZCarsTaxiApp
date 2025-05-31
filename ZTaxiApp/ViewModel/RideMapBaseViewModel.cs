@@ -133,7 +133,7 @@ namespace ZTaxiApp.ViewModel
 
         public IRelayCommand OpenSideBarCmd { get; }
 
-        public IRelayCommand ConfirmBookingCmd { get; }
+        public IAsyncRelayCommand ConfirmBookingCmd { get; }
 
         public double? RouteDistance { get; private set; }
 

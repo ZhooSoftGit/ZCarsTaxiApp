@@ -100,6 +100,14 @@ namespace ZhooSoft.Controls
                         inputControl.SetBinding(DatePicker.DateProperty, nameof(FormField.DateValue), BindingMode.TwoWay);
                         break;
 
+                    case FieldType.Time:
+                        inputControl = new TimePicker
+                        {
+                            BindingContext = field
+                        };
+                        inputControl.SetBinding(TimePicker.TimeProperty, nameof(FormField.TimeValue), BindingMode.TwoWay);
+                        break;
+
                     case FieldType.Picker:
                         var picker = new Picker
                         {
@@ -109,6 +117,11 @@ namespace ZhooSoft.Controls
                         if (!string.IsNullOrEmpty(field.PickerDisplayProperty))
                         {
                             picker.ItemDisplayBinding = new Binding(field.PickerDisplayProperty);
+                        }
+
+                        if (!string.IsNullOrEmpty(field.PickerTitle))
+                        {
+                            picker.Title = field.PickerTitle;
                         }
 
                         picker.SetBinding(Picker.SelectedItemProperty, nameof(FormField.Value), BindingMode.TwoWay);
@@ -149,6 +162,7 @@ namespace ZhooSoft.Controls
         Telephone,
         Email,
         Date,
+        Time,
         Picker,
         Checkbox,
         RadioButton
@@ -185,6 +199,12 @@ namespace ZhooSoft.Controls
 
         [ObservableProperty]
         private DateTime? _dateValue;
+
+        [ObservableProperty]
+        private TimeSpan? _timeValue;
+
+        [ObservableProperty]
+        private string? _pickerTitle;
 
         public StackOrientation StackOrientation = StackOrientation.Horizontal;
     }

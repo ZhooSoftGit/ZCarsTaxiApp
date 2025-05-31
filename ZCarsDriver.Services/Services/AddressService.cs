@@ -49,14 +49,28 @@ namespace ZTaxi.Services
 
         public async Task<string> GetPlaceNameAsync(double latitude, double longitude)
         {
-            var apiKey = GoogleMapKey;
-            var url = $"https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={apiKey}";
+            //var apiKey = GoogleMapKey;
+            //var url = $"https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={apiKey}";
 
-            using var client = new HttpClient();
-            var response = await client.GetStringAsync(url);
-            var geocodeResponse = JsonSerializer.Deserialize<GeocodeResponse>(response);
+            //using var client = new HttpClient();
+            //var response = await client.GetStringAsync(url);
+            //var geocodeResponse = JsonSerializer.Deserialize<GeocodeResponse>(response);
 
-            return geocodeResponse?.Results?.FirstOrDefault()?.FormattedAddress ?? null;
+            //return geocodeResponse?.Results?.FirstOrDefault()?.FormattedAddress ?? null;
+
+            var url = $"https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat={latitude}&lon={longitude}";
+            var response = await _httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<NominatimResponse>(content);
+                return  result?.DisplayName;
+            }
+
+            return null;
+
+
         }
     }
 }
