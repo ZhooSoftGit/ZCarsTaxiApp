@@ -85,6 +85,7 @@ namespace ZhooSoft.Auth.ViewModel
                     {
                         Name = "Rajesh",
                         PhoneNumber = PhoneNumber,
+                        UserId = "2",
                         RefreshToken = result.Data.TokenResponse.RefreshToken,
                         Token = result.Data.TokenResponse.Token,
                         Roles = new List<ZTaxiApp.Common.UserRoles> { ZTaxiApp.Common.UserRoles.User }

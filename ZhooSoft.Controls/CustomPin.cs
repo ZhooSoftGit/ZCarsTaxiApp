@@ -17,5 +17,7 @@ namespace ZhooSoft.Controls
             get => (ImageSource?)GetValue(ImageSourceProperty);
             set => SetValue(ImageSourceProperty, value);
         }
+
+        public bool IsDriverPins { get; set; }
     }
 }

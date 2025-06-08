@@ -197,6 +197,7 @@ public static class MauiProgram
         services.AddSingleton<IOsrmService, OsrmService>();
         services.AddSingleton<ICallService, CallService>();
         services.AddSingleton<IAddressService, AddressService>();
+        services.AddSingleton<UserSignalRService>();
         #endregion
 
         return services;

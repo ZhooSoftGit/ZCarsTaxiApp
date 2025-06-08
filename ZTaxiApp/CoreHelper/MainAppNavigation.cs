@@ -9,6 +9,7 @@ using ZhooSoft.Auth.Views;
 using ZhooSoft.Core;
 using ZhooSoft.Core.Alerts;
 using ZhooSoft.Core.Session;
+using ZTaxiApp.Services;
 
 namespace ZTaxiApp.CoreHelper
 {
@@ -31,6 +32,13 @@ namespace ZTaxiApp.CoreHelper
         {
             if (IsInitialLoad)
             {
+                var session = await _userSession.GetUserSessionAsync();
+                if (session != null)
+                {
+                    UpdateUserDetails(session);
+                    InitializeRequiredService(session);
+                }
+
                 if (await CheckPermission())
                 {
                     Application.Current.Windows[0].Page = new NavigationPage(new HomeViewPage());
@@ -53,6 +61,7 @@ namespace ZTaxiApp.CoreHelper
             if (session != null)
             {
                 UpdateUserDetails(session);
+                InitializeRequiredService(session);
                 if (await CheckPermission())
                 {
                     Application.Current.Windows[0].Page = new NavigationPage(new HomeViewPage());
@@ -66,6 +75,12 @@ namespace ZTaxiApp.CoreHelper
             {
                 Application.Current.Windows[0].Page = new NavigationPage(new LoginPage());
             }
+        }
+
+        private async void InitializeRequiredService(UserSession session)
+        {
+            var signalRService = ServiceHelper.GetService<UserSignalRService>();
+            signalRService.Initialize("2");
         }
 
         private void UpdateUserDetails(UserSession session)
@@ -86,7 +101,7 @@ namespace ZTaxiApp.CoreHelper
             {
                 return false;
             }
-            else 
+            else
             {
                 try
                 {
@@ -108,7 +123,7 @@ namespace ZTaxiApp.CoreHelper
                     // Location services not supported, show popup to user, etc...
                     await ServiceHelper.GetService<IAlertService>().ShowAlert("Error", "Location service is not enabled. Please enable the location", "ok");
                     ServiceHelper.GetService<ILocationHelper>().OpenLocationSettings();
-                    
+
                 }
                 catch (Exception e)
                 {

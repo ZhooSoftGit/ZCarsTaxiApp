@@ -1,4 +1,5 @@
-﻿using ZTaxiApp.Common;
+﻿using System.Text.Json.Serialization;
+using ZTaxiApp.Common;
 
 namespace ZTaxi.Model.DTOs.UserApp
 {
@@ -17,7 +18,19 @@ namespace ZTaxi.Model.DTOs.UserApp
         public double DropLongitude { get; set; }
         public int RemainingBids { get; set; }
         public int BoookingRequestId { get; set; }
-
         public string? UserName { get; set; }
+
+        public string DriverId { get; set; }
+
+        public string UserId { get; set; } 
+    }
+
+    public class BookingResponseModel
+    {
+        [JsonPropertyName("driverId")]
+        public string DriverId { get; set; }
+
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
     }
 }

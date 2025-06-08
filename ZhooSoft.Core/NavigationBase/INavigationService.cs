@@ -10,7 +10,9 @@ namespace ZhooSoft.Core.NavigationBase
         Task PushModalAsync(Page page);
         Task PopAsync();
 
-        Task<object?> OpenPopup(Popup popup);
+        Task<object?> OpenPopupAsync(Popup popup);
+
+        void OpenPopup(Popup popup);
 
         Task<object> OpenPopup(Popup popup, Dictionary<string, object> navigationParams);
 

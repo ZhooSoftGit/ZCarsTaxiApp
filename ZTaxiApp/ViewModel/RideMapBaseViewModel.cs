@@ -3,8 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using ZhooSoft.Auth.Model;
 using ZhooSoft.Controls;
 using ZhooSoft.Core;
 using ZTaxi.Model.DTOs.UserApp;
@@ -12,7 +12,7 @@ using ZTaxi.Services.Contracts;
 using ZTaxiApp.Common;
 using ZTaxiApp.DPopup;
 using ZTaxiApp.Helpers;
-using ZTaxiApp.NavigationExtension;
+using ZTaxiApp.Services;
 using ZTaxiApp.Services.AppService;
 using ZTaxiApp.Services.Contracts;
 using ZTaxiApp.UIModel;
@@ -118,12 +118,43 @@ namespace ZTaxiApp.ViewModel
 
         private async Task OnConfirmBooking()
         {
-            var confirmPopup = new BookingPopup();
-            var result = await _navigationService.OpenPopup(confirmPopup);
-            if (result is bool res && res)
+            if (NearbyDrivers.Count > 0)
             {
-                ShowPickup = false;
-                ShowDriver = true;
+                var ids = NearbyDrivers.Select(x => x.DriverId);
+
+                var model = new BookingRequestModel
+                {
+                    BookingType = RideTypeEnum.Local,
+                    Fare = "₹ 194",
+                    DistanceAndPayment = "0.1 Km / Cash",
+                    PickupLocation = "Muthanampalayam, Tiruppur",
+                    PickupAddress = "3/21, Muthanampalayam, Tiruppur, Tamil Nadu 641606, India",
+                    PickupLatitude = 11.0176,
+                    PickupLongitude = 76.9674,
+                    PickupTime = "06 Feb 2024, 07:15 PM",
+                    DropoffLocation = "Tiruppur Old Bus Stand",
+                    DropLatitude = 10.9902,
+                    DropLongitude = 76.9629,
+                    RemainingBids = 3,
+                    UserId = UserDetails.getInstance().UserID
+                };
+                var popup = new BookingPopup();
+                _navigationService.OpenPopup(popup);
+                var result = await _signalR.SendSequentialRequests(ids.ToList(), model);
+                popup.Close();
+                if (!result)
+                {
+                    await _alertService.ShowAlert("OOPS", "Driver is not accepted", "ok");
+                }
+                else
+                {
+                    ShowPickup = false;
+                    OngoingTrip();
+                }
+            }
+            else
+            {
+                await _alertService.ShowAlert("OOPS", "No Drivers nearby your location.", "ok");
             }
         }
 
@@ -131,11 +162,19 @@ namespace ZTaxiApp.ViewModel
 
         #region Properties
 
+        private UserSignalRService _signalR;
+
+        public List<DriverLocation> NearbyDrivers { get; set; } = new();
+
         public IRelayCommand OpenSideBarCmd { get; }
 
         public IAsyncRelayCommand ConfirmBookingCmd { get; }
 
-        public double? RouteDistance { get; private set; }
+        [ObservableProperty]
+        private double? _routeDistance;
+
+        [ObservableProperty]
+        private double? _duration;
 
         public ICommand SelectDropLocationCommand { get; }
 
@@ -144,6 +183,24 @@ namespace ZTaxiApp.ViewModel
         #endregion
 
         #region Methods
+
+
+        public async void OngoingTrip()
+        {
+            MainThread.BeginInvokeOnMainThread(async () => { await UpdateOnTripStarted(); });
+            _signalR.OnDriverLocationUpdated -= _signalR_OnDriverLocationUpdated;
+            _signalR.OnDriverLocationUpdated += _signalR_OnDriverLocationUpdated;
+        }
+
+        private void _signalR_OnDriverLocationUpdated(DriverLocation obj)
+        {
+            
+        }
+
+        private async Task UpdateOnTripStarted()
+        {
+            ShowDriver = true;
+        }
 
         public async void InitializeMap()
         {
@@ -197,6 +254,11 @@ namespace ZTaxiApp.ViewModel
                 await RefreshPage();
             }
 
+            if (!IsLoaded)
+            {
+                _ = Task.Run(InitializeSignalR);
+            }
+
             IsLoaded = true;
 
             if (NavigationParams != null && NavigationParams.ContainsKey("selectedlocation"))
@@ -208,9 +270,49 @@ namespace ZTaxiApp.ViewModel
                     else
                         DropLocation = locinfo;
                 }
+                EvaluateRideOptionsVisibility();
             }
 
-            EvaluateRideOptionsVisibility();
+            NavigationParams?.Clear();
+        }
+
+        private async Task InitializeSignalR()
+        {
+            _signalR = ServiceHelper.GetService<UserSignalRService>();
+            await _signalR.ConnectAsync();
+            await RefreshNearbyDrivers();
+            _signalR.OnNearbyDriversUpdated += _signalR_OnNearbyDriversUpdated;
+        }
+
+        private void _signalR_OnNearbyDriversUpdated(List<DriverLocation> nearbyDrivers)
+        {
+            NearbyDrivers = nearbyDrivers;
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                CurrentMap.Pins.Clear();
+                var driverpins = new List<Pin>();
+
+
+                foreach (var driver in nearbyDrivers)
+                {
+                    var customPin = new CustomPin
+                    {
+                        Label = "Driver",
+                        Type = PinType.Generic,
+                        Location = new Location(driver.Latitude, driver.Longitude),
+                        Address = "Driver",
+                        ImageSource = "pin.png",
+                        IsDriverPins = true
+                    };
+                    CurrentMap.Pins.Add(customPin);
+                }
+            });
+        }
+
+        private async Task RefreshNearbyDrivers()
+        {
+            var userLocation = await AppHelper.GetUserLocation();
+            await _signalR.GetNearbyDriversAsync(userLocation);
         }
 
         public override void OnDisappearing()
@@ -220,6 +322,7 @@ namespace ZTaxiApp.ViewModel
 
         internal async Task RefreshPage()
         {
+
         }
 
         private async void EvaluateRideOptionsVisibility()
@@ -232,6 +335,7 @@ namespace ZTaxiApp.ViewModel
                 IsBusy = true;
                 await Task.Delay(100);
                 await PlotRouteOnMap(PickupLocation, DropLocation);
+                LoadRideOptions();
                 ShowCabOptions = true;
                 IsBusy = false;
             }
@@ -278,18 +382,18 @@ namespace ZTaxiApp.ViewModel
         private async Task OpenSideBar()
         {
             IsBusy = true;
-            var result = await _navigationService.OpenPopup(new CommonMenu());
+            var result = await _navigationService.OpenPopupAsync(new CommonMenu());
 
             await Task.Delay(100);
             IsBusy = false;
         }
 
-        private async Task PlotRouteOnMap(LocationInfo? pickupLocation, LocationInfo? dropLocation)
+        private async Task PlotRouteOnMap(LocationInfo? fromLocation, LocationInfo? toLocation)
         {
             try
             {
                 // Get encoded polyline from OSRM
-                var result = await _osrmService.GetRoutePoints(pickupLocation.Latitude, pickupLocation.Longitude, DropLocation.Latitude, DropLocation.Longitude);
+                var result = await _osrmService.GetRoutePoints(fromLocation.Latitude, fromLocation.Longitude, DropLocation.Latitude, DropLocation.Longitude);
 
                 if (result.Locations == null || result.Locations.Count() == 0)
                 {
@@ -356,7 +460,7 @@ namespace ZTaxiApp.ViewModel
 
                 RouteDistance = result.Distance;
 
-                LoadRideOptions();
+                Duration = result.duration;
             }
             catch (Exception ex)
             {

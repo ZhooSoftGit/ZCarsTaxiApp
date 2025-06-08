@@ -55,7 +55,7 @@ namespace ZTaxiApp.ViewModel
         private async Task OpenSideBar()
         {
             IsBusy = true;
-            var result = await _navigationService.OpenPopup(new CommonMenu());
+            var result = await _navigationService.OpenPopupAsync(new CommonMenu());
             await Task.Delay(100);
             IsBusy = false;
         }

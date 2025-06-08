@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using ZhooSoft.Core;
+using ZTaxiApp.Services;
 
 namespace ZTaxiApp.DPopupVM
 {
@@ -16,18 +17,17 @@ namespace ZTaxiApp.DPopupVM
         private bool _showLoader = true;
 
         public Popup CurrentPopup;
+        private UserSignalRService? _userSignalRService;
 
         public BookingPopupViewModel()
         {
             InitiateTimer();
+            _userSignalRService = ServiceHelper.GetService<UserSignalRService>();
         }
 
         private async void InitiateTimer()
         {
-            await Task.Delay(8000); // 10 seconds delay
-            ShowLoader = false;
-            await Task.Delay(2000); // 10 seconds delay
-            await CurrentPopup.CloseAsync(true);
+            
         }
     }
 }

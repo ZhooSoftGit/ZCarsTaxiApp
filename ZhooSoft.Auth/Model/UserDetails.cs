@@ -48,7 +48,7 @@ namespace ZhooSoft.Auth.Model
 
         public string Title { get; set; }
 
-        public string UserNTID { get; set; }
+        public string UserID { get; set; } = "2";
 
         public List<UserRoles> UserRoles { get; set; }
 
@@ -64,7 +64,7 @@ namespace ZhooSoft.Auth.Model
         public void reset()
         {
             Name = "";
-            UserNTID = "";
+            UserID = "";
             Badge = "";
             Title = "";
             Department = "";

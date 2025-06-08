@@ -13,7 +13,7 @@ namespace ZhooSoft.Core.NavigationBase
             
         }
 
-        public async Task<object?> OpenPopup(Popup popup)
+        public async Task<object?> OpenPopupAsync(Popup popup)
         {
             if (Application.Current != null && Application.Current.Windows != null && Application.Current.Windows.Count > 0)
             {
@@ -128,6 +128,18 @@ namespace ZhooSoft.Core.NavigationBase
             }
 
             return null;
+        }
+
+        public void OpenPopup(Popup popup)
+        {
+            if (Application.Current != null && Application.Current.Windows != null && Application.Current.Windows.Count > 0)
+            {
+                if (Application.Current.Windows[0].Page is NavigationPage nvpage && nvpage.Navigation.NavigationStack.Count > 0)
+                {
+                    var page = nvpage.Navigation.NavigationStack.Last();
+                    page.ShowPopup(popup);
+                }
+            }
         }
     }
 }
