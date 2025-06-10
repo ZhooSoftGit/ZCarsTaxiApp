@@ -1,6 +1,7 @@
 ﻿using ZTaxiApp.Common;
 using ZTaxiApp.Model.DTOs;
 using ZTaxi.Model.DTOs.UserApp;
+using ZTaxi.Model.Common;
 
 namespace ZTaxiApp.Model
 {
@@ -24,6 +25,8 @@ namespace ZTaxiApp.Model
                 UpdateNextStatus();
             }
         }
+
+        public TripOtpInfo TripOtpInfo { get; set; }
 
         private void UpdateNextStatus()
         {

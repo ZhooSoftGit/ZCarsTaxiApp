@@ -8,9 +8,29 @@ namespace ZTaxiApp.Helpers
 {
     public static class AppHelper
     {
-        public static CurrentRide? CurrentRide => RideStorageService.Load();
+        public static CurrentRide? CurrentRide
+        {
+            get
+            {
+                if (_currentRide == null)
+                {
+                    _currentRide = RideStorageService.Load();
+                }
+
+                return _currentRide;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    RideStorageService.Clear();
+                }
+                _currentRide = value;
+            }
+        }
 
         public static MobileModule CurrentModule;
+        private static CurrentRide? _currentRide;
 
         public static LocationInfo? SelectedLocation { get; set; }
         public static List<DriverLocation> AvailableDrivers { get; internal set; }
@@ -27,6 +47,12 @@ namespace ZTaxiApp.Helpers
                 return null;
             }
             return null;
+        }
+
+        internal static void SaveRideInfo(CurrentRide ride)
+        {
+            CurrentRide = null;
+            RideStorageService.Save(ride);
         }
     }
 }

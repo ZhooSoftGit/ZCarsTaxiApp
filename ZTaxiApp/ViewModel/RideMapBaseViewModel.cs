@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using ZhooSoft.Auth.Model;
 using ZhooSoft.Controls;
@@ -16,7 +17,6 @@ using ZTaxiApp.Helpers;
 using ZTaxiApp.Services;
 using ZTaxiApp.Services.AppService;
 using ZTaxiApp.Services.Contracts;
-using ZTaxiApp.Services.Services;
 using ZTaxiApp.UIModel;
 using ZTaxiApp.Views.Common;
 using ZTaxiApp.Views.Driver;
@@ -46,6 +46,9 @@ namespace ZTaxiApp.ViewModel
 
         [ObservableProperty]
         private bool _showCabOptions;
+
+        [ObservableProperty]
+        private string _oTPText;
 
         [ObservableProperty]
         private bool _showPickup = true;
@@ -81,18 +84,19 @@ namespace ZTaxiApp.ViewModel
 
         private async Task OnCancel()
         {
-            var rideservice = ServiceHelper.GetService<IRideTripService>();
-            var result = await rideservice.CancelTripAsync(new Model.DTOs.CancelTripDto
-            {
-                RideTripId = 1
-            });
-            if (result.IsSuccess)
-            {
-                await _signalR.NotifyCancelTrip();
-            }
-            var rs = await _alertService.ShowConfirmation("Info", "Do you want to cancel", "Yes", "No");
+            var rs = await _alertService.ShowConfirmation("Info", "Do you want to cancel trip", "Yes", "No");
             if (rs)
             {
+                var rideservice = ServiceHelper.GetService<IRideTripService>();
+                var result = await rideservice.CancelTripAsync(new Model.DTOs.CancelTripDto
+                {
+                    RideTripId = 1
+                });
+                if (result.IsSuccess)
+                {
+                    await _signalR.NotifyCancelTrip();
+                }
+                AppHelper.CurrentRide = null;
                 ShowDriver = false;
                 ShowPickup = true;
             }
@@ -168,33 +172,17 @@ namespace ZTaxiApp.ViewModel
                     UserId = UserDetails.Instance.CurrentUser.UserId,
                     BoookingRequestId = bookingResult.Data.RideRequestId
                 };
-                var popup = new BookingPopup();
-                _navigationService.OpenPopup(popup);
-                var result = await _signalR.SendSequentialRequests(ids.ToList(), model);
-                popup.Close();
-                if (!result)
-                {
-                    await _alertService.ShowAlert("OOPS", "Driver is not accepted", "ok");
-                }
-                else
-                {
-                    // get Trip details using the booking request
-                    RideStorageService.Save(new Model.CurrentRide
-                    {
-                        BookingRequest = model,
-                        CurrentStatus = RideStatus.Assigned,
-                        NextStatus = RideStatus.Started,
-                        RideDetails = new Model.DTOs.RideTripDto { RideRequestId = bookingResult.Data.RideRequestId }
-                    });
-                    ShowPickup = false;
-                    OngoingTrip();
-                }
+                _bookingPopup = new BookingPopup();
+                _navigationService.OpenPopup(_bookingPopup);
+                Task.Run(async () => await _signalR.SendBookingRequest(ids.ToList(), model));
             }
             else
             {
                 await _alertService.ShowAlert("OOPS", "No Drivers nearby your location.", "ok");
             }
         }
+
+
 
         #endregion
 
@@ -213,6 +201,7 @@ namespace ZTaxiApp.ViewModel
 
         [ObservableProperty]
         private double? _duration;
+        private BookingPopup _bookingPopup;
 
         public ICommand SelectDropLocationCommand { get; }
 
@@ -232,7 +221,23 @@ namespace ZTaxiApp.ViewModel
 
         private void _signalR_OnDriverLocationUpdated(DriverLocation obj)
         {
+            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Assigned)
+            {
+                MainThread.BeginInvokeOnMainThread(async
+                    () =>
+                {
+                    await PlotRouteOnMap(new Location(obj.Latitude, obj.Longitude), new Location(PickupLocation.Latitude, PickupLocation.Longitude));
+                });
+            }
 
+            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Started)
+            {
+                MainThread.BeginInvokeOnMainThread(async
+                    () =>
+                {
+                    await PlotRouteOnMap(new Location(obj.Latitude, obj.Longitude), new Location(DropLocation.Latitude, DropLocation.Longitude));
+                });
+            }
         }
 
         private async Task UpdateOnTripStarted()
@@ -283,19 +288,22 @@ namespace ZTaxiApp.ViewModel
         {
             base.OnAppearing();
             await GetCurrentRide();
+
+            if (!IsLoaded)
+            {
+                _ = Task.Run(InitializeSignalR);
+            }
+
             if (!IsLoaded && AppHelper.CurrentRide == null)
             {
                 InitializeMap();
             }
             else if (!IsLoaded && AppHelper.CurrentRide != null)
             {
-                await RefreshPage();
+                RefreshPage();
             }
 
-            if (!IsLoaded)
-            {
-                _ = Task.Run(InitializeSignalR);
-            }
+            
 
             IsLoaded = true;
 
@@ -360,9 +368,48 @@ namespace ZTaxiApp.ViewModel
             base.OnDisappearing();
         }
 
-        internal async Task RefreshPage()
+        internal async void RefreshPage(bool isFromHandler = false)
         {
+            if (isFromHandler && _bookingPopup != null)
+            {
+                await _bookingPopup.CloseAsync();
+                _bookingPopup = null;
+            }
 
+            if (AppHelper.CurrentRide != null)
+            {
+                ShowPickup = false;
+                ShowDriver = true;
+                OngoingTrip();
+                await UpdateUIView();
+            }
+        }
+
+        private async Task UpdateUIView()
+        {
+            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Assigned)
+            {
+                OTPText = $"Starts OTP is {AppHelper.CurrentRide.TripOtpInfo.StartOtp}";
+            }
+            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Started)
+            {
+                OTPText = $"End OTP is {AppHelper.CurrentRide.TripOtpInfo.EndOtp}";
+            }
+            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Completed)
+            {
+                _signalR.OnDriverLocationUpdated -= _signalR_OnDriverLocationUpdated;
+                AppHelper.CurrentRide = null;
+                ShowPickup = true;
+                ShowDriver = false;
+            }
+            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Cancelled)
+            {
+                _signalR.OnDriverLocationUpdated -= _signalR_OnDriverLocationUpdated;
+                await _alertService.ShowAlert("Info", "Your request is cancelled", "ok");
+                AppHelper.CurrentRide = null;
+                ShowPickup = true;
+                ShowDriver = false;
+            }
         }
 
         private async Task EvaluateRideOptionsVisibility()
@@ -374,7 +421,7 @@ namespace ZTaxiApp.ViewModel
             {
                 IsBusy = true;
                 await Task.Delay(100);
-                await PlotRouteOnMap(PickupLocation, DropLocation);
+                await PlotRouteOnMap(new Location(PickupLocation.Latitude, PickupLocation.Longitude), new Location(DropLocation.Latitude, DropLocation.Longitude));
                 LoadRideOptions();
                 ShowCabOptions = true;
                 IsBusy = false;
@@ -383,6 +430,7 @@ namespace ZTaxiApp.ViewModel
 
         private async Task GetCurrentRide()
         {
+            //API call is any ride available
         }
 
         private void InitializeService()
@@ -428,7 +476,7 @@ namespace ZTaxiApp.ViewModel
             IsBusy = false;
         }
 
-        private async Task PlotRouteOnMap(LocationInfo fromLocation, LocationInfo toLocation)
+        private async Task PlotRouteOnMap(Location fromLocation, Location toLocation)
         {
             try
             {

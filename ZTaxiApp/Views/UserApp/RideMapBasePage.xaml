@@ -192,7 +192,7 @@
                             FontAttributes="Bold"
                             FontSize="16"
                             HorizontalOptions="Center"
-                            Text="Trip Start OTP - 5306"
+                            Text="{Binding OTPText}"
                             TextColor="White"
                             VerticalOptions="Center" />
                     </ctrl:CustomBorder>

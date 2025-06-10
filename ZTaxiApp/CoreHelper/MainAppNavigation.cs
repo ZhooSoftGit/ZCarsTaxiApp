@@ -5,6 +5,7 @@ using ZhooSoft.Core;
 using ZhooSoft.Core.Alerts;
 using ZhooSoft.Core.Session;
 using ZTaxi.Core.Storage;
+using ZTaxiApp.Helpers;
 using ZTaxiApp.PlatformHelper;
 using ZTaxiApp.Services;
 using ZTaxiApp.Services.Session;
@@ -65,6 +66,9 @@ namespace ZTaxiApp.CoreHelper
 
         private async Task<bool> CheckOpenRide()
         {
+            AppHelper.CurrentRide = null;
+            return false;
+
             var rideInfo = RideStorageService.Load();
             if (rideInfo != null)
             {

@@ -10,7 +10,7 @@ namespace ZTaxiApp.NavigationExtension
 {
     public interface IAppNavigation
     {
-        Task LaunchUserDashBoard();
+        Task LaunchUserDashBoard(bool isFromHandler = false);
 
     }
 }

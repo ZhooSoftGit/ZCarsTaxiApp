@@ -9,7 +9,7 @@ namespace ZTaxiApp.NavigationExtension
 {
     public class AppNavigation : IAppNavigation
     {
-        public async Task LaunchUserDashBoard()
+        public async Task LaunchUserDashBoard(bool isFromHandler)
         {
             if (Application.Current != null && Application.Current.Windows != null && Application.Current.Windows.Count > 0)
             {
@@ -19,7 +19,7 @@ namespace ZTaxiApp.NavigationExtension
                     {
                         if (dvPage.BindingContext is RideMapBaseViewModel vm)
                         {
-                            await vm.RefreshPage();
+                            vm.RefreshPage(isFromHandler);
                         }
                     }
                 }
