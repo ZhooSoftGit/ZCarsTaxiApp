@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using ZTaxiApp.Helpers;
 using ZhooSoft.Core;
+using ZTaxi.Core.Storage;
 
 namespace ZTaxiApp.ViewModel
 {
@@ -80,7 +81,7 @@ namespace ZTaxiApp.ViewModel
             }
             Console.WriteLine($"Selected reason: {SelectedReason}");
             //call the API
-            AppHelper.CurrentRide = null;
+            RideStorageService.Clear();
             await _navigationService.PopAsync();
         }
 

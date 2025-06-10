@@ -1,15 +1,16 @@
-﻿using System.Net.Http.Headers;
-using ZTaxiApp.PlatformHelper;
-using ZTaxiApp.Services.Session;
-using ZTaxiApp.Views;
-using ZTaxiApp.Views.Common;
-using ZhooSoft.Auth;
+﻿using ZhooSoft.Auth;
 using ZhooSoft.Auth.Model;
 using ZhooSoft.Auth.Views;
 using ZhooSoft.Core;
 using ZhooSoft.Core.Alerts;
 using ZhooSoft.Core.Session;
+using ZTaxi.Core.Storage;
+using ZTaxiApp.PlatformHelper;
 using ZTaxiApp.Services;
+using ZTaxiApp.Services.Session;
+using ZTaxiApp.Views;
+using ZTaxiApp.Views.Common;
+using ZTaxiApp.Views.Driver;
 
 namespace ZTaxiApp.CoreHelper
 {
@@ -32,16 +33,24 @@ namespace ZTaxiApp.CoreHelper
         {
             if (IsInitialLoad)
             {
-                var session = await _userSession.GetUserSessionAsync();
-                if (session != null)
+                var session = await GetSessionDetails();
+
+                if (!session)
                 {
-                    UpdateUserDetails(session);
-                    InitializeRequiredService(session);
+                    Application.Current.Windows[0].Page = new NavigationPage(new LoginPage());
+                    return;
                 }
 
                 if (await CheckPermission())
                 {
-                    Application.Current.Windows[0].Page = new NavigationPage(new HomeViewPage());
+                    if (await CheckOpenRide())
+                    {
+                        Application.Current.MainPage = new NavigationPage(new RideMapBasePage());
+                    }
+                    else
+                    {
+                        Application.Current.Windows[0].Page = new NavigationPage(new HomeViewPage());
+                    }
                 }
                 else
                 {
@@ -54,39 +63,26 @@ namespace ZTaxiApp.CoreHelper
             }
         }
 
-        public async Task Initialize()
+        private async Task<bool> CheckOpenRide()
+        {
+            var rideInfo = RideStorageService.Load();
+            if (rideInfo != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task<bool> GetSessionDetails()
         {
             var session = await _userSession.GetUserSessionAsync();
-
             if (session != null)
             {
-                UpdateUserDetails(session);
-                InitializeRequiredService(session);
-                if (await CheckPermission())
-                {
-                    Application.Current.Windows[0].Page = new NavigationPage(new HomeViewPage());
-                }
-                else
-                {
-                    Application.Current.Windows[0].Page = new EnableLocationPage();
-                }
+                UserDetails.Instance.SetUser(session);
+                return true;
             }
-            else
-            {
-                Application.Current.Windows[0].Page = new NavigationPage(new LoginPage());
-            }
-        }
-
-        private async void InitializeRequiredService(UserSession session)
-        {
-            var signalRService = ServiceHelper.GetService<UserSignalRService>();
-            signalRService.Initialize("2");
-        }
-
-        private void UpdateUserDetails(UserSession session)
-        {
-            UserDetails.getInstance().Phone1 = session.PhoneNumber;
-            UserDetails.getInstance().UserRoles = new List<ZTaxiApp.Common.UserRoles> { ZTaxiApp.Common.UserRoles.User };
+            return false;
         }
 
         public void NavigateToNotification()

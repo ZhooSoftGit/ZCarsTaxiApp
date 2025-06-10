@@ -1,4 +1,5 @@
-﻿using ZTaxiApp.Common;
+﻿using ZhooSoft.Core.Session;
+using ZTaxiApp.Common;
 
 namespace ZhooSoft.Auth.Model
 {
@@ -28,53 +29,18 @@ namespace ZhooSoft.Auth.Model
             }
         }
 
-        public string Badge { get; set; }
+        public UserSession CurrentUser { get; private set; }
 
-        public string Country { get; set; }
-
-        public string Department { get; set; }
-
-        public string Email { get; set; }
-
-        public string Location { get; set; }
-
-        public string Name { get; set; }
-
-        public string Phone1 { get; set; }
-
-        public string Phone2 { get; set; }
-
-        public string Photo { get; set; }
-
-        public string Title { get; set; }
-
-        public string UserID { get; set; } = "2";
-
-        public List<UserRoles> UserRoles { get; set; }
-
-        #endregion
-
-        #region Methods
-
-        public static UserDetails getInstance()
+        public void SetUser(UserSession user)
         {
-            return Instance;
+            CurrentUser = user;
         }
 
-        public void reset()
+        public void ClearUser()
         {
-            Name = "";
-            UserID = "";
-            Badge = "";
-            Title = "";
-            Department = "";
-            Phone1 = "";
-            Phone2 = "";
-            Email = "";
-            Location = "";
-            Country = "";
-            Photo = "";
+            CurrentUser = null;
         }
+
 
         #endregion
     }

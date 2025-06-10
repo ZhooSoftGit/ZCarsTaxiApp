@@ -28,7 +28,7 @@ namespace ZhooSoft.Core
             return new AuthInfo
             {
                 RefreshToken = session.RefreshToken,
-                Token = session.Token,
+                Token = session.AccessToken,
                 UserId = session.PhoneNumber
             };
         }

@@ -10,8 +10,7 @@ namespace ZTaxiApp.NavigationExtension
 {
     public interface IAppNavigation
     {
-        Task LaunchDriverDashBoard();
+        Task LaunchUserDashBoard();
 
-        Task OpenRidePopup(BookingRequestModel requestModel, Popup popup);
     }
 }

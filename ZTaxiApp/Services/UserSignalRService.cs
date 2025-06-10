@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using Microsoft.AspNetCore.SignalR.Client;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Timers;
+using ZhooSoft.Core;
+using ZhooSoft.Core.Alerts;
+using ZTaxi.Core.Storage;
 using ZTaxi.Model.DTOs.UserApp;
 using ZTaxiApp.Common;
 using ZTaxiApp.Helpers;
+using ZTaxiApp.NavigationExtension;
 using ZTaxiApp.UIModel;
 
 
@@ -15,7 +19,7 @@ namespace ZTaxiApp.Services
         private HubConnection _connection;
         private string _userId;
         private System.Timers.Timer? _nearbyDriversTimer;
-        private string _hubUrl = $"http://192.168.1.4:7091/hubs/location";  // 🔁 Change to your actual URL
+        private string _hubUrl = $"http://192.168.1.5:7091/hubs/location";  // 🔁 Change to your actual URL
         private string? _trackedDriverId;
 
         public event Action<List<DriverLocation>>? OnNearbyDriversUpdated;
@@ -36,6 +40,7 @@ namespace ZTaxiApp.Services
             .WithAutomaticReconnect()
             .Build();
 
+            RegisterHandler();
 
             // Subscribed actions from SignalR
             _connection.On<List<DriverLocation>>("ReceiveNearbyDrivers", drivers =>
@@ -195,6 +200,70 @@ namespace ZTaxiApp.Services
         {
             _locationTimer?.Dispose();
         }
-    }
 
+        public async Task NotifyCancelTrip()
+        {
+            var rideId = AppHelper.CurrentRide?.RideDetails?.RideTripId ?? 1;
+            try
+            {
+                await _connection.InvokeAsync("CancelTripNotification", rideId);
+                StopTrackingConfirmedDriver();
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
+        public void RegisterHandler()
+        {
+            _connection.On<string>("OnStartPickup", rideId => {
+                UpdateRideStatus("Driver On the Way");
+            });
+            _connection.On<string>("OnPickupReached", rideId => { 
+                UpdateRideStatus("Driver Reached your location"); 
+            });
+            _connection.On<string>("OnStartTrip", rideId => {
+                
+            });
+            _connection.On<string>("OnCompleteTrip", rideId => {
+                StopTrackingConfirmedDriver();
+                UpdateRideStatus("Trip completed");
+            });
+            _connection.On<string>("OnTripCancelled", rideId =>
+            {
+                //call the API
+                RideStorageService.Clear();
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await ServiceHelper.GetService<IAlertService>().ShowAlert("OOPS", "Your trip has been cancelled", "ok");
+                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+                });
+                StopTrackingConfirmedDriver();
+            });
+
+            _connection.On<string>("TripStarted", bookingRequestId =>
+            {
+                // Update UI for trip started
+            });
+
+            _connection.On<string>("TripCompleted", bookingRequestId =>
+            {
+                // Update UI for trip completed
+            });
+
+            _connection.On<string>("TripCancelled", bookingRequestId =>
+            {
+                // Update UI for trip completed
+            });
+        }
+
+        private void UpdateRideStatus(string message)
+        {
+            MainThread.BeginInvokeOnMainThread(async() =>
+            {
+                await Toast.Make(message, ToastDuration.Short).Show();
+            });
+        }
+    }
 }

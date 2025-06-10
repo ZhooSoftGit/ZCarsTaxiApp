@@ -87,13 +87,10 @@ namespace ZhooSoft.Auth.ViewModel
                         PhoneNumber = PhoneNumber,
                         UserId = "2",
                         RefreshToken = result.Data.TokenResponse.RefreshToken,
-                        Token = result.Data.TokenResponse.Token,
+                        AccessToken = result.Data.TokenResponse.Token,
                         Roles = new List<ZTaxiApp.Common.UserRoles> { ZTaxiApp.Common.UserRoles.User }
                     });
-
-
-                    UserDetails.getInstance().Phone1 = PhoneNumber;
-                    UserDetails.getInstance().UserRoles = new List<ZTaxiApp.Common.UserRoles> { ZTaxiApp.Common.UserRoles.User };
+                    
                     ServiceHelper.GetService<IMainAppNavigation>().NavigateToMain(true);
                 }
                 else

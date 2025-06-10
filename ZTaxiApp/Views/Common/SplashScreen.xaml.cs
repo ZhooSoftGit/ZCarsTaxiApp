@@ -17,6 +17,6 @@ public partial class SplashScreen : ContentPage
     protected async override void OnAppearing()
     {
         base.OnAppearing();
-        await _mainService.Initialize();
+        ServiceHelper.GetService<IMainAppNavigation>().NavigateToMain(true);
     }
 }

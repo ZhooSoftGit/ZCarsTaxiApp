@@ -2,7 +2,7 @@
 using ZTaxiApp.Model.DTOs;
 using ZTaxi.Model.DTOs.UserApp;
 
-namespace ZTaxiApp.UIModel
+namespace ZTaxiApp.Model
 {
     public class CurrentRide
     {

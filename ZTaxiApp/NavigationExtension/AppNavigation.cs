@@ -9,7 +9,7 @@ namespace ZTaxiApp.NavigationExtension
 {
     public class AppNavigation : IAppNavigation
     {
-        public async Task LaunchDriverDashBoard()
+        public async Task LaunchUserDashBoard()
         {
             if (Application.Current != null && Application.Current.Windows != null && Application.Current.Windows.Count > 0)
             {
@@ -21,32 +21,6 @@ namespace ZTaxiApp.NavigationExtension
                         {
                             await vm.RefreshPage();
                         }
-                    }
-                    else
-                    {
-                        Application.Current.MainPage = new NavigationPage(new RideMapBasePage());
-                    }
-                }
-            }
-        }
-
-        public async Task OpenRidePopup(BookingRequestModel requestModel, Popup popup)
-        {
-            if (Application.Current != null && Application.Current.Windows != null && Application.Current.Windows.Count > 0)
-            {
-                if (Application.Current.Windows[0].Page is NavigationPage nvpage && nvpage.Navigation.NavigationStack.Count > 0)
-                {
-                    if (popup.BindingContext is ViewModelBase vm)
-                    {
-                        vm.NavigationParams = new Dictionary<string, object> { { "RequestModel", requestModel } };
-                        vm.OnNavigatedTo();
-                    }
-
-                    var page = nvpage.Navigation.NavigationStack[0] as Page;
-                    var result = await page.ShowPopupAsync(popup);
-                    if (result is RideStatus status && status == RideStatus.Assigned)
-                    {
-                        await LaunchDriverDashBoard();
                     }
                 }
             }
