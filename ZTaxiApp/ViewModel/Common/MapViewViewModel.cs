@@ -120,28 +120,10 @@ namespace ZTaxiApp.ViewModel
 
                 if (mapPosition != null)
                 {
-                    //CurrentMap.MapElements.Clear();
-                    //CurrentMap.Pins.Clear();
                     var position = new Location(mapPosition.Latitude, mapPosition.Longitude);
-                    //var pin = new CustomPin
-                    //{
-                    //    Label = "Your Location",
-                    //    Type = PinType.Place,
-                    //    Location = position,
-                    //    Address = "Location",
-                    //    ImageSource = "car_icon.png"
-                    //};
-
-                    //CurrentMap.Pins.Add(pin);
 
                     CurrentMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(0.5)));
 
-                    //var placedetails = await ServiceHelper.GetService<IAddressService>().GetPlaceNameAsync(mapPosition.Latitude, mapPosition.Longitude);
-
-                    //if (placedetails != null)
-                    //{
-                    //    PinLocationDetails = placedetails;
-                    //}
                 }
             }
             catch (Exception ex)
@@ -152,19 +134,26 @@ namespace ZTaxiApp.ViewModel
 
         private async void SelectAddress(object obj)
         {
-            if (_selectedLocation != null)
+            try
             {
-                var selectedAddress = new LocationInfo
+                if (_selectedLocation != null)
                 {
-                    Address = PinLocationDetails,
-                    Latitude = _selectedLocation.Latitude,
-                    Longitude = _selectedLocation.Longitude,
-                    LocationType = _locationInfo.LocationType
-                };
-                await _navigationService.PopAsync();
-                await Task.Delay(100);
-                var nvparam = new Dictionary<string, object> { { "selectedlocation", selectedAddress } };
-                await _navigationService.PopAsync(nvparam);
+                    var selectedAddress = new LocationInfo
+                    {
+                        Address = PinLocationDetails,
+                        Latitude = _selectedLocation.Latitude,
+                        Longitude = _selectedLocation.Longitude,
+                        LocationType = _locationInfo.LocationType
+                    };
+                    await _navigationService.PopAsync();
+                    await Task.Delay(100);
+                    var nvparam = new Dictionary<string, object> { { "selectedlocation", selectedAddress } };
+                    await _navigationService.PopAsync(nvparam);
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 

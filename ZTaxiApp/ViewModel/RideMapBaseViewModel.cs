@@ -13,6 +13,7 @@ using ZTaxi.Model.DTOs.UserApp;
 using ZTaxi.Services.Contracts;
 using ZTaxiApp.Common;
 using ZTaxiApp.DPopup;
+using ZTaxiApp.DPopupVM;
 using ZTaxiApp.Helpers;
 using ZTaxiApp.Services;
 using ZTaxiApp.Services.AppService;
@@ -55,6 +56,12 @@ namespace ZTaxiApp.ViewModel
 
         [ObservableProperty]
         private bool _showDriver;
+
+        [ObservableProperty]
+        private bool _enableConfirm;
+
+        [ObservableProperty]
+        private string _driverInfo;
 
         private ITaxiBookingService? _taxiService;
 
@@ -109,14 +116,14 @@ namespace ZTaxiApp.ViewModel
                 BookingType = RideTypeEnum.Local,
                 Fare = "₹ 194",
                 DistanceAndPayment = "0.1 Km / Cash",
-                PickupLocation = "Muthanampalayam, Tiruppur",
-                PickupAddress = "3/21, Muthanampalayam, Tiruppur, Tamil Nadu 641606, India",
-                PickupLatitude = 11.0176,
-                PickupLongitude = 76.9674,
+                PickupLocation = PickupLocation.Address,
+                PickupAddress = PickupLocation.Address,
+                PickupLatitude = PickupLocation.Latitude,
+                PickupLongitude = PickupLocation.Longitude,
                 PickupTime = "06 Feb 2024, 07:15 PM",
-                DropoffLocation = "Tiruppur Old Bus Stand",
-                DropLatitude = 10.9902,
-                DropLongitude = 76.9629,
+                DropoffLocation = DropLocation.Address,
+                DropLatitude = DropLocation.Latitude,
+                DropLongitude = DropLocation.Longitude,
                 RemainingBids = 3
             };
 
@@ -136,12 +143,12 @@ namespace ZTaxiApp.ViewModel
             var bookingService = ServiceHelper.GetService<ITaxiBookingService>();
             var bookingResult = await bookingService.BookRideAsync(new Model.DTOs.RideRequestModel
             {
-                DropOffLatitude = 10.9902,
-                DropOffLongitude = 76.9629,
-                PickUpLatitude = 11.0176,
-                PickUpLongitude = 76.9674,
-                DropOffLocation = "Tiruppur Old Bus Stand",
-                PickUpLocation = "Muthanampalayam, Tiruppur",
+                DropOffLatitude = DropLocation.Latitude,
+                DropOffLongitude = DropLocation.Longitude,
+                PickUpLatitude = PickupLocation.Latitude,
+                PickUpLongitude = PickupLocation.Longitude,
+                DropOffLocation = DropLocation.Address,
+                PickUpLocation = PickupLocation.Address,
                 RideType = RideTypeEnum.Local,
                 VehicleType = VehicleTypeEnum.Sedan
             });
@@ -160,14 +167,14 @@ namespace ZTaxiApp.ViewModel
                     BookingType = RideTypeEnum.Local,
                     Fare = "₹ 194",
                     DistanceAndPayment = "0.1 Km / Cash",
-                    PickupLocation = "Muthanampalayam, Tiruppur",
-                    PickupAddress = "3/21, Muthanampalayam, Tiruppur, Tamil Nadu 641606, India",
-                    PickupLatitude = 11.0176,
-                    PickupLongitude = 76.9674,
-                    PickupTime = "06 Feb 2024, 07:15 PM",
-                    DropoffLocation = "Tiruppur Old Bus Stand",
-                    DropLatitude = 10.9902,
-                    DropLongitude = 76.9629,
+                    PickupLocation = PickupLocation.Address,
+                    PickupAddress = PickupLocation.Address,
+                    PickupLatitude = PickupLocation.Latitude,
+                    PickupLongitude = PickupLocation.Longitude,
+                    PickupTime = DateTime.Now.ToString(),
+                    DropoffLocation = DropLocation.Address,
+                    DropLatitude = DropLocation.Latitude,
+                    DropLongitude = DropLocation.Longitude,
                     RemainingBids = 3,
                     UserId = UserDetails.Instance.CurrentUser.UserId,
                     BoookingRequestId = bookingResult.Data.RideRequestId
@@ -226,16 +233,15 @@ namespace ZTaxiApp.ViewModel
                 MainThread.BeginInvokeOnMainThread(async
                     () =>
                 {
-                    await PlotRouteOnMap(new Location(obj.Latitude, obj.Longitude), new Location(PickupLocation.Latitude, PickupLocation.Longitude));
+                    await PlotRouteOnMap(new Location(obj.Latitude, obj.Longitude), PickupLocation.GetLocation());
                 });
             }
-
-            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Started)
+            else if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Started)
             {
                 MainThread.BeginInvokeOnMainThread(async
                     () =>
                 {
-                    await PlotRouteOnMap(new Location(obj.Latitude, obj.Longitude), new Location(DropLocation.Latitude, DropLocation.Longitude));
+                    await PlotRouteOnMap(new Location(obj.Latitude, obj.Longitude), DropLocation.GetLocation());
                 });
             }
         }
@@ -249,37 +255,50 @@ namespace ZTaxiApp.ViewModel
         {
             try
             {
-                var location = await AppHelper.GetUserLocation();
-                if (location != null)
+                var currentLoc = await AppHelper.GetUserLocation();
+                if (currentLoc != null)
                 {
-                    CurrentMap.MapElements.Clear();
-                    CurrentMap.Pins.Clear();
-                    var position = new Location(location.Latitude, location.Longitude);
-                    var pin = new CustomPin
+                    PickupLocation = new LocationInfo
                     {
-                        Label = "Your Location",
-                        Type = PinType.Place,
-                        Location = position,
-                        Address = "Location",
-                        ImageSource = "car_icon.png"
+                        Latitude = currentLoc.Latitude,
+                        Longitude = currentLoc.Longitude,
+                        LocationType = UIHelper.LocationType.Pickup
                     };
-
-                    CurrentMap.Pins.Add(pin);
-
-                    CurrentMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(0.5)));
-
-                    var placedetails = await ServiceHelper.GetService<IAddressService>().GetPlaceNameAsync(location.Latitude, location.Longitude);
-
-                    if (placedetails != null)
-                    {
-                        PickupLocation = new LocationInfo { Address = placedetails, Latitude = location.Latitude, Longitude = location.Longitude, LocationType = UIHelper.LocationType.Pickup };
-                    }
+                    DropLocation = new LocationInfo();
+                    await UpdateMapUI();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting location: {ex.Message}");
             }
+        }
+
+        public async Task UpdateMapUI()
+        {
+            var location = PickupLocation.GetLocation();
+            var placedetails = await ServiceHelper.GetService<IAddressService>().GetPlaceNameAsync(location.Latitude, location.Longitude);
+            PickupLocation = new LocationInfo { Address = placedetails, Latitude = location.Latitude, Longitude = location.Longitude, LocationType = UIHelper.LocationType.Pickup };
+
+            if (PickupLocation != null)
+            {
+                CurrentMap.MapElements.Clear();
+                CurrentMap.Pins.Clear();
+                var position = new Location(location.Latitude, location.Longitude);
+                var pin = new CustomPin
+                {
+                    Label = "Your Location",
+                    Type = PinType.Place,
+                    Location = position,
+                    Address = "Location",
+                    ImageSource = "car_icon.png"
+                };
+
+                CurrentMap.Pins.Add(pin);
+
+                CurrentMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(0.5)));
+            }
+            await RefreshNearbyDrivers();
         }
         public ICommand CancelCommand { get; }
         public ICommand ShareCommand { get; }
@@ -291,19 +310,9 @@ namespace ZTaxiApp.ViewModel
 
             if (!IsLoaded)
             {
-                _ = Task.Run(InitializeSignalR);
-            }
-
-            if (!IsLoaded && AppHelper.CurrentRide == null)
-            {
-                InitializeMap();
-            }
-            else if (!IsLoaded && AppHelper.CurrentRide != null)
-            {
                 RefreshPage();
+                Task.Run(async () => await InitializeSignalR());
             }
-
-            
 
             IsLoaded = true;
 
@@ -312,12 +321,18 @@ namespace ZTaxiApp.ViewModel
                 if (NavigationParams["selectedlocation"] is LocationInfo locinfo)
                 {
                     if (locinfo.LocationType == UIHelper.LocationType.Pickup)
+                    {
                         PickupLocation = locinfo;
+                        await UpdateMapUI();
+                    }
                     else
+                    {
                         DropLocation = locinfo;
+                    }
                 }
-                EvaluateRideOptionsVisibility();
             }
+
+            await EvaluateRideOptionsVisibility();
 
             NavigationParams?.Clear();
         }
@@ -327,7 +342,6 @@ namespace ZTaxiApp.ViewModel
             _signalR = ServiceHelper.GetService<UserSignalRService>();
             _signalR.Initialize(UserDetails.Instance.CurrentUser.UserId);
             await _signalR.ConnectAsync();
-            await RefreshNearbyDrivers();
             _signalR.OnNearbyDriversUpdated += _signalR_OnNearbyDriversUpdated;
         }
 
@@ -338,8 +352,6 @@ namespace ZTaxiApp.ViewModel
             {
                 CurrentMap.Pins.Clear();
                 var driverpins = new List<Pin>();
-
-
                 foreach (var driver in nearbyDrivers)
                 {
                     var customPin = new CustomPin
@@ -348,9 +360,10 @@ namespace ZTaxiApp.ViewModel
                         Type = PinType.Generic,
                         Location = new Location(driver.Latitude, driver.Longitude),
                         Address = "Driver",
-                        ImageSource = "pin.png",
+                        ImageSource = "car_icon.png",
                         IsDriverPins = true
                     };
+
                     CurrentMap.Pins.Add(customPin);
                 }
             });
@@ -358,7 +371,7 @@ namespace ZTaxiApp.ViewModel
 
         private async Task RefreshNearbyDrivers()
         {
-            var userLocation = await AppHelper.GetUserLocation();
+            var userLocation = PickupLocation.GetLocation();
             await _signalR.GetNearbyDriversAsync(userLocation);
         }
 
@@ -383,41 +396,71 @@ namespace ZTaxiApp.ViewModel
                 OngoingTrip();
                 await UpdateUIView();
             }
+            else
+            {
+                InitializeMap();
+            }
         }
 
         private async Task UpdateUIView()
         {
-            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Assigned)
+            if (AppHelper.CurrentRide != null && AppHelper.CurrentRide.TripOtpInfo != null)
             {
-                OTPText = $"Starts OTP is {AppHelper.CurrentRide.TripOtpInfo.StartOtp}";
+                if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Assigned)
+                {
+                    DriverInfo = "Driver is on the way";
+                    OTPText = $"Starts OTP is {AppHelper.CurrentRide.TripOtpInfo.StartOtp}";
+                }
+                if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Started)
+                {
+                    DriverInfo = "Happy journey Buddy";
+                    OTPText = $"End OTP is {AppHelper.CurrentRide.TripOtpInfo.EndOtp}";
+                }
+                if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Reached)
+                {
+                    DriverInfo = "Driver is reached your location";
+                }
             }
-            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Started)
+            else
             {
-                OTPText = $"End OTP is {AppHelper.CurrentRide.TripOtpInfo.EndOtp}";
+                OTPText = "Driver is started";
             }
-            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Completed)
+
+            if (AppHelper.CurrentRide?.CurrentStatus == RideStatus.Completed)
             {
                 _signalR.OnDriverLocationUpdated -= _signalR_OnDriverLocationUpdated;
                 AppHelper.CurrentRide = null;
                 ShowPickup = true;
                 ShowDriver = false;
+                InitializeMap();
+                var pp = new OnStartOtpPopup();
+
+                if (pp.BindingContext is OnStartOtpViewModel vm1)
+                {
+                    vm1.ShowEndTrip = false;
+                    vm1.ShowOtp = false;
+                    vm1.ShowRideSuccess = true;
+                }
+
+                _navigationService.OpenPopup(pp);
             }
-            if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Cancelled)
+            if (AppHelper.CurrentRide?.CurrentStatus == RideStatus.Cancelled)
             {
                 _signalR.OnDriverLocationUpdated -= _signalR_OnDriverLocationUpdated;
                 await _alertService.ShowAlert("Info", "Your request is cancelled", "ok");
                 AppHelper.CurrentRide = null;
                 ShowPickup = true;
                 ShowDriver = false;
+                InitializeMap();
             }
         }
 
         private async Task EvaluateRideOptionsVisibility()
         {
-            var ridelocationConfirmed = !string.IsNullOrWhiteSpace(PickupLocation?.Address)
+            EnableConfirm = !string.IsNullOrWhiteSpace(PickupLocation?.Address)
                           && !string.IsNullOrWhiteSpace(DropLocation?.Address);
 
-            if (ridelocationConfirmed)
+            if (EnableConfirm)
             {
                 IsBusy = true;
                 await Task.Delay(100);

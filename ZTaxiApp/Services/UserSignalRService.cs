@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using Microsoft.AspNetCore.SignalR.Client;
-using System.Diagnostics;
 using ZhooSoft.Core;
 using ZhooSoft.Core.Alerts;
 using ZTaxi.Core.Storage;
@@ -21,7 +20,7 @@ namespace ZTaxiApp.Services
         private HubConnection _connection;
         private string _userId;
         private System.Timers.Timer? _nearbyDriversTimer;
-        private string _hubUrl = $"http://192.168.1.5:7091/hubs/location";  // 🔁 Change to your actual URL
+        private string _hubUrl = $"http://192.168.1.3:7091/hubs/location";  // 🔁 Change to your actual URL
         private string? _trackedDriverId;
 
         public event Action<List<DriverLocation>>? OnNearbyDriversUpdated;
@@ -114,13 +113,34 @@ namespace ZTaxiApp.Services
         {
             try
             {
-                await _connection.InvokeAsync("SendBookingRequest", request);
-                _trackedDriverId = request.DriverId;
+                if (await CheckConnection())
+                {
+                    await _connection.InvokeAsync("SendBookingRequest", request);
+                    _trackedDriverId = request.DriverId;
+                }
             }
             catch (Exception ex)
             {
 
             }
+        }
+
+        private async Task<bool> CheckConnection()
+        {
+            if (_connection.State == HubConnectionState.Connected)
+            {
+                return true;
+            }
+            try
+            {
+                await _connection.StartAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Reconnection failed: " + ex.Message);
+                return false;
+            }
+            return true;
         }
 
         public async Task SendBookingRequest(List<string> driverIds, BookingRequestModel request)
@@ -212,7 +232,7 @@ namespace ZTaxiApp.Services
             var rideId = AppHelper.CurrentRide?.BookingRequest.BoookingRequestId.ToString();
             try
             {
-                await _connection.InvokeAsync("CancelTripNotification", rideId);                
+                await _connection.InvokeAsync("CancelTripNotification", rideId);
             }
             catch (Exception ex)
             {
@@ -224,26 +244,28 @@ namespace ZTaxiApp.Services
         {
             _connection.On<string>("OnStartPickup", rideId =>
             {
-                UpdateRideStatus("Driver On the Way");
+                
             });
             _connection.On<string>("OnPickupReached", rideId =>
             {
-                UpdateRideStatus("Driver Reached your location");
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    var ride = AppHelper.CurrentRide;
+                    ride.CurrentStatus = RideStatus.Reached;
+                    AppHelper.SaveRideInfo(ride);
+                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+                });
             });
-            _connection.On<string>("OnStartTrip", rideId =>
-            {
+            
 
-            });
-            _connection.On<string>("OnCompleteTrip", rideId =>
-            {
-                UpdateRideStatus("Trip completed");
-            });
             _connection.On<string>("OnTripCancelled", rideId =>
             {
                 //call the API
-                RideStorageService.Clear();
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
+                    var ride = AppHelper.CurrentRide;
+                    ride.CurrentStatus = RideStatus.Cancelled;
+                    AppHelper.SaveRideInfo(ride);
                     await ServiceHelper.GetService<IAlertService>().ShowAlert("OOPS", "Your trip has been cancelled", "ok");
                     await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
                 });
@@ -284,7 +306,7 @@ namespace ZTaxiApp.Services
             _connection.On<TripOtpInfo>("ReceiveTripOtps", (tripOtp) =>
             {
                 // Handle received OTPs
-                MainThread.BeginInvokeOnMainThread(() =>
+                MainThread.BeginInvokeOnMainThread(async () =>
                 {
                     // Store or update UI
                     Console.WriteLine($"Start OTP: {tripOtp.StartOtp}");
@@ -293,23 +315,11 @@ namespace ZTaxiApp.Services
                     var ride = AppHelper.CurrentRide;
                     ride.CurrentStatus = RideStatus.Assigned;
                     ride.TripOtpInfo = tripOtp;
-                    AppHelper.SaveRideInfo(ride);
-
+                    AppHelper.CurrentRide = null;
+                    RideStorageService.Save(ride);
                     OnTripOtpReceived?.Invoke(tripOtp);
-
-                    // Or trigger a popup
-                    Shell.Current.DisplayAlert("OTP Info",
-                        $"Start OTP: {tripOtp.StartOtp}\nEnd OTP: {tripOtp.EndOtp}",
-                        "OK");
+                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
                 });
-            });
-        }
-
-        private void UpdateRideStatus(string message)
-        {
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                await Toast.Make(message, ToastDuration.Short).Show();
             });
         }
     }

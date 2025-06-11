@@ -67,7 +67,7 @@ namespace ZTaxiApp.CoreHelper
         private async Task<bool> CheckOpenRide()
         {
             AppHelper.CurrentRide = null;
-            return false;
+            return true;
 
             var rideInfo = RideStorageService.Load();
             if (rideInfo != null)

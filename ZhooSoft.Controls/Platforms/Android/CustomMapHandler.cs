@@ -46,8 +46,6 @@ namespace ZhooSoft.Controls.Platforms.Android
 
                 mapHandler.Markers.Clear();
                 mapHandler.AddPins(map.Pins);
-
-                
             }
         }
 

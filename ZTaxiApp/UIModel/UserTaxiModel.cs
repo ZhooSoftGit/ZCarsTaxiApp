@@ -1,8 +1,9 @@
-﻿using ZTaxiApp.UIHelper;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ZTaxiApp.UIHelper;
 
 namespace ZTaxiApp.UIModel
 {
-    public class LocationInfo
+    public partial class LocationInfo
     {
         public string Address { get; set; }
 
@@ -11,6 +12,8 @@ namespace ZTaxiApp.UIModel
         public double Longitude { get; set; }
 
         public LocationType LocationType { get; set; }
+
+        public Location GetLocation() => new Location(Latitude, Longitude);
     }
 
     public class RideOption

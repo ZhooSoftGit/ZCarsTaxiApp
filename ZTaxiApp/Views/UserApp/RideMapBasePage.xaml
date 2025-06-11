@@ -167,6 +167,7 @@
                         CornerRadius="20"
                         FontAttributes="Bold"
                         FontSize="18"
+                        IsEnabled="{Binding ShowCabOptions}"
                         Text="Confirm Booking"
                         TextColor="White" />
                 </Grid>
@@ -180,11 +181,24 @@
                 IsVisible="{Binding ShowDriver}"
                 Stroke="{DynamicResource Primary}"
                 VerticalOptions="End">
-                <ctrl:CustomGrid RowDefinitions="auto,auto,auto" RowSpacing="10">
-                    <!--  OTP Header  -->
+                <ctrl:CustomGrid RowDefinitions="auto,auto,auto,auto" RowSpacing="10">
+
                     <ctrl:CustomBorder
                         Grid.Row="0"
-                        Margin="0,10,0,5"
+                        Padding="6"
+                        BackgroundColor="#E0F7F7">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="{Binding DriverInfo}"
+                            TextColor="#006D6D"
+                            VerticalOptions="Center" />
+                    </ctrl:CustomBorder>
+
+                    <!--  OTP Header  -->
+                    <ctrl:CustomBorder
+                        Grid.Row="1"
                         Padding="5"
                         BackgroundColor="#00A65A"
                         CornerRadius="8">
@@ -195,11 +209,12 @@
                             Text="{Binding OTPText}"
                             TextColor="White"
                             VerticalOptions="Center" />
+
                     </ctrl:CustomBorder>
 
                     <!--  Driver Info Card  -->
                     <HorizontalStackLayout
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Spacing="10"
                         VerticalOptions="Center">
                         <!--  Driver Image  -->
@@ -224,7 +239,7 @@
 
                     <!--  Action Buttons  -->
                     <Grid
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Margin="0"
                         Padding="0"
                         ColumnSpacing="10"
