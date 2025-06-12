@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="ZTaxiApp.DPopup.CommonMenuPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    HorizontalOptions="Fill"
+    VerticalOptions="Fill"
+    Color="Transparent">
+
+    <!--  Full-screen content  -->
+    <Grid
+        x:Name="PopupContent"
+        Padding="20"
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        RowDefinitions="auto,auto,*,auto"
+        RowSpacing="10"
+        TranslationX="-5000"
+        VerticalOptions="FillAndExpand">
+
+        <!--  Top: Menu Title  -->
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Spacing="10"
+            VerticalOptions="Start">
+            <ctrl:CustomImage Command="{Binding CloseCommand}" Source="back.png" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Menu"
+                VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <!--  Profile Card  -->
+        <ctrl:CustomBorder
+            Grid.Row="1"
+            Margin="0,10"
+            Padding="15"
+            BackgroundColor="White"
+            CornerRadius="15"
+            Stroke="Gray"
+            StrokeShape="RoundRectangle 16">
+            <VerticalStackLayout Spacing="10">
+                <HorizontalStackLayout Spacing="10">
+                    <Image
+                        HeightRequest="40"
+                        Source="profile.png"
+                        WidthRequest="40" />
+                    <VerticalStackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Rajesh" />
+                        <Label
+                            FontSize="14"
+                            Text="8344273152"
+                            TextColor="Gray" />
+                    </VerticalStackLayout>
+                    <Image HorizontalOptions="EndAndExpand" Source="chevron_right.png" />
+                </HorizontalStackLayout>
+
+                <Frame
+                    Padding="8,4"
+                    BackgroundColor="#FFFDE7"
+                    BorderColor="Yellow"
+                    CornerRadius="8">
+                    <HorizontalStackLayout>
+                        <Image
+                            HeightRequest="16"
+                            Source="star_icon.png"
+                            WidthRequest="16" />
+                        <Label
+                            Margin="5,0,0,0"
+                            FontSize="14"
+                            Text="4.73 My Rating" />
+                    </HorizontalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ctrl:CustomBorder>
+
+        <!--  Main Scroll Content  -->
+        <ScrollView Grid.Row="2" VerticalScrollBarVisibility="Never">
+
+            <!--  Menu Items  -->
+            <VerticalStackLayout>
+                <!--  Repeat for each item  -->
+                <Grid Padding="0,12" ColumnDefinitions="Auto,*,Auto">
+                    <Image Source="help_icon.png" WidthRequest="24" />
+                    <Label
+                        Grid.Column="1"
+                        FontSize="16"
+                        Text="Help" />
+                    <Image
+                        Grid.Column="2"
+                        Source="right_arrow.png"
+                        WidthRequest="20" />
+
+                </Grid>
+
+                <BoxView BackgroundColor="{DynamicResource Primary}" HeightRequest="1" />
+
+                <Grid Padding="0,12" ColumnDefinitions="Auto,*,Auto">
+                    <Image Source="parcel_icon.png" WidthRequest="24" />
+                    <Label
+                        Grid.Column="1"
+                        FontSize="16"
+                        Text="Ride History" />
+                    <Image
+                        Grid.Column="2"
+                        Source="right_arrow.png"
+                        WidthRequest="20" />
+                </Grid>
+                <BoxView BackgroundColor="{DynamicResource Primary}" HeightRequest="1" />
+
+
+                <!--  Add similar blocks for Payment, My Rides, Safety, etc.  -->
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <VerticalStackLayout Grid.Row="3" HorizontalOptions="Center">
+            <Label Text="Zhoosoft Pvt Limited" />
+        </VerticalStackLayout>
+    </Grid>
+</toolkit:Popup>

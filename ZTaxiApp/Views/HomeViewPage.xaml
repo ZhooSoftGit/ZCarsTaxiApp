@@ -27,60 +27,119 @@
                 </Grid.RowDefinitions>
 
                 <Grid
-                    x:Name="headerLayout"
-                    Grid.Row="0"
-                    Padding="15"
-                    BackgroundColor="{x:StaticResource Primary}"
-                    HorizontalOptions="Fill"
-                    RowSpacing="1"
-                    VerticalOptions="Center">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Image
-                        x:Name="menuImage"
+                    BackgroundColor="Transparent"
+                    RowDefinitions="auto,auto"
+                    RowSpacing="0">
+                    <Grid
+                        x:Name="headerLayout"
                         Grid.Row="0"
-                        Grid.Column="0"
-                        Margin="10,0,0,0"
-                        HeightRequest="50"
-                        HorizontalOptions="Start"
-                        Source="menu.png"
+                        Margin="0,0,0,-1"
+                        Padding="15"
+                        Background="{DynamicResource Primary}"
+                        HorizontalOptions="Fill"
                         VerticalOptions="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                    <Image
-                        Grid.Row="0"
-                        HorizontalOptions="Center"
-                        Source="drivericon.png"
-                        VerticalOptions="Center">
-                        <Image.WidthRequest>
-                            <OnIdiom x:TypeArguments="x:Double">
-                                <OnIdiom.Phone>100</OnIdiom.Phone>
-                                <OnIdiom.Tablet>200</OnIdiom.Tablet>
-                            </OnIdiom>
-                        </Image.WidthRequest>
-                        <Image.HeightRequest>
-                            <OnIdiom x:TypeArguments="x:Double">
-                                <OnIdiom.Phone>30</OnIdiom.Phone>
-                                <OnIdiom.Tablet>50</OnIdiom.Tablet>
-                            </OnIdiom>
-                        </Image.HeightRequest>
-                    </Image>
+                        <Image
+                            x:Name="menuImage"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="10,0,0,0"
+                            HeightRequest="30"
+                            HorizontalOptions="Start"
+                            Source="menu.png"
+                            VerticalOptions="Center">
 
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image
+                            Grid.Row="0"
+                            HorizontalOptions="Center"
+                            Source="drivericon.png"
+                            VerticalOptions="Center">
+                            <Image.WidthRequest>
+                                <OnIdiom x:TypeArguments="x:Double">
+                                    <OnIdiom.Phone>100</OnIdiom.Phone>
+                                    <OnIdiom.Tablet>200</OnIdiom.Tablet>
+                                </OnIdiom>
+                            </Image.WidthRequest>
+                            <Image.HeightRequest>
+                                <OnIdiom x:TypeArguments="x:Double">
+                                    <OnIdiom.Phone>30</OnIdiom.Phone>
+                                    <OnIdiom.Tablet>50</OnIdiom.Tablet>
+                                </OnIdiom>
+                            </Image.HeightRequest>
+                        </Image>
+
+                    </Grid>
+                    <ctrl:CustomBorder
+                        Grid.Row="1"
+                        Margin="0"
+                        Padding="0,0,0,0"
+                        CornerRadius="10"
+                        HeightRequest="200"
+                        Stroke="{DynamicResource Primary}"
+                        StrokeShape="RoundRectangle 0,0,30,30"
+                        StrokeThickness="0">
+                        <Grid
+                            Padding="20,0"
+                            ColumnDefinitions="*"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill">
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Offset="0.0" Color="#F9F9F9" />
+                                    <!--  Indigo Top  -->
+                                    <GradientStop Offset="1.0" Color="#26A69A" />
+                                    <!--  Lighter Teal Bottom  -->
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                            <Grid Padding="10" RowDefinitions="*,Auto">
+                                <CarouselView
+                                    Grid.Row="0"
+                                    HorizontalOptions="Fill"
+                                    IndicatorView="bannerIndicators"
+                                    ItemsSource="{Binding BannerImages}">
+
+                                    <CarouselView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image
+                                                Aspect="Fill"
+                                                HorizontalOptions="Fill"
+                                                Source="{Binding}" />
+                                        </DataTemplate>
+                                    </CarouselView.ItemTemplate>
+                                </CarouselView>
+
+                                <IndicatorView
+                                    x:Name="bannerIndicators"
+                                    Grid.Row="1"
+                                    Margin="0,5,0,5"
+                                    HorizontalOptions="Center"
+                                    IndicatorColor="LightGray"
+                                    SelectedIndicatorColor="Teal" />
+                            </Grid>
+
+                        </Grid>
+                    </ctrl:CustomBorder>
                 </Grid>
+
+
+
 
                 <ScrollView
                     Grid.Row="1"
                     HorizontalOptions="Fill"
                     VerticalOptions="Start">
                     <Grid
-                        Padding="20"
+                        Padding="20,0"
                         HorizontalOptions="Fill"
                         RowDefinitions="auto,*"
                         RowSpacing="10"
@@ -90,8 +149,10 @@
                             Grid.Row="0"
                             Margin="0"
                             BackgroundColor="#00796B"
-                            CornerRadius="10">
-                            <Grid
+                            CornerRadius="10"
+                            IsVisible="False">
+
+                            <!--<Grid
                                 ColumnDefinitions="*, Auto"
                                 HorizontalOptions="Fill"
                                 VerticalOptions="Fill">
@@ -100,7 +161,7 @@
                                     HeightRequest="150"
                                     Source="banner1.png"
                                     WidthRequest="200" />
-                            </Grid>
+                            </Grid>-->
                         </ctrl:CustomBorder>
 
                         <!--  Booking Options  -->
@@ -109,7 +170,7 @@
 
                         <Grid
                             Grid.Row="1"
-                            Padding="5"
+                            Padding="0"
                             ColumnSpacing="10"
                             RowDefinitions="Auto, Auto, Auto, Auto"
                             RowSpacing="10">
@@ -119,6 +180,7 @@
                                 Padding="6"
                                 BackgroundColor="{StaticResource Primary}"
                                 HorizontalOptions="Fill"
+                                IsVisible="False"
                                 StrokeShape="RoundRectangle 0">
                                 <Label
                                     FontSize="24"
@@ -135,12 +197,16 @@
                                 </CollectionView.ItemsLayout>
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <ctrl:CustomBorder Margin="5" Padding="5">
+                                        <ctrl:CustomBorder
+                                            Margin="2"
+                                            Padding="5"
+                                            BackgroundColor="#B2DFDB"
+                                            StrokeShape="RoundRectangle 10">
                                             <StackLayout HorizontalOptions="Center">
                                                 <Image
-                                                    HeightRequest="40"
+                                                    HeightRequest="50"
                                                     Source="{Binding Icon}"
-                                                    WidthRequest="40" />
+                                                    WidthRequest="50" />
                                                 <Label
                                                     FontSize="14"
                                                     HorizontalTextAlignment="Center"
@@ -158,20 +224,21 @@
                             <ctrl:CustomBorder
                                 Grid.Row="2"
                                 Padding="6"
-                                BackgroundColor="{StaticResource Primary}"
+                                BackgroundColor="White"
                                 HorizontalOptions="Fill"
                                 StrokeShape="RoundRectangle 0">
                                 <Label
                                     FontSize="24"
-                                    Text="Services"
-                                    TextColor="{StaticResource White}" />
+                                    Text="Other Services"
+                                    TextColor="{StaticResource Primary}" />
                             </ctrl:CustomBorder>
 
                             <CollectionView
                                 Grid.Row="3"
                                 HorizontalOptions="Fill"
                                 ItemSizingStrategy="MeasureAllItems"
-                                ItemsSource="{Binding ServiceItems}">
+                                ItemsSource="{Binding ServiceItems}"
+                                VerticalScrollBarVisibility="Never">
                                 <CollectionView.ItemsLayout>
                                     <GridItemsLayout
                                         HorizontalItemSpacing="10"
@@ -184,7 +251,8 @@
                                         <ctrl:CustomBorder
                                             Padding="10"
                                             BackgroundColor="#00796B"
-                                            CornerRadius="10">
+                                            CornerRadius="10"
+                                            StrokeShape="RoundRectangle 10">
                                             <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                                                 <Image
                                                     HeightRequest="40"
