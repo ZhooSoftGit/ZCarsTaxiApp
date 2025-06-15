@@ -34,6 +34,8 @@ namespace ZTaxiApp.Helpers
 
         public static LocationInfo? SelectedLocation { get; set; }
         public static List<DriverLocation> AvailableDrivers { get; internal set; }
+        public static VehicleOption SelectedVehicleType { get; internal set; }
+        public static ActionEnum SelectedAction { get; internal set; }
 
         public static async Task<Location> GetUserLocation()
         {

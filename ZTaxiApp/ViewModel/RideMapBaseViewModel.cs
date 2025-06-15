@@ -8,7 +8,6 @@ using System.Windows.Input;
 using ZhooSoft.Auth.Model;
 using ZhooSoft.Controls;
 using ZhooSoft.Core;
-using ZTaxi.Core.Storage;
 using ZTaxi.Model.DTOs.UserApp;
 using ZTaxi.Services.Contracts;
 using ZTaxiApp.Common;
@@ -64,9 +63,6 @@ namespace ZTaxiApp.ViewModel
         private string _driverInfo;
 
         private ITaxiBookingService? _taxiService;
-
-
-
         #endregion
 
         #region Constructors
@@ -261,8 +257,10 @@ namespace ZTaxiApp.ViewModel
                     PickupLocation = new LocationInfo
                     {
                         Latitude = currentLoc.Latitude,
+                        IsCurrentLocation = true,
                         Longitude = currentLoc.Longitude,
-                        LocationType = UIHelper.LocationType.Pickup
+                        LocationType = UIHelper.LocationType.Pickup,
+                        Address = "Your Location"
                     };
                     DropLocation = new LocationInfo();
                     await UpdateMapUI();
@@ -277,8 +275,11 @@ namespace ZTaxiApp.ViewModel
         public async Task UpdateMapUI()
         {
             var location = PickupLocation.GetLocation();
-            var placedetails = await ServiceHelper.GetService<IAddressService>().GetPlaceNameAsync(location.Latitude, location.Longitude);
-            PickupLocation = new LocationInfo { Address = placedetails, Latitude = location.Latitude, Longitude = location.Longitude, LocationType = UIHelper.LocationType.Pickup };
+            if (!PickupLocation.IsCurrentLocation)
+            {
+                var placedetails = await ServiceHelper.GetService<IAddressService>().GetPlaceNameAsync(location.Latitude, location.Longitude);
+                PickupLocation = new LocationInfo { Address = placedetails, Latitude = location.Latitude, Longitude = location.Longitude, LocationType = UIHelper.LocationType.Pickup };
+            }
 
             if (PickupLocation != null)
             {
@@ -306,6 +307,7 @@ namespace ZTaxiApp.ViewModel
         public async override void OnAppearing()
         {
             base.OnAppearing();
+            IsBusy = true;
             await GetCurrentRide();
 
             if (!IsLoaded)
@@ -334,6 +336,7 @@ namespace ZTaxiApp.ViewModel
 
             await EvaluateRideOptionsVisibility();
 
+            IsBusy = false;
             NavigationParams?.Clear();
         }
 

@@ -85,7 +85,7 @@ namespace ZTaxiApp.ViewModel
                     {
                         { "regType",  RegsitrationType.VechicleDetails }
                     };
-            await _navigationService.PushAsync(ServiceHelper.GetService<RegistrationBasePage>(), param);
+            await _navigationService.PushAsync(ServiceHelper.GetService<RideLaterBookingsPage>(), param);
         }
 
         private async Task DeleteVehicle(VehicleDto vehicle)
@@ -100,7 +100,7 @@ namespace ZTaxiApp.ViewModel
                     {
                         { "regType",  RegsitrationType.VechicleDetails }
                     };
-            await _navigationService.PushAsync(ServiceHelper.GetService<RegistrationBasePage>(), param);
+            await _navigationService.PushAsync(ServiceHelper.GetService<RideLaterBookingsPage>(), param);
         }
 
         private async Task LoadData()
@@ -140,7 +140,7 @@ namespace ZTaxiApp.ViewModel
                     {
                         { "regType",  RegsitrationType.VechicleDetails }
                     };
-                await _navigationService.PushAsync(ServiceHelper.GetService<RegistrationBasePage>(), param);
+                await _navigationService.PushAsync(ServiceHelper.GetService<RideLaterBookingsPage>(), param);
             }
             else
             {

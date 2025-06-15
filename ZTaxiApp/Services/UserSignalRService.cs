@@ -20,7 +20,7 @@ namespace ZTaxiApp.Services
         private HubConnection _connection;
         private string _userId;
         private System.Timers.Timer? _nearbyDriversTimer;
-        private string _hubUrl = $"http://192.168.1.3:7091/hubs/location";  // 🔁 Change to your actual URL
+        private string _hubUrl = $"http://192.168.1.5:7091/hubs/location";  // 🔁 Change to your actual URL
         private string? _trackedDriverId;
 
         public event Action<List<DriverLocation>>? OnNearbyDriversUpdated;

@@ -59,7 +59,7 @@ namespace ZTaxiApp.DPopup
 
         private async Task OnAccept()
         {
-            await CurrentPopup.CloseAsync(true);
+            await CurrentPopup.CloseAsync();
         }
 
         private async Task OnReject()
@@ -67,7 +67,7 @@ namespace ZTaxiApp.DPopup
             _timer.Dispose();
             // Perform logic for rejecting the ride
             Application.Current.MainPage.DisplayAlert("Info", "Ride Rejected", "OK");
-            await CurrentPopup.CloseAsync(RideStatus.Cancelled);
+            await CurrentPopup.CloseAsync();
         }
 
         #endregion

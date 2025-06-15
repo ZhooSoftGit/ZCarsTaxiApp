@@ -6,7 +6,6 @@
     xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="CommonMenuUI"
-    CanBeDismissedByTappingOutsideOfPopup="True"
     HorizontalOptions="Start"
     VerticalOptions="Fill">
     <!--  Menu Layer Start  -->

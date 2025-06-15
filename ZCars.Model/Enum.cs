@@ -109,6 +109,13 @@
         BikeTaxi
     }
 
+    public enum VehicleOption
+    {
+        Bike,
+        Auto,
+        Car
+    }
+
     public enum BidStatus
     {
         Requested,           // The ride request is sent to the driver

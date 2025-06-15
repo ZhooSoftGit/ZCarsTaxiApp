@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Driver.RideLaterBookingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:TypeArguments="vm:RideLaterBookingsViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InverseBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="Auto, *"
+            VerticalOptions="Fill">
+
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+            <AbsoluteLayout
+                Grid.Row="1"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+                <!--  Fullscreen MapView  -->
+                <ctrl:CustomMapView
+                    x:Name="BookingMap"
+                    AbsoluteLayout.LayoutBounds="0,0,1,0.5"
+                    AbsoluteLayout.LayoutFlags="All"
+                    IsShowingUser="True"
+                    MapType="Street" />
+
+
+                <ctrl:CustomBorder
+                    x:Name="bottomsheet"
+                    AbsoluteLayout.LayoutBounds="0,1,1,0.5"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="Transparent"
+                    Stroke="{DynamicResource Primary}">
+                    <Grid Padding="10" RowDefinitions="Auto,*,Auto">
+
+                        <HorizontalStackLayout HorizontalOptions="End">
+                            <Label Text="expand" />
+                            <Image
+                                HeightRequest="20"
+                                Source="edit_icon.png"
+                                WidthRequest="20" />
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                            </HorizontalStackLayout.GestureRecognizers>
+                        </HorizontalStackLayout>
+
+
+                        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+                            <Grid
+                                Padding="20,10"
+                                ColumnSpacing="10"
+                                RowSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--  Pickup Address + Map  -->
+                                <Grid RowDefinitions="auto,auto" RowSpacing="6">
+                                    <ctrl:CustomLabel Text="Pickup Address" />
+                                    <Grid
+                                        Grid.Row="1"
+                                        ColumnDefinitions="*,auto"
+                                        ColumnSpacing="10">
+                                        <!--  Pickup Location Field  -->
+                                        <ctrl:CustomBorder
+                                            Grid.Row="0"
+                                            Padding="10"
+                                            BackgroundColor="#F5F5F5"
+                                            CornerRadius="12"
+                                            Stroke="{DynamicResource Primary}">
+                                            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                                                <Image
+                                                    HeightRequest="16"
+                                                    Source="pickup_loc.png"
+                                                    WidthRequest="16" />
+                                                <!--  Tappable Label acting like Entry  -->
+                                                <Label
+                                                    FontSize="18"
+                                                    HorizontalOptions="Fill"
+                                                    Text="{Binding PickupLocation.Address}"
+                                                    TextColor="Black"
+                                                    VerticalOptions="Center" />
+                                            </HorizontalStackLayout>
+                                            <ctrl:CustomBorder.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SelectPickupLocationCommand}" />
+                                            </ctrl:CustomBorder.GestureRecognizers>
+                                        </ctrl:CustomBorder>
+
+                                        <ctrl:CustomImage
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Command="{Binding OpenPickupMapCommand}"
+                                            Source="pickup_loc.png"
+                                            WidthRequest="30" />
+                                    </Grid>
+
+                                </Grid>
+
+                                <!--  Drop Address + Map  -->
+                                <Grid
+                                    Grid.Row="1"
+                                    RowDefinitions="auto,auto"
+                                    RowSpacing="6">
+                                    <ctrl:CustomLabel Text="Drop Address" />
+                                    <Grid
+                                        Grid.Row="1"
+                                        ColumnDefinitions="*,auto"
+                                        ColumnSpacing="10">
+                                        <ctrl:CustomBorder
+                                            Grid.Row="1"
+                                            Padding="10"
+                                            BackgroundColor="#F5F5F5"
+                                            CornerRadius="12"
+                                            Stroke="{DynamicResource Primary}">
+                                            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                                                <Image
+                                                    HeightRequest="16"
+                                                    Source="select_loc.png"
+                                                    WidthRequest="16" />
+                                                <!--  Tappable Label acting like Entry  -->
+                                                <Label
+                                                    FontSize="18"
+                                                    HorizontalOptions="Fill"
+                                                    Text="{Binding DropLocation.Address}"
+                                                    TextColor="Black"
+                                                    VerticalOptions="Center" />
+                                            </HorizontalStackLayout>
+                                            <ctrl:CustomBorder.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SelectDropLocationCommand}" />
+                                            </ctrl:CustomBorder.GestureRecognizers>
+                                        </ctrl:CustomBorder>
+
+                                        <ctrl:CustomImage
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Command="{Binding OpenDropMapCommand}"
+                                            Source="select_loc.png"
+                                            WidthRequest="30" />
+                                    </Grid>
+
+                                </Grid>
+
+
+                                <!--  Pickup Date  -->
+                                <Grid
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="10">
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="Pickup Date" />
+                                        <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
+                                            <DatePicker Date="{Binding PickupDate}" />
+                                        </ctrl:CustomBorder>
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="1">
+                                        <Label Text="Pickup Time" />
+                                        <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
+                                            <TimePicker Time="{Binding PickupTime}" />
+                                        </ctrl:CustomBorder>
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <!--  Drop Date  -->
+                                <Grid
+                                    Grid.Row="3"
+                                    ColumnDefinitions="*,*"
+                                    ColumnSpacing="10"
+                                    IsVisible="{Binding IsOutstation}">
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="Drop Date" />
+                                        <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
+                                            <DatePicker Date="{Binding ReturnDate}" />
+                                        </ctrl:CustomBorder>
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="1">
+                                        <Label Text="Drop Time" />
+                                        <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
+                                            <TimePicker Time="{Binding ReturnTime}" />
+                                        </ctrl:CustomBorder>
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <!--  Travellers  -->
+
+                                <VerticalStackLayout
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2">
+                                    <Label Text="No. of Passengers" />
+                                    <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
+                                        <ctrl:CustomPicker
+                                            Title="Select No. of Passengers"
+                                            ItemDisplayBinding="{Binding CountText}"
+                                            ItemsSource="{Binding Travellers}"
+                                            SelectedItem="{Binding SelectedTraveller}" />
+                                    </ctrl:CustomBorder>
+                                </VerticalStackLayout>
+
+                                <!--  Rental Package  -->
+
+                                <VerticalStackLayout
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    IsVisible="{Binding IsOutstation, Converter={toolkit:InvertedBoolConverter}}">
+                                    <Label Text="Select Package" />
+                                    <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
+                                        <Picker
+                                            Title="Select Package"
+                                            ItemsSource="{Binding RentalPackages}"
+                                            SelectedItem="{Binding SelectedPackage}" />
+                                    </ctrl:CustomBorder>
+                                </VerticalStackLayout>
+
+
+
+                                <!--  Vehicle Type  -->
+
+                                <VerticalStackLayout
+                                    Grid.Row="6"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2">
+                                    <Label Text="Select Vehicle Type" />
+                                    <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
+                                        <Picker
+                                            Title="Select Vehicle Type"
+                                            ItemsSource="{Binding VehicleTypes}"
+                                            SelectedItem="{Binding SelectedVehicleType}" />
+                                    </ctrl:CustomBorder>
+                                </VerticalStackLayout>
+
+
+
+                            </Grid>
+                        </ScrollView>
+                        <!--  Submit Button  -->
+                        <ctrl:CustomButton
+                            Grid.Row="2"
+                            Margin="20,0"
+                            BackgroundColor="Teal"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            IsEnabled="{Binding IsFormValid}"
+                            Text="Submit Booking"
+                            TextColor="White" />
+                    </Grid>
+                </ctrl:CustomBorder>
+
+
+
+            </AbsoluteLayout>
+
+
+
+
+        </Grid>
+    </Grid>
+
+</base:BaseContentPage>

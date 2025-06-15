@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.UserApp.BookingInfoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:TypeArguments="vm:BookingInfoViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="Auto, *"
+            VerticalOptions="Fill">
+
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+
+            <Grid
+                Grid.Row="1"
+                Padding="0"
+                BackgroundColor="{DynamicResource Primary}"
+                RowDefinitions="Auto, Auto, Auto, *, Auto">
+
+                <!--  Top Image  -->
+                <Image
+                    Grid.Row="0"
+                    Aspect="AspectFit"
+                    HeightRequest="250"
+                    HorizontalOptions="Center"
+                    Source="{Binding InfoImage}" />
+
+                <!--  Title  -->
+                <Label
+                    Grid.Row="1"
+                    Margin="10,20,0,10"
+                    Padding="20,0"
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Text="{Binding Title}"
+                    TextColor="White" />
+
+                <!--  Features List  -->
+                <CollectionView
+                    Grid.Row="2"
+                    Margin="0,0,0,20"
+                    BackgroundColor="{DynamicResource Primary}"
+                    HorizontalOptions="Fill"
+                    ItemsSource="{Binding Features}"
+                    SelectionMode="None"
+                    VerticalOptions="Fill">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout Padding="0,5" Spacing="10">
+                                <Image
+                                    HeightRequest="20"
+                                    Source="{Binding Icon}"
+                                    WidthRequest="20" />
+                                <Label
+                                    FontSize="14"
+                                    Text="{Binding Description}"
+                                    TextColor="White"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!--  Get Started Button  -->
+                <Button
+                    Grid.Row="4"
+                    Margin="20"
+                    BackgroundColor="#EEEEEE"
+                    Command="{Binding GetStartedCommand}"
+                    CornerRadius="10"
+                    FontAttributes="Bold"
+                    Text="Get started"
+                    TextColor="Black"
+                    VerticalOptions="End" />
+            </Grid>
+
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

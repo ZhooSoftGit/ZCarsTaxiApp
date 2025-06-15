@@ -2,6 +2,7 @@
 using ZTaxiApp.DPopup;
 using ZTaxiApp.Helpers;
 using ZhooSoft.Core;
+using CommunityToolkit.Maui;
 
 namespace ZTaxiApp.DPopupVM
 {
@@ -31,12 +32,12 @@ namespace ZTaxiApp.DPopupVM
 
         private async Task ShowDashBoard()
         {
-            await CurrentPopup.CloseAsync(PopupEnum.ShowDashboard);
+            await CurrentPopup.CloseAsync();
         }
 
         private async Task ShowProfile()
         {
-            await CurrentPopup.CloseAsync(PopupEnum.ShowProfile);
+            await CurrentPopup.CloseAsync();
         }
 
         #endregion

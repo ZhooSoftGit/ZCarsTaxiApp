@@ -17,7 +17,7 @@ public partial class BookingDetailsPopup : Popup
 
     private void OnSkipClicked(object sender, EventArgs e)
     {
-        Close();
+        CloseAsync();
     }
 
     private async void Button_Clicked(object sender, EventArgs e)

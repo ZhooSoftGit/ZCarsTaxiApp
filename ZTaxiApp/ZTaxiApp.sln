@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZTaxi.Model", "..\ZCars.Mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZTaxi.Core", "..\ZcarsDriver.Core\ZTaxi.Core.csproj", "{2771BD7E-9BBE-6BE3-C696-E4C5A9447B6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZTaxi.Services", "..\ZCarsDriver.Services\ZTaxi.Services.csproj", "{F6783D6F-229A-DC78-89F5-5852FE45725A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhooSoft.Auth", "..\ZhooSoft.Auth\ZhooSoft.Auth.csproj", "{CAF2F054-0D54-CD55-57A2-66CD556C2262}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhooSoft.Common", "..\ZhooSoft.Common\ZhooSoft.Common.csproj", "{76EACA9E-951F-51A6-E85B-53EEE3E62AF7}"
@@ -26,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhooSoft.ServiceBase", "..\ZhooSoft.ServiceBase\ZhooSoft.ServiceBase.csproj", "{45D730A3-562A-CA5B-B00D-2A4A87C8C7A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZhooSoft.ThirdParty", "..\ZhooSoft.ThirdParty\ZhooSoft.ThirdParty.csproj", "{E98A9AD4-2076-6B47-1AC7-E422DC167B84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZTaxi.Services", "..\ZTaxi.Services\ZTaxi.Services.csproj", "{6E3AFF23-55E8-48B2-B99D-48F1C2314E65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,10 +46,6 @@ Global
 		{2771BD7E-9BBE-6BE3-C696-E4C5A9447B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2771BD7E-9BBE-6BE3-C696-E4C5A9447B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2771BD7E-9BBE-6BE3-C696-E4C5A9447B6B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6783D6F-229A-DC78-89F5-5852FE45725A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6783D6F-229A-DC78-89F5-5852FE45725A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6783D6F-229A-DC78-89F5-5852FE45725A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6783D6F-229A-DC78-89F5-5852FE45725A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CAF2F054-0D54-CD55-57A2-66CD556C2262}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CAF2F054-0D54-CD55-57A2-66CD556C2262}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAF2F054-0D54-CD55-57A2-66CD556C2262}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -82,6 +78,10 @@ Global
 		{E98A9AD4-2076-6B47-1AC7-E422DC167B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E98A9AD4-2076-6B47-1AC7-E422DC167B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E98A9AD4-2076-6B47-1AC7-E422DC167B84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E3AFF23-55E8-48B2-B99D-48F1C2314E65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E3AFF23-55E8-48B2-B99D-48F1C2314E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E3AFF23-55E8-48B2-B99D-48F1C2314E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E3AFF23-55E8-48B2-B99D-48F1C2314E65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

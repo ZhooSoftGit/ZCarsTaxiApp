@@ -35,7 +35,7 @@ namespace ZTaxiApp.ViewModel.Common
 
         private async Task OnSelect(SidebarOption obj)
         {
-            await CurrentPopup.CloseAsync(obj);
+            await CurrentPopup.CloseAsync();
         }
 
         private void LoadHeader()

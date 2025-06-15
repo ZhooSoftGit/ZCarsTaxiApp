@@ -130,7 +130,7 @@ namespace ZTaxiApp.ViewModel
                     {
                         { "regType",  GetRegType() }
                     };
-            await _navigationService.PushAsync(ServiceHelper.GetService<RegistrationBasePage>(), param);
+            await _navigationService.PushAsync(ServiceHelper.GetService<RideLaterBookingsPage>(), param);
         }
 
         private RegsitrationType GetRegType()

@@ -3,11 +3,13 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ZhooSoft.Core;
+using ZTaxiApp.Common;
 using ZTaxiApp.Helpers;
 using ZTaxiApp.Services.Contracts;
 using ZTaxiApp.Services.Session;
 using ZTaxiApp.UIModel;
 using ZTaxiApp.Views.Driver;
+using ZTaxiApp.Views.UserApp;
 
 namespace ZTaxiApp.ViewModel
 {
@@ -120,7 +122,25 @@ namespace ZTaxiApp.ViewModel
             {
                 if (action.Action == ActionEnum.Cab)
                 {
+                    AppHelper.SelectedVehicleType = VehicleOption.Car;
                     await _navigationService.PushAsync(ServiceHelper.GetService<RideMapBasePage>());
+                }
+                if (action.Action == ActionEnum.Auto)
+                {
+                    AppHelper.SelectedVehicleType = VehicleOption.Auto;
+                    await _navigationService.PushAsync(ServiceHelper.GetService<RideMapBasePage>());
+                }
+
+                if (action.Action == ActionEnum.OutStation)
+                {
+                    AppHelper.SelectedAction = ActionEnum.OutStation;
+                    await _navigationService.PushAsync(ServiceHelper.GetService<BookingInfoPage>());
+                }
+
+                if (action.Action == ActionEnum.Rental)
+                {
+                    AppHelper.SelectedAction = ActionEnum.Rental;
+                    await _navigationService.PushAsync(ServiceHelper.GetService<BookingInfoPage>());
                 }
             }
         }

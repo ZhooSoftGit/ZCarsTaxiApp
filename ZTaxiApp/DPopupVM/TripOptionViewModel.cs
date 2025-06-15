@@ -35,17 +35,17 @@ namespace ZTaxiApp.DPopupVM
 
         private async Task CallCustomer()
         {
-            await CurrentPopup.CloseAsync(PopupEnum.CallRide);
+            await CurrentPopup.CloseAsync();
         }
 
         private async Task CancelTrip()
         {
-            await CurrentPopup.CloseAsync(PopupEnum.CancelRide);
+            await CurrentPopup.CloseAsync();
         }
 
         private async Task ShowTripDetails()
         {
-            await CurrentPopup.CloseAsync(PopupEnum.TripDetails);
+            await CurrentPopup.CloseAsync();
         }
 
         #endregion

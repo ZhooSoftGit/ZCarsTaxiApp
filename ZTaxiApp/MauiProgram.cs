@@ -26,6 +26,8 @@ using ZTaxiApp.Views.Rides;
 using ZTaxiApp.Views.Vendor;
 using ZTaxi.Services.Contracts;
 using ZTaxi.Services;
+using ZTaxiApp.Views.UserApp;
+
 
 
 
@@ -123,7 +125,7 @@ public static class MauiProgram
         services.AddTransient<LoginPage>();
         services.AddTransient<OTPVerificationPage>();
         services.AddTransient<HomeViewPage>();
-        services.AddTransient<RegistrationBasePage>();
+        services.AddTransient<RideLaterBookingsPage>();
         services.AddTransient<DocumentUploadPage>();
         services.AddTransient<RideMapBasePage>();
         services.AddTransient<BaseProfilePage>();
@@ -151,7 +153,8 @@ public static class MauiProgram
         services.AddTransient<PeakHoursPage>();
 
         services.AddTransient<MapViewPage>();
-
+        services.AddTransient<RideLaterBookingsPage>();
+        services.AddTransient<BookingInfoPage>();
         return services;
     }
 
@@ -208,7 +211,7 @@ public static class MauiProgram
         services.AddTransient<LoginViewModel>();
         services.AddTransient<OTPVerificationViewModel>();
         services.AddTransient<HomeViewModel>();
-        services.AddTransient<RegistrationBaseViewModel>();
+        services.AddTransient<RideLaterBookingsViewModel>();
         services.AddTransient<DocumentUploadViewModel>();
         services.AddTransient<DynamicFormViewModel>();
 
@@ -235,6 +238,8 @@ public static class MauiProgram
         services.AddTransient<PeakHoursViewModel>();
 
         services.AddTransient<MapViewViewModel>();
+        services.AddTransient<RideLaterBookingsViewModel>();
+        services.AddTransient<BookingInfoViewModel>();
         return services;
     }
 }

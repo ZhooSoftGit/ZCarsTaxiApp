@@ -42,14 +42,14 @@ namespace ZTaxiApp.DPopupVM
 
         private async Task OnEndTrip()
         {
-            await CurrentPopup.CloseAsync(true);
+            await CurrentPopup.CloseAsync();
         }
 
         private async Task VerifyOtp()
         {
             string enteredOtp = $"{Otp1}{Otp2}{Otp3}{Otp4}";
 
-            await CurrentPopup.CloseAsync(enteredOtp);
+            await CurrentPopup.CloseAsync();
 
         }
 

@@ -13,6 +13,8 @@ namespace ZTaxiApp.UIModel
 
         public LocationType LocationType { get; set; }
 
+        public bool IsCurrentLocation;
+
         public Location GetLocation() => new Location(Latitude, Longitude);
     }
 

@@ -68,6 +68,7 @@ namespace ZTaxiApp.ViewModel
                 ButtonText = $"Select {info.LocationType.ToString()}";
 
                 PageTitleName = ButtonText;
+                await PinCurrentUserLocationOnMap();
             }
 
             if (NavigationParams != null && NavigationParams.ContainsKey("selectedAddress"))
@@ -79,10 +80,7 @@ namespace ZTaxiApp.ViewModel
                     await PinCurrentUserLocationOnMap(loc);
                 }
             }
-            else
-            {
-                await PinCurrentUserLocationOnMap();
-            }
+
 
             NavigationParams?.Clear();
         }
