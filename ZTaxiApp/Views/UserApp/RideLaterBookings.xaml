@@ -43,16 +43,28 @@
                     x:Name="bottomsheet"
                     AbsoluteLayout.LayoutBounds="0,1,1,0.5"
                     AbsoluteLayout.LayoutFlags="All"
-                    BackgroundColor="Transparent"
+                    BackgroundColor="White"
                     Stroke="{DynamicResource Primary}">
                     <Grid Padding="10" RowDefinitions="Auto,*,Auto">
 
                         <HorizontalStackLayout HorizontalOptions="End">
-                            <Label Text="expand" />
-                            <Image
-                                HeightRequest="20"
-                                Source="edit_icon.png"
-                                WidthRequest="20" />
+                            <ctrl:CustomBorder
+                                BackgroundColor="{DynamicResource Primary}"
+                                HeightRequest="30"
+                                StrokeShape="RoundRectangle 15"
+                                WidthRequest="30">
+                                <Label
+                                    BackgroundColor="Transparent"
+                                    FontFamily="icomoon"
+                                    FontSize="18"
+                                    HorizontalOptions="Center"
+                                    Text="&#xe989;"
+                                    TextColor="White"
+                                    VerticalOptions="Center" />
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                </Border.GestureRecognizers>
+                            </ctrl:CustomBorder>
                             <HorizontalStackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                             </HorizontalStackLayout.GestureRecognizers>
@@ -109,12 +121,16 @@
                                             </ctrl:CustomBorder.GestureRecognizers>
                                         </ctrl:CustomBorder>
 
-                                        <ctrl:CustomImage
+                                        <ctrl:CustomBorder
                                             Grid.Row="0"
                                             Grid.Column="1"
-                                            Command="{Binding OpenPickupMapCommand}"
-                                            Source="pickup_loc.png"
-                                            WidthRequest="30" />
+                                            BackgroundColor="White">
+                                            <ctrl:CustomLabel
+                                                Text="&#xe948;"
+                                                TextColor="{DynamicResource Primary}"
+                                                WidthRequest="30" />
+                                        </ctrl:CustomBorder>
+
                                     </Grid>
 
                                 </Grid>
@@ -122,6 +138,7 @@
                                 <!--  Drop Address + Map  -->
                                 <Grid
                                     Grid.Row="1"
+                                    IsVisible="{Binding IsOutstation}"
                                     RowDefinitions="auto,auto"
                                     RowSpacing="6">
                                     <ctrl:CustomLabel Text="Drop Address" />
@@ -153,12 +170,12 @@
                                             </ctrl:CustomBorder.GestureRecognizers>
                                         </ctrl:CustomBorder>
 
-                                        <ctrl:CustomImage
+                                        <ctrl:CustomLabel
                                             Grid.Row="0"
                                             Grid.Column="1"
-                                            Command="{Binding OpenDropMapCommand}"
-                                            Source="select_loc.png"
-                                            WidthRequest="30" />
+                                            FontSize="30"
+                                            Text="&#xea96;"
+                                            TextColor="{DynamicResource Secondary}" />
                                     </Grid>
 
                                 </Grid>
@@ -233,8 +250,9 @@
                                     <Label Text="Select Package" />
                                     <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
                                         <Picker
-                                            Title="Select Package"
-                                            ItemsSource="{Binding RentalPackages}"
+                                            Title="Select Rental Package"
+                                            ItemDisplayBinding="{Binding DisplayText}"
+                                            ItemsSource="{Binding Packages}"
                                             SelectedItem="{Binding SelectedPackage}" />
                                     </ctrl:CustomBorder>
                                 </VerticalStackLayout>

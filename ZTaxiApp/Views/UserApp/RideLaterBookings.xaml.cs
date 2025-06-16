@@ -17,7 +17,7 @@ public partial class RideLaterBookingsPage : BaseContentPage<RideLaterBookingsVi
         isExpand = !isExpand;
         if (isExpand)
         {
-            AbsoluteLayout.SetLayoutBounds(bottomsheet, new Rect(0, 1, 1, 1));
+            AbsoluteLayout.SetLayoutBounds(bottomsheet, new Rect(0, 1, 1, 0.75));
         }
         else
         {

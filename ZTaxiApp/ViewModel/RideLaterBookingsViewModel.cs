@@ -30,9 +30,6 @@ namespace ZTaxiApp.ViewModel
         private LocationInfo _pickupLocation;
 
         [ObservableProperty]
-        private ObservableCollection<string> _rentalPackages;
-
-        [ObservableProperty]
         private double? _routeDistance;
 
         [ObservableProperty]
@@ -65,8 +62,6 @@ namespace ZTaxiApp.ViewModel
         [ObservableProperty]
         TimeSpan? _returnTime;
 
-        [ObservableProperty]
-        string _selectedPackage;
 
         [ObservableProperty]
         string _selectedVehicleType;
@@ -169,6 +164,12 @@ namespace ZTaxiApp.ViewModel
             }
         }
 
+        [ObservableProperty]
+        private List<RentalPackage> _packages;
+
+        [ObservableProperty]
+        private RentalPackage _selectedPackage;
+
         private async Task EvaluateRideOptionsVisibility()
         {
             var isValid = !string.IsNullOrWhiteSpace(PickupLocation?.Address)
@@ -224,10 +225,12 @@ namespace ZTaxiApp.ViewModel
         {
             VehicleTypes = new ObservableCollection<string>(new List<string> { "Hatchback", "Sedan", "SUV", "MPV", "Luxury", "Bike Taxi" });
 
-            RentalPackages = new ObservableCollection<string>
-            {
-                "40km/4h", "80km/8h","40km/4h","40km/4h"
-            };
+            Packages = new()
+                            {
+                                new RentalPackage { PackageId = 1, Hours = 1, Kilometers = 10, Rate = 300 },
+                                new RentalPackage { PackageId = 2, Hours = 2, Kilometers = 20, Rate = 550 },
+                                new RentalPackage { PackageId = 3, Hours = 4, Kilometers = 40, Rate = 999 }
+                            };
         }
 
         private async Task OnSelectDropLocation()
@@ -337,7 +340,7 @@ namespace ZTaxiApp.ViewModel
 
         void ValidateForm()
         {
-            if (PickupLocation==null || string.IsNullOrEmpty(PickupLocation.Address) ||
+            if (PickupLocation == null || string.IsNullOrEmpty(PickupLocation.Address) ||
                 string.IsNullOrWhiteSpace(SelectedVehicleType))
             {
                 IsFormValid = false;
@@ -354,7 +357,7 @@ namespace ZTaxiApp.ViewModel
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(SelectedPackage))
+                if (SelectedPackage == null)
                 {
                     IsFormValid = false;
                     return;
@@ -372,5 +375,18 @@ namespace ZTaxiApp.ViewModel
         public int Count { get; set; }
 
         public string CountText { get; set; }
+    }
+
+    public class RentalPackage
+    {
+        public int PackageId { get; set; }
+
+        public int Hours { get; set; }
+
+        public int Kilometers { get; set; }
+
+        public decimal Rate { get; set; }
+
+        public string DisplayText => $"{Hours} hr, {Kilometers} km - ₹{Rate}";
     }
 }
