@@ -11,9 +11,27 @@ using ZTaxiApp.Helpers;
 using ZTaxiApp.Services.AppService;
 using ZTaxiApp.UIModel;
 using ZTaxiApp.Views.Driver;
+using ZTaxiApp.Views.UserApp;
 
 namespace ZTaxiApp.ViewModel
 {
+    public class RentalPackage
+    {
+        #region Properties
+
+        public string DisplayText => $"{Hours} hr, {Kilometers} km - ₹{Rate}";
+
+        public int Hours { get; set; }
+
+        public int Kilometers { get; set; }
+
+        public int PackageId { get; set; }
+
+        public decimal Rate { get; set; }
+
+        #endregion
+    }
+
     public partial class RideLaterBookingsViewModel : ViewModelBase
     {
         #region Fields
@@ -27,10 +45,28 @@ namespace ZTaxiApp.ViewModel
         private IOsrmService _osrmService;
 
         [ObservableProperty]
+        private List<RentalPackage> _packages;
+
+        [ObservableProperty]
         private LocationInfo _pickupLocation;
 
         [ObservableProperty]
         private double? _routeDistance;
+
+        [ObservableProperty]
+        private RentalPackage _selectedPackage;
+
+        [ObservableProperty]
+        private Traveller _selectedTraveller;
+
+        [ObservableProperty]
+        private List<Traveller> _travellers = Enumerable.Range(1, 10)
+        .Select(i => new Traveller
+        {
+            Count = i,
+            CountText = i == 1 ? "1 Passenger" : $"{i} Passengers"
+        })
+        .ToList();
 
         [ObservableProperty]
         private ObservableCollection<string> _tripTypes;
@@ -62,7 +98,6 @@ namespace ZTaxiApp.ViewModel
         [ObservableProperty]
         TimeSpan? _returnTime;
 
-
         [ObservableProperty]
         string _selectedVehicleType;
 
@@ -82,6 +117,7 @@ namespace ZTaxiApp.ViewModel
             _osrmService = ServiceHelper.GetService<IOsrmService>();
             SelectPickupLocationCommand = new AsyncRelayCommand(OnSelectPickupLocation);
             SelectDropLocationCommand = new AsyncRelayCommand(OnSelectDropLocation);
+            OnReviewBookingCmd = new AsyncRelayCommand(OnReviewBooking);
 
             LoadDatas();
 
@@ -93,6 +129,8 @@ namespace ZTaxiApp.ViewModel
         #region Properties
 
         public CustomMapView CurrentMap { get; internal set; }
+
+        public ICommand OnReviewBookingCmd { get; }
 
         public ICommand OpenDropMapCommand => new Command(() => OnOpenMap("drop"));
 
@@ -129,6 +167,7 @@ namespace ZTaxiApp.ViewModel
                     }
                 }
             }
+
             await EvaluateRideOptionsVisibility();
             IsLoaded = true;
             IsBusy = false;
@@ -159,16 +198,9 @@ namespace ZTaxiApp.ViewModel
                 };
 
                 CurrentMap.Pins.Add(pin);
-
                 CurrentMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(0.5)));
             }
         }
-
-        [ObservableProperty]
-        private List<RentalPackage> _packages;
-
-        [ObservableProperty]
-        private RentalPackage _selectedPackage;
 
         private async Task EvaluateRideOptionsVisibility()
         {
@@ -183,18 +215,6 @@ namespace ZTaxiApp.ViewModel
                 IsBusy = false;
             }
         }
-
-        [ObservableProperty]
-        private List<Traveller> _travellers = Enumerable.Range(1, 10)
-        .Select(i => new Traveller
-        {
-            Count = i,
-            CountText = i == 1 ? "1 Passenger" : $"{i} Passengers"
-        })
-        .ToList();
-
-        [ObservableProperty]
-        private Traveller _selectedTraveller;
 
         private async Task GetCurrentLocationInfo()
         {
@@ -231,6 +251,49 @@ namespace ZTaxiApp.ViewModel
                                 new RentalPackage { PackageId = 2, Hours = 2, Kilometers = 20, Rate = 550 },
                                 new RentalPackage { PackageId = 3, Hours = 4, Kilometers = 40, Rate = 999 }
                             };
+        }
+
+        private async Task OnReviewBooking()
+        {
+            var reviewbooking = new ReviewBookingModel
+            {
+                PickupLocation = PickupLocation,
+                DropLocation = DropLocation,
+                DistanceKm = RouteDistance ?? 0,
+                Duration = TimeSpan.FromSeconds(Duration ?? 0),
+                StartDateTime = PickupDate,
+                EndDateTime = ReturnDate ?? null,
+                EstimatedFare = 120,
+                InsuranceCost = 20,
+                VehicleType = SelectedVehicleType,
+                TripType = TripType,
+                RideInclusions =
+                                [
+                                    "Regularly audited cars",
+                                    "24/7 on-road assistance",
+                                    "Real-time tracking"
+                                ],
+                RulesAndRestrictions =
+                                    [
+                                        "Excludes toll costs, parking, permits and state tax",
+                                        "₹10/km will be charged for additional hours",
+                                        "₹11/min will be charged for extra km",
+                                        "Driver allowance at 24 hours: ₹210",
+                                        "Night time allowance (11:00 PM - 06:00 AM): ₹250/night",
+                                        "Extra fare may apply if you don't end trip at Coimbatore"
+                                    ],
+                TermsAndConditions =
+                                    [
+                                        "Excludes tolls, parking, permits and state tax",
+                                        "₹10/km will be charged for extra km",
+                                        "₹11/min will be charged for extra time"
+                                    ]
+            };
+            var nvparam = new Dictionary<string, object>
+            {
+                {"reviewBooking", reviewbooking }
+            };
+            await _navigationService.PushAsync(ServiceHelper.GetService<ReviewBookingPage>(), nvparam);
         }
 
         private async Task OnSelectDropLocation()
@@ -372,21 +435,12 @@ namespace ZTaxiApp.ViewModel
 
     public class Traveller
     {
+        #region Properties
+
         public int Count { get; set; }
 
         public string CountText { get; set; }
-    }
 
-    public class RentalPackage
-    {
-        public int PackageId { get; set; }
-
-        public int Hours { get; set; }
-
-        public int Kilometers { get; set; }
-
-        public decimal Rate { get; set; }
-
-        public string DisplayText => $"{Hours} hr, {Kilometers} km - ₹{Rate}";
+        #endregion
     }
 }

@@ -56,9 +56,12 @@
                         Text="{Binding SearchText}"
                         TextColor="#4D4D4D"
                         VerticalTextAlignment="Center">
-                        <ctrl:CustomEntry.Behaviors>
-                            <toolkit:EventToCommandBehavior Command="{Binding SearchCommand}" EventName="TextChanged" />
-                        </ctrl:CustomEntry.Behaviors>
+                        <Entry.Behaviors>
+                            <toolkit:EventToCommandBehavior
+                                BindingContext="{Binding Path=BindingContext, Source={x:Reference SearchLocationUI}}"
+                                Command="{Binding SearchCommand}"
+                                EventName="TextChanged" />
+                        </Entry.Behaviors>
                     </ctrl:CustomEntry>
                 </Grid>
             </ctrl:CustomBorder>

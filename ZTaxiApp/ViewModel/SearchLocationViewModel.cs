@@ -38,7 +38,7 @@ namespace ZTaxiApp.ViewModel
             PageTitleName = "Select Location";
 
             MapviewClicked = new Command(Onmapview);
-            SearchCommand = new Command(OnSearchItem);
+            SearchCommand = new Command(async () => await OnSearchItem());
             OnSelectLocationCmd = new Command(OnSelectLocation);
             _addressService = ServiceHelper.GetService<IAddressService>();
         }
@@ -82,11 +82,11 @@ namespace ZTaxiApp.ViewModel
             _navigationService.PushAsync(ServiceHelper.GetService<MapViewPage>(), vm);
         }
 
-        private void OnSearchItem(object obj)
+        private async Task OnSearchItem()
         {
             if (SearchText?.Length > 2)
             {
-                LoadItems(SearchText);
+                Task.Run(async () => await LoadItems(SearchText));
             }
             else
             {
@@ -94,11 +94,22 @@ namespace ZTaxiApp.ViewModel
             }
         }
 
-        private async void LoadItems(string searchText)
+        private async Task LoadItems(string searchText)
         {
-            var result = await _addressService.GetAddressFromSearchAsync(searchText);
-            ShowSearchResult = true;
-            SearchLocations = new ObservableCollection<SearchAddressResult>(result);
+            try
+            {
+                var result = await _addressService.GetAddressFromSearchAsync(searchText);
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    ShowSearchResult = true;
+                    SearchLocations = new ObservableCollection<SearchAddressResult>(result);
+                });                
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
     }
 }

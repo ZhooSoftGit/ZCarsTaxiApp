@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ZhooSoft.Core;
 using ZTaxi.Model.Response;
 using ZTaxi.Services.Contracts;
 
@@ -46,6 +47,49 @@ namespace ZTaxi.Services
             }
 
             return new List<SearchAddressResult>();
+        }
+
+        public async Task<List<MapboxSearchResult>> SearchAsync(string query, double? latitude = null, double? longitude = null)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<MapboxSearchResult>();
+
+            string baseUrl = $"https://api.mapbox.com/search/searchbox/v1/suggest?q={Uri.EscapeDataString(query)}&access_token={GlobalConstants.MapBoxKey}";
+
+            if (latitude.HasValue && longitude.HasValue)
+                baseUrl += $"&proximity={longitude.Value},{latitude.Value}";
+
+            var response = await _httpClient.GetAsync(baseUrl);
+
+            if (!response.IsSuccessStatusCode)
+                return new List<MapboxSearchResult>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(json);
+
+            var results = new List<MapboxSearchResult>();
+
+            if (!doc.RootElement.TryGetProperty("features", out var features)) return results;
+
+            foreach (var feature in features.EnumerateArray())
+            {
+                var props = feature.GetProperty("properties");
+                var coords = feature.GetProperty("geometry").GetProperty("coordinates");
+
+                results.Add(new MapboxSearchResult
+                {
+                    Name = props.GetProperty("name").GetString(),
+                    FormattedAddress = props.GetProperty("full_address").GetString(),
+                    PlaceId = props.GetProperty("mapbox_id").GetString(),
+                    Types = props.TryGetProperty("poi_category", out var types)
+                            ? types.EnumerateArray().Select(t => t.GetString()).Where(t => t != null).ToList()
+                            : new List<string>(),
+                    Longitude = coords[0].GetDouble(),
+                    Latitude = coords[1].GetDouble()
+                });
+            }
+
+            return results;
         }
 
         public async Task<string> GetPlaceNameAsync(double latitude, double longitude)

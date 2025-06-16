@@ -20,14 +20,11 @@
     <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
         <Grid
             HorizontalOptions="Fill"
-            RowDefinitions="Auto, *"
+            RowDefinitions="*"
             VerticalOptions="Fill">
 
-            <!--  Title  -->
-            <header:CustomNavigationHeader Grid.Row="0" />
-
             <AbsoluteLayout
-                Grid.Row="1"
+                Grid.Row="0"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill">
                 <!--  Fullscreen MapView  -->
@@ -38,7 +35,6 @@
                     IsShowingUser="True"
                     MapType="Street" />
 
-
                 <ctrl:CustomBorder
                     x:Name="bottomsheet"
                     AbsoluteLayout.LayoutBounds="0,1,1,0.5"
@@ -47,10 +43,39 @@
                     Stroke="{DynamicResource Primary}">
                     <Grid Padding="10" RowDefinitions="Auto,*,Auto">
 
-                        <HorizontalStackLayout HorizontalOptions="End">
+                        <Grid ColumnDefinitions="auto,*,auto" HorizontalOptions="Fill">
+
                             <ctrl:CustomBorder
+                                Grid.Column="0"
+                                BackgroundColor="{DynamicResource White}"
+                                ClickCommand="{Binding BackCommand}"
+                                HeightRequest="40"
+                                HorizontalOptions="Start"
+                                Stroke="{DynamicResource Primary}"
+                                StrokeShape="RoundRectangle 20"
+                                WidthRequest="40">
+                                <Label
+                                    BackgroundColor="Transparent"
+                                    FontFamily="icomoon"
+                                    FontSize="24"
+                                    HorizontalOptions="Center"
+                                    Text="&#xea40;"
+                                    TextColor="{DynamicResource Primary}"
+                                    VerticalOptions="Center" />
+                            </ctrl:CustomBorder>
+
+                            <Label
+                                Grid.Column="1"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding PageTitleName}"
+                                TextColor="{DynamicResource Primary}" />
+
+                            <ctrl:CustomBorder
+                                Grid.Column="2"
                                 BackgroundColor="{DynamicResource Primary}"
                                 HeightRequest="30"
+                                HorizontalOptions="End"
                                 StrokeShape="RoundRectangle 15"
                                 WidthRequest="30">
                                 <Label
@@ -65,10 +90,8 @@
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                                 </Border.GestureRecognizers>
                             </ctrl:CustomBorder>
-                            <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                            </HorizontalStackLayout.GestureRecognizers>
-                        </HorizontalStackLayout>
+
+                        </Grid>
 
 
                         <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
@@ -124,11 +147,19 @@
                                         <ctrl:CustomBorder
                                             Grid.Row="0"
                                             Grid.Column="1"
-                                            BackgroundColor="White">
-                                            <ctrl:CustomLabel
+                                            BackgroundColor="{DynamicResource White}"
+                                            HeightRequest="40"
+                                            Stroke="{DynamicResource Primary}"
+                                            StrokeShape="RoundRectangle 20"
+                                            WidthRequest="40">
+                                            <Label
+                                                BackgroundColor="Transparent"
+                                                FontFamily="icomoon"
+                                                FontSize="24"
+                                                HorizontalOptions="Center"
                                                 Text="&#xe948;"
                                                 TextColor="{DynamicResource Primary}"
-                                                WidthRequest="30" />
+                                                VerticalOptions="Center" />
                                         </ctrl:CustomBorder>
 
                                     </Grid>
@@ -170,12 +201,23 @@
                                             </ctrl:CustomBorder.GestureRecognizers>
                                         </ctrl:CustomBorder>
 
-                                        <ctrl:CustomLabel
+                                        <ctrl:CustomBorder
                                             Grid.Row="0"
                                             Grid.Column="1"
-                                            FontSize="30"
-                                            Text="&#xea96;"
-                                            TextColor="{DynamicResource Secondary}" />
+                                            BackgroundColor="{DynamicResource White}"
+                                            HeightRequest="40"
+                                            Stroke="{DynamicResource Primary}"
+                                            StrokeShape="RoundRectangle 20"
+                                            WidthRequest="40">
+                                            <Label
+                                                BackgroundColor="Transparent"
+                                                FontFamily="icomoon"
+                                                FontSize="24"
+                                                HorizontalOptions="Center"
+                                                Text="&#xe947;"
+                                                TextColor="{DynamicResource Primary}"
+                                                VerticalOptions="Center" />
+                                        </ctrl:CustomBorder>
                                     </Grid>
 
                                 </Grid>
@@ -283,10 +325,11 @@
                             Grid.Row="2"
                             Margin="20,0"
                             BackgroundColor="Teal"
+                            Command="{Binding OnReviewBookingCmd}"
                             CornerRadius="10"
                             HeightRequest="45"
                             IsEnabled="{Binding IsFormValid}"
-                            Text="Submit Booking"
+                            Text="Review Booking"
                             TextColor="White" />
                     </Grid>
                 </ctrl:CustomBorder>

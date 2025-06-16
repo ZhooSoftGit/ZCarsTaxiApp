@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.UserApp.ReviewBookingPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:TypeArguments="vm:ReviewBookingViewModel">
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="Auto, *"
+            VerticalOptions="Fill">
+
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+            <ScrollView>
+                <VerticalStackLayout Padding="16" Spacing="20">
+
+                    <!--  Section: Trip Info  -->
+                    <ctrl:CustomBorder
+                        Padding="12"
+                        BorderColor="Gray"
+                        CornerRadius="10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Trip Information" />
+                            <Label FontAttributes="Bold" Text="Pickup: " />
+                            <Label Text="{Binding Booking.PickupLocation.Address}" />
+                            <Label FontAttributes="Bold" Text="Drop: " />
+                            <Label Text="{Binding Booking.DropLocation.Address}" />
+                            <Label Text="Trip Type: {Binding Booking.TripType}" />
+                        </VerticalStackLayout>
+                    </ctrl:CustomBorder>
+
+                    <!--  Section: Schedule  -->
+                    <ctrl:CustomBorder
+                        Padding="12"
+                        BorderColor="Gray"
+                        CornerRadius="10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Schedule" />
+                            <Label Text="Start: {Binding Booking.StartDateTime, StringFormat='{}{0:dd MMM yyyy hh:mm tt}'}" />
+                            <Label Text="End: {Binding Booking.EndDateTime, StringFormat='{}{0:dd MMM yyyy hh:mm tt}'}" />
+                        </VerticalStackLayout>
+                    </ctrl:CustomBorder>
+
+                    <!--  Section: Vehicle  -->
+                    <ctrl:CustomBorder
+                        Padding="12"
+                        BorderColor="Gray"
+                        CornerRadius="10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Vehicle Info" />
+                            <Label Text="Vehicle Type: {Binding Booking.VehicleType}" />
+                        </VerticalStackLayout>
+                    </ctrl:CustomBorder>
+
+                    <!--  Section: Fare & Distance  -->
+                    <ctrl:CustomBorder
+                        Padding="12"
+                        BorderColor="Gray"
+                        CornerRadius="10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Fare Details" />
+                            <Label Text="Distance: {Binding Booking.DistanceKm, StringFormat='{}{0} km'}" />
+                            <Label Text="Duration: {Binding Booking.Duration}" />
+                            <Label Text="Estimated Fare: {Binding Booking.EstimatedFare, StringFormat='₹{0:N0}'}" />
+                        </VerticalStackLayout>
+                    </ctrl:CustomBorder>
+
+                    <!--  Section: Ride Inclusions  -->
+                    <ctrl:CustomBorder
+                        Padding="12"
+                        BorderColor="Gray"
+                        CornerRadius="10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Ride Inclusions" />
+                            <CollectionView ItemsSource="{Binding Booking.RideInclusions}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="• {Binding .}" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </ctrl:CustomBorder>
+
+                    <!--  Section: Rules & Restrictions  -->
+                    <ctrl:CustomBorder
+                        Padding="12"
+                        BorderColor="Gray"
+                        CornerRadius="10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Rules and Restrictions" />
+                            <CollectionView ItemsSource="{Binding Booking.RulesAndRestrictions}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="• {Binding .}" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </ctrl:CustomBorder>
+
+                    <!--  Section: Terms & Conditions  -->
+                    <ctrl:CustomBorder
+                        Padding="12"
+                        BorderColor="Gray"
+                        CornerRadius="10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Terms and Conditions" />
+                            <CollectionView ItemsSource="{Binding Booking.TermsAndConditions}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="• {Binding .}" />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </ctrl:CustomBorder>
+
+                    <!--  Section: Insurance  -->
+                    <ctrl:CustomBorder
+                        Padding="12"
+                        BorderColor="Gray"
+                        CornerRadius="10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Insurance" />
+                            <Label Text="Insurance Added: {Binding Booking.IsInsuranceAdded}" />
+                            <Label Text="Cost: ₹{Binding Booking.InsuranceCost}" />
+                        </VerticalStackLayout>
+                    </ctrl:CustomBorder>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+
+
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

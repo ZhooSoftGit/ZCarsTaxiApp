@@ -157,6 +157,9 @@
 	  <MauiXaml Update="Views\UserApp\DocumentUploadPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\UserApp\ReviewBookingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\UserApp\RideMapBasePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

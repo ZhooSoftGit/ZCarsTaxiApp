@@ -15,7 +15,11 @@ namespace ZhooSoft.Core
         [ObservableProperty]
         private string _pageTitleName;
 
+        [ObservableProperty]
+        private bool _isRightIconVisible;
 
+        [ObservableProperty]
+        private ImageSource _rightIcon = "profile.png";
 
         #endregion
 
@@ -38,7 +42,7 @@ namespace ZhooSoft.Core
 
         public IAsyncRelayCommand BackCommand { get; }
 
-        
+        public IAsyncRelayCommand RightCommand { get; }
 
         public bool IsBusy
         {

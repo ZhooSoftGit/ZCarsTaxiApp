@@ -9,4 +9,12 @@ public partial class SearchLocationPage : BaseContentPage<SearchLocationViewMode
 	{
 		InitializeComponent();
 	}
+
+    private void CustomEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+		if(ViewModel is SearchLocationViewModel svm)
+		{
+			svm.SearchCommand?.Execute(e.NewTextValue);
+		}
+    }
 }

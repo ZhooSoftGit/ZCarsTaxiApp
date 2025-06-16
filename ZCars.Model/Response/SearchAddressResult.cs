@@ -99,4 +99,14 @@ namespace ZTaxi.Model.Response
         [JsonPropertyName("coordinates")]
         public List<double> Coordinates { get; set; } // [lon, lat]
     }
+
+    public class MapboxSearchResult
+    {
+        public string Name { get; set; }
+        public string FormattedAddress { get; set; }
+        public string PlaceId { get; set; }
+        public List<string> Types { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
 }
