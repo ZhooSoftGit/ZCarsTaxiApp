@@ -199,7 +199,7 @@
 	  <MauiXaml Update="Views\Vendor\PeakHoursPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Vendor\RideListPage.xaml">
+	  <MauiXaml Update="Views\UserApp\RideListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Vendor\VehicleDetailsPage.xaml">

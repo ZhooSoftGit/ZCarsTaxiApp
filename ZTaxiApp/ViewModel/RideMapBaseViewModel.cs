@@ -592,14 +592,36 @@ namespace ZTaxiApp.ViewModel
                 CurrentMap.Pins.Add(pin1);
                 CurrentMap.Pins.Add(pin2);
 
-                RouteDistance = result.Distance;
+                RouteDistance = (result.Distance ?? 0) / 1000;
+                DistanceText = $"{RouteDistance:0.00} km";
 
                 Duration = result.duration;
+                DurationText = GetDurationText(Duration);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error plotting route: {ex.Message}");
             }
+        }
+
+        [ObservableProperty]
+        private string _durationText;
+
+        [ObservableProperty]
+        private string _distanceText;
+
+        private string GetDurationText(double? durationInSeconds)
+        {
+            // Convert seconds to hr:min
+            TimeSpan time = TimeSpan.FromSeconds(durationInSeconds ?? 0);
+            string readableDuration;
+
+            if (time.TotalHours >= 1)
+                readableDuration = $"{(int)time.TotalHours} hr {(int)time.Minutes} min";
+            else
+                readableDuration = $"{(int)time.Minutes} min";
+
+            return readableDuration;
         }
 
         #endregion

@@ -9,6 +9,9 @@ public partial class CommonMenuPopup : Popup
     private bool _hasOpened = false;
     public CommonMenuPopup()
     {
+        Padding = 0;
+        Margin = 0;
+        
         InitializeComponent();
         BindingContext = new CommonMenuPopupViewModel(CloseWithAnimationAsync);
 

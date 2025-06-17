@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Windows.Input;
 using ZhooSoft.Core;
 using ZTaxiApp.UIModel;
 
@@ -48,7 +49,21 @@ namespace ZTaxiApp.ViewModel
         [ObservableProperty]
         private ReviewBookingModel _booking;
 
+
+        public ICommand ConfirmBookingCmd { get; }
+
         #endregion
+
+        public ReviewBookingViewModel()
+        {
+            ConfirmBookingCmd = new Command(async () => await ConfirmBooking());
+        }
+
+        private async Task ConfirmBooking()
+        {
+            await _alertService.ShowAlert("info", "booking confirmed", "okay");
+            await _navigationService.PopToRootAsync();
+        }
 
         #region Methods
 

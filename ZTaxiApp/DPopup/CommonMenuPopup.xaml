@@ -13,11 +13,11 @@
         x:Name="PopupContent"
         Padding="20"
         BackgroundColor="White"
-        HorizontalOptions="FillAndExpand"
+        HorizontalOptions="Fill"
         RowDefinitions="auto,auto,*,auto"
         RowSpacing="10"
         TranslationX="-5000"
-        VerticalOptions="FillAndExpand">
+        VerticalOptions="Fill">
 
         <!--  Top: Menu Title  -->
         <HorizontalStackLayout
@@ -60,7 +60,7 @@
                     <Image HorizontalOptions="EndAndExpand" Source="chevron_right.png" />
                 </HorizontalStackLayout>
 
-                <Frame
+                <ctrl:CustomBorder
                     Padding="8,4"
                     BackgroundColor="#FFFDE7"
                     BorderColor="Yellow"
@@ -75,7 +75,7 @@
                             FontSize="14"
                             Text="4.73 My Rating" />
                     </HorizontalStackLayout>
-                </Frame>
+                </ctrl:CustomBorder>
             </VerticalStackLayout>
         </ctrl:CustomBorder>
 
@@ -91,9 +91,12 @@
                         Grid.Column="1"
                         FontSize="16"
                         Text="Help" />
-                    <Image
+                    <Label
                         Grid.Column="2"
-                        Source="right_arrow.png"
+                        FontFamily="icomoon"
+                        FontSize="24"
+                        Text="&#xea3c;"
+                        TextColor="Black"
                         WidthRequest="20" />
 
                 </Grid>
@@ -106,10 +109,16 @@
                         Grid.Column="1"
                         FontSize="16"
                         Text="Ride History" />
-                    <Image
+                    <Label
                         Grid.Column="2"
-                        Source="right_arrow.png"
+                        FontFamily="icomoon"
+                        FontSize="24"
+                        Text="&#xea3c;"
+                        TextColor="Black"
                         WidthRequest="20" />
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OnRideHistoryCmd}" />
+                    </Grid.GestureRecognizers>
                 </Grid>
                 <BoxView BackgroundColor="{DynamicResource Primary}" HeightRequest="1" />
 

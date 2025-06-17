@@ -27,6 +27,7 @@ using ZTaxiApp.Views.Vendor;
 using ZTaxi.Services.Contracts;
 using ZTaxi.Services;
 using ZTaxiApp.Views.UserApp;
+using CommunityToolkit.Maui.Services;
 
 
 
@@ -177,6 +178,7 @@ public static class MauiProgram
         services.AddSingleton<IUserSessionManager, UserSessionManager>();
         services.AddSingleton<HttpClient>();
         services.AddSingleton<IHttpAuthHelper, HttpAuthHelper>();
+        services.AddSingleton<IPopupService, PopupService>();
 
         services.AddSingleton<IApiService, ApiService>();
 

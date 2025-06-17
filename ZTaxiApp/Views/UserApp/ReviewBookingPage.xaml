@@ -9,7 +9,8 @@
     xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
-    x:TypeArguments="vm:ReviewBookingViewModel">
+    x:TypeArguments="vm:ReviewBookingViewModel"
+    NavigationPage.HasNavigationBar="False">
     <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
         <Grid
             HorizontalOptions="Fill"
@@ -19,53 +20,56 @@
             <!--  Title  -->
             <header:CustomNavigationHeader Grid.Row="0" />
 
-            <ScrollView>
+            <ScrollView Grid.Row="1">
                 <VerticalStackLayout Padding="16" Spacing="20">
 
                     <!--  Section: Trip Info  -->
                     <ctrl:CustomBorder
                         Padding="12"
-                        BorderColor="Gray"
-                        CornerRadius="10">
+                        BorderColor="{DynamicResource Primary}"
+                        CornerRadius="10"
+                        StrokeShape="RoundRectangle 10">
                         <VerticalStackLayout Spacing="6">
                             <Label
                                 FontAttributes="Bold"
                                 FontSize="18"
                                 Text="Trip Information" />
-                            <Label FontAttributes="Bold" Text="Pickup: " />
+                            <Label FontAttributes="Bold" Text="Pickup:" />
                             <Label Text="{Binding Booking.PickupLocation.Address}" />
-                            <Label FontAttributes="Bold" Text="Drop: " />
+                            <Label FontAttributes="Bold" Text="Drop:" />
                             <Label Text="{Binding Booking.DropLocation.Address}" />
-                            <Label Text="Trip Type: {Binding Booking.TripType}" />
+                            <Label Text="{Binding Booking.TripType, StringFormat='Trip Type: {0}'}" />
                         </VerticalStackLayout>
                     </ctrl:CustomBorder>
 
                     <!--  Section: Schedule  -->
                     <ctrl:CustomBorder
                         Padding="12"
-                        BorderColor="Gray"
-                        CornerRadius="10">
+                        BorderColor="{DynamicResource Primary}"
+                        CornerRadius="10"
+                        StrokeShape="RoundRectangle 10">
                         <VerticalStackLayout Spacing="6">
                             <Label
                                 FontAttributes="Bold"
                                 FontSize="18"
                                 Text="Schedule" />
-                            <Label Text="Start: {Binding Booking.StartDateTime, StringFormat='{}{0:dd MMM yyyy hh:mm tt}'}" />
-                            <Label Text="End: {Binding Booking.EndDateTime, StringFormat='{}{0:dd MMM yyyy hh:mm tt}'}" />
+                            <Label Text="{Binding Booking.StartDateTime, StringFormat='Start: {0:dd MMM yyyy hh:mm tt}'}" />
+                            <Label Text="{Binding Booking.EndDateTime, StringFormat='End: {0:dd MMM yyyy hh:mm tt}'}" />
                         </VerticalStackLayout>
                     </ctrl:CustomBorder>
 
                     <!--  Section: Vehicle  -->
                     <ctrl:CustomBorder
                         Padding="12"
-                        BorderColor="Gray"
-                        CornerRadius="10">
+                        BorderColor="{DynamicResource Primary}"
+                        CornerRadius="10"
+                        StrokeShape="RoundRectangle 10">
                         <VerticalStackLayout Spacing="6">
                             <Label
                                 FontAttributes="Bold"
                                 FontSize="18"
                                 Text="Vehicle Info" />
-                            <Label Text="Vehicle Type: {Binding Booking.VehicleType}" />
+                            <Label Text="{Binding Booking.VehicleType, StringFormat='Vehicle Type: {0}'}" />
                         </VerticalStackLayout>
                     </ctrl:CustomBorder>
 
@@ -79,17 +83,18 @@
                                 FontAttributes="Bold"
                                 FontSize="18"
                                 Text="Fare Details" />
-                            <Label Text="Distance: {Binding Booking.DistanceKm, StringFormat='{}{0} km'}" />
-                            <Label Text="Duration: {Binding Booking.Duration}" />
-                            <Label Text="Estimated Fare: {Binding Booking.EstimatedFare, StringFormat='₹{0:N0}'}" />
+                            <Label Text="{Binding Booking.DistanceKm, StringFormat='Distance: {0} km'}" />
+                            <Label Text="{Binding Booking.Duration, StringFormat='Duration: {0}'}" />
+                            <Label Text="{Binding Booking.EstimatedFare, StringFormat='Estimated Fare: ₹{0:N0}'}" />
                         </VerticalStackLayout>
                     </ctrl:CustomBorder>
 
                     <!--  Section: Ride Inclusions  -->
                     <ctrl:CustomBorder
                         Padding="12"
-                        BorderColor="Gray"
-                        CornerRadius="10">
+                        BorderColor="{DynamicResource Primary}"
+                        CornerRadius="10"
+                        StrokeShape="RoundRectangle 10">
                         <VerticalStackLayout Spacing="6">
                             <Label
                                 FontAttributes="Bold"
@@ -98,7 +103,7 @@
                             <CollectionView ItemsSource="{Binding Booking.RideInclusions}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Text="• {Binding .}" />
+                                        <Label Text="{Binding ., StringFormat='• {0}'}" />
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
@@ -108,8 +113,9 @@
                     <!--  Section: Rules & Restrictions  -->
                     <ctrl:CustomBorder
                         Padding="12"
-                        BorderColor="Gray"
-                        CornerRadius="10">
+                        BorderColor="{DynamicResource Primary}"
+                        CornerRadius="10"
+                        StrokeShape="RoundRectangle 10">
                         <VerticalStackLayout Spacing="6">
                             <Label
                                 FontAttributes="Bold"
@@ -118,7 +124,7 @@
                             <CollectionView ItemsSource="{Binding Booking.RulesAndRestrictions}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Text="• {Binding .}" />
+                                        <Label Text="{Binding ., StringFormat='• {0}'}" />
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
@@ -128,8 +134,9 @@
                     <!--  Section: Terms & Conditions  -->
                     <ctrl:CustomBorder
                         Padding="12"
-                        BorderColor="Gray"
-                        CornerRadius="10">
+                        BorderColor="{DynamicResource Primary}"
+                        CornerRadius="10"
+                        StrokeShape="RoundRectangle 10">
                         <VerticalStackLayout Spacing="6">
                             <Label
                                 FontAttributes="Bold"
@@ -138,7 +145,7 @@
                             <CollectionView ItemsSource="{Binding Booking.TermsAndConditions}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Text="• {Binding .}" />
+                                        <Label Text="{Binding ., StringFormat='• {0}'}" />
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
@@ -148,23 +155,39 @@
                     <!--  Section: Insurance  -->
                     <ctrl:CustomBorder
                         Padding="12"
-                        BorderColor="Gray"
-                        CornerRadius="10">
+                        BorderColor="{DynamicResource Primary}"
+                        CornerRadius="10"
+                        StrokeShape="RoundRectangle 10">
                         <VerticalStackLayout Spacing="6">
                             <Label
                                 FontAttributes="Bold"
                                 FontSize="18"
                                 Text="Insurance" />
-                            <Label Text="Insurance Added: {Binding Booking.IsInsuranceAdded}" />
-                            <Label Text="Cost: ₹{Binding Booking.InsuranceCost}" />
+
+                            <!--  Checkbox for Insurance Option  -->
+                            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                                <CheckBox IsChecked="{Binding Booking.IsInsuranceAdded}" />
+                                <Label Text="Add Insurance" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <!--  Show cost only if insurance is selected  -->
+                            <Label IsVisible="{Binding Booking.IsInsuranceAdded}" Text="{Binding Booking.InsuranceCost, StringFormat='Cost: ₹{0:N0}'}" />
                         </VerticalStackLayout>
                     </ctrl:CustomBorder>
 
+                    <!--  Get Started Button  -->
+                    <Button
+                        Margin="20"
+                        BackgroundColor="{DynamicResource Primary}"
+                        Command="{Binding ConfirmBookingCmd}"
+                        CornerRadius="10"
+                        FontAttributes="Bold"
+                        Text="Confirm Booking"
+                        TextColor="{DynamicResource White}"
+                        VerticalOptions="End" />
+
                 </VerticalStackLayout>
             </ScrollView>
-
-
-
         </Grid>
     </Grid>
 </base:BaseContentPage>

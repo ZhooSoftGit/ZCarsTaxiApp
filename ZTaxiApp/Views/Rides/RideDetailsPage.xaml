@@ -80,7 +80,7 @@
                         Padding="10"
                         BackgroundColor="White"
                         CornerRadius="10">
-                        <Grid RowDefinitions="auto,auto,auto,auto,auto, auto">
+                        <Grid RowDefinitions="auto,auto,auto,auto,auto, auto" RowSpacing="10">
 
                             <Grid
                                 Grid.Row="0"
