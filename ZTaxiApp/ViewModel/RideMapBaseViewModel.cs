@@ -8,6 +8,7 @@ using System.Windows.Input;
 using ZhooSoft.Auth.Model;
 using ZhooSoft.Controls;
 using ZhooSoft.Core;
+using ZTaxi.Core.Storage;
 using ZTaxi.Model.DTOs.UserApp;
 using ZTaxi.Services.Contracts;
 using ZTaxiApp.Common;
@@ -82,7 +83,14 @@ namespace ZTaxiApp.ViewModel
             ShareCommand = new AsyncRelayCommand(OnShowDetails);
             CallCommand = new RelayCommand(OnCall);
 
+            OpenChatCmd = new RelayCommand(OnChat);
+
             InitializeService();
+        }
+
+        private async void OnChat()
+        {
+            await _navigationService.PushAsync(ServiceHelper.GetService<ZhooChatPage>());
         }
 
         private async Task OnCancel()
@@ -154,35 +162,44 @@ namespace ZTaxiApp.ViewModel
                 await _alertService.ShowAlert("Error", "Sorry facing some issues", "ok");
                 return;
             }
-            if (NearbyDrivers.Count > 0)
-            {
-                var ids = NearbyDrivers.Select(x => x.DriverId);
 
-                var model = new BookingRequestModel
-                {
-                    BookingType = RideTypeEnum.Local,
-                    Fare = "₹ 194",
-                    DistanceAndPayment = "0.1 Km / Cash",
-                    PickupLocation = PickupLocation.Address,
-                    PickupAddress = PickupLocation.Address,
-                    PickupLatitude = PickupLocation.Latitude,
-                    PickupLongitude = PickupLocation.Longitude,
-                    PickupTime = DateTime.Now.ToString(),
-                    DropoffLocation = DropLocation.Address,
-                    DropLatitude = DropLocation.Latitude,
-                    DropLongitude = DropLocation.Longitude,
-                    RemainingBids = 3,
-                    UserId = UserDetails.Instance.CurrentUser.UserId,
-                    BoookingRequestId = bookingResult.Data.RideRequestId
-                };
-                _bookingPopup = new BookingPopup();
-                _navigationService.OpenPopup(_bookingPopup);
-                Task.Run(async () => await _signalR.SendBookingRequest(ids.ToList(), model));
-            }
-            else
+            var model = new BookingRequestModel
             {
-                await _alertService.ShowAlert("OOPS", "No Drivers nearby your location.", "ok");
-            }
+                BookingType = RideTypeEnum.Local,
+                Fare = "₹ 194",
+                DistanceAndPayment = "0.1 Km / Cash",
+                PickupLocation = PickupLocation.Address,
+                PickupAddress = PickupLocation.Address,
+                PickupLatitude = PickupLocation.Latitude,
+                PickupLongitude = PickupLocation.Longitude,
+                PickupTime = DateTime.Now.ToString(),
+                DropoffLocation = DropLocation.Address,
+                DropLatitude = DropLocation.Latitude,
+                DropLongitude = DropLocation.Longitude,
+                RemainingBids = 3,
+                UserId = UserDetails.Instance.CurrentUser.UserId,
+                BoookingRequestId = bookingResult.Data.RideRequestId
+            };
+
+            await ForTesting(model);
+            //if (NearbyDrivers.Count > 0)
+            //{
+            //    var ids = NearbyDrivers.Select(x => x.DriverId);
+
+               
+            //    _bookingPopup = new BookingPopup();
+            //    _navigationService.OpenPopup(_bookingPopup);
+            //    Task.Run(async () => await _signalR.SendBookingRequest(ids.ToList(), model));
+            //}
+            //else
+            //{
+            //    await _alertService.ShowAlert("OOPS", "No Drivers nearby your location.", "ok");
+            //}
+        }
+
+        private async Task ForTesting(BookingRequestModel model)
+        {
+            await _signalR.OnBookingConfirmed(model);
         }
 
 
@@ -207,6 +224,8 @@ namespace ZTaxiApp.ViewModel
         private BookingPopup _bookingPopup;
 
         public ICommand SelectDropLocationCommand { get; }
+
+        public ICommand OpenChatCmd { get; }
 
         public ICommand SelectPickupLocationCommand { get; }
 
@@ -312,8 +331,8 @@ namespace ZTaxiApp.ViewModel
 
             if (!IsLoaded)
             {
-                RefreshPage();
                 Task.Run(async () => await InitializeSignalR());
+                RefreshPage();
             }
 
             IsLoaded = true;
@@ -342,9 +361,9 @@ namespace ZTaxiApp.ViewModel
 
         private async Task InitializeSignalR()
         {
-            _signalR = ServiceHelper.GetService<UserSignalRService>();
             _signalR.Initialize(UserDetails.Instance.CurrentUser.UserId);
             await _signalR.ConnectAsync();
+            _signalR.OnNearbyDriversUpdated -= _signalR_OnNearbyDriversUpdated;
             _signalR.OnNearbyDriversUpdated += _signalR_OnNearbyDriversUpdated;
         }
 
@@ -426,7 +445,8 @@ namespace ZTaxiApp.ViewModel
             }
             else
             {
-                OTPText = "Driver is started";
+                DriverInfo = "Driver is started";
+                OTPText = "Receive OTP shortly";
             }
 
             if (AppHelper.CurrentRide?.CurrentStatus == RideStatus.Completed)
@@ -477,6 +497,11 @@ namespace ZTaxiApp.ViewModel
         private async Task GetCurrentRide()
         {
             //API call is any ride available
+
+            if (AppHelper.CurrentRide != null)
+            {
+
+            }
         }
 
         private void InitializeService()
@@ -485,6 +510,8 @@ namespace ZTaxiApp.ViewModel
             _callService = ServiceHelper.GetService<ICallService>();
             _rideTripService = ServiceHelper.GetService<IRideTripService>();
             _taxiService = ServiceHelper.GetService<ITaxiBookingService>();
+
+            _signalR = ServiceHelper.GetService<UserSignalRService>();
         }
 
         private void LoadRideOptions()

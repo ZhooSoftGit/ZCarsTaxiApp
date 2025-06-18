@@ -8,5 +8,9 @@ namespace ZhooSoft.Controls
 {
     public class CustomLabel : Label
     {
+        public CustomLabel()
+        {
+            
+        }
     }
 }

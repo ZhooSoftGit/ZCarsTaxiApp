@@ -181,7 +181,7 @@
                 IsVisible="{Binding ShowDriver}"
                 Stroke="{DynamicResource Primary}"
                 VerticalOptions="End">
-                <ctrl:CustomGrid RowDefinitions="auto,auto,auto,auto" RowSpacing="10">
+                <ctrl:CustomGrid RowDefinitions="auto,auto,auto,auto,auto" RowSpacing="10">
 
                     <ctrl:CustomBorder
                         Grid.Row="0"
@@ -213,33 +213,68 @@
                     </ctrl:CustomBorder>
 
                     <!--  Driver Info Card  -->
-                    <HorizontalStackLayout
+                    <ctrl:CustomBorder
                         Grid.Row="2"
-                        Spacing="10"
-                        VerticalOptions="Center">
-                        <!--  Driver Image  -->
-                        <Image Aspect="AspectFill" Source="driver_book.png" />
+                        Padding="6"
+                        BackgroundColor="{DynamicResource PrimaryLight}"
+                        StrokeShape="RoundRectangle 10">
+                        <Grid
+                            Padding="10,0,20,0"
+                            ColumnDefinitions="auto,*"
+                            ColumnSpacing="10"
+                            VerticalOptions="Center">
+                            <!--  Driver Image  -->
+                            <Image Aspect="AspectFill" Source="driver_book.png" />
 
-                        <!--  Driver Info  -->
-                        <VerticalStackLayout>
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                Text="balaji" />
-                            <Label
-                                FontSize="14"
-                                Text="TN10AZ7078 (Mini)"
-                                TextColor="Gray" />
-                            <Label
-                                FontSize="14"
-                                Text="TIB1509ZMMQ2GX"
-                                TextColor="Gray" />
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
+                            <!--  Driver Info  -->
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    Text="balaji" />
+                                <Label
+                                    FontSize="14"
+                                    Text="TN10AZ7078 (Mini)"
+                                    TextColor="Gray" />
+                                <Label
+                                    FontSize="14"
+                                    Text="TIB1509ZMMQ2GX"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+
+
+                        </Grid>
+                    </ctrl:CustomBorder>
+
+                    <ctrl:CustomBorder
+                        Grid.Row="3"
+                        ClickCommand="{Binding OpenChatCmd}"
+                        Stroke="LightGray"
+                        StrokeShape="RoundRectangle 6">
+                        <Grid
+                            Padding="10,0"
+                            ColumnDefinitions="*,auto"
+                            ColumnSpacing="10"
+                            VerticalOptions="Center">
+
+                            <ctrl:CustomLabel
+                                Grid.Column="0"
+                                Text="Message to driver"
+                                VerticalTextAlignment="Center" />
+                            <ctrl:CustomLabel
+                                Grid.Column="1"
+                                FontFamily="icomoon"
+                                FontSize="32"
+                                Text="&#xe96b;"
+                                TextColor="LightGray"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </ctrl:CustomBorder>
+
 
                     <!--  Action Buttons  -->
                     <Grid
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Margin="0"
                         Padding="0"
                         ColumnSpacing="10"

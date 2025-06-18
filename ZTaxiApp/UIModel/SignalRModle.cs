@@ -22,4 +22,11 @@ namespace ZTaxiApp.UIModel
         public double DropLat { get; set; }
         public double DropLng { get; set; }
     }
+
+    public class ChatMessage
+    {
+        public string Text { get; set; }
+        public bool IsIncoming { get; set; } // true = from driver, false = from user
+        public DateTime Time { get; set; }
+    }
 }

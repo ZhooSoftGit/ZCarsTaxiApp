@@ -139,6 +139,9 @@
 	  <MauiXaml Update="Views\Common\SplashScreen.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Common\ZhooChatPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CustomMapWebView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

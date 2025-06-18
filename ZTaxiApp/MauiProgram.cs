@@ -158,6 +158,7 @@ public static class MauiProgram
         services.AddTransient<RideLaterBookingsPage>();
         services.AddTransient<BookingInfoPage>();
         services.AddTransient<ReviewBookingPage>();
+        services.AddTransient<ZhooChatPage>();
         return services;
     }
 
@@ -245,6 +246,7 @@ public static class MauiProgram
         services.AddTransient<RideLaterBookingsViewModel>();
         services.AddTransient<BookingInfoViewModel>();
         services.AddTransient<ReviewBookingViewModel>();
+        services.AddTransient<ZhooChatViewModel>();
         return services;
     }
 }

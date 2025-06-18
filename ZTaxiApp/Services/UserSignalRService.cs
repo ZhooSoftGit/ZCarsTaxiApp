@@ -34,6 +34,11 @@ namespace ZTaxiApp.Services
 
         }
 
+        public HubConnection GetConnection()
+        {
+            return _connection;
+        }
+
         public void Initialize(string userId)
         {
             _userId = userId;
@@ -151,14 +156,7 @@ namespace ZTaxiApp.Services
             {
                 if (confirmRide)
                 {
-                    var ride = new CurrentRide
-                    {
-                        BookingRequest = request,
-                        CurrentStatus = RideStatus.Assigned
-                    };
-                    RideStorageService.Save(ride);
-
-                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard(true);
+                    await OnBookingConfirmed(request);
                 }
                 else
                 {
@@ -166,6 +164,18 @@ namespace ZTaxiApp.Services
                     await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard(true);
                 }
             });
+        }
+
+        public async Task OnBookingConfirmed(BookingRequestModel request)
+        {
+            var ride = new CurrentRide
+            {
+                BookingRequest = request,
+                CurrentStatus = RideStatus.Assigned
+            };
+            RideStorageService.Save(ride);
+
+            await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard(true);
         }
 
         public async Task<bool> SendSequentialRequests(List<string> driverIds, BookingRequestModel request)
@@ -240,6 +250,61 @@ namespace ZTaxiApp.Services
             }
         }
 
+        public async Task OnPickupReached()
+        {
+            var ride = AppHelper.CurrentRide;
+            ride.CurrentStatus = RideStatus.Reached;
+            AppHelper.SaveRideInfo(ride);
+            await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+        }
+
+        public async Task OnPickupCancelled()
+        {
+            var ride = AppHelper.CurrentRide;
+            ride.CurrentStatus = RideStatus.Cancelled;
+            AppHelper.SaveRideInfo(ride);
+            await ServiceHelper.GetService<IAlertService>().ShowAlert("OOPS", "Your trip has been cancelled", "ok");
+            await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+        }
+
+        public async Task TripStarted()
+        {
+            var ride = AppHelper.CurrentRide;
+            ride.CurrentStatus = RideStatus.Started;
+            AppHelper.SaveRideInfo(ride);
+            await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+        }
+
+        public async Task TripCompleted()
+        {
+            var ride = AppHelper.CurrentRide;
+            ride.CurrentStatus = RideStatus.Completed;
+            AppHelper.SaveRideInfo(ride);
+            await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+        }
+
+        public async Task TripCancelled()
+        {
+            var ride = AppHelper.CurrentRide;
+            ride.CurrentStatus = RideStatus.Cancelled;
+            await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+        }
+
+        public async Task ReceiveOTP(TripOtpInfo tripOtp)
+        {
+            // Store or update UI
+            Console.WriteLine($"Start OTP: {tripOtp.StartOtp}");
+            Console.WriteLine($"End OTP: {tripOtp.EndOtp}");
+
+            var ride = AppHelper.CurrentRide;
+            ride.CurrentStatus = RideStatus.Assigned;
+            ride.TripOtpInfo = tripOtp;
+            AppHelper.CurrentRide = null;
+            RideStorageService.Save(ride);
+            OnTripOtpReceived?.Invoke(tripOtp);
+            await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+        }
+
         public void RegisterHandler()
         {
             _connection.On<string>("OnStartPickup", rideId =>
@@ -250,10 +315,7 @@ namespace ZTaxiApp.Services
             {
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    var ride = AppHelper.CurrentRide;
-                    ride.CurrentStatus = RideStatus.Reached;
-                    AppHelper.SaveRideInfo(ride);
-                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+                    await OnPickupReached();
                 });
             });
             
@@ -263,11 +325,7 @@ namespace ZTaxiApp.Services
                 //call the API
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    var ride = AppHelper.CurrentRide;
-                    ride.CurrentStatus = RideStatus.Cancelled;
-                    AppHelper.SaveRideInfo(ride);
-                    await ServiceHelper.GetService<IAlertService>().ShowAlert("OOPS", "Your trip has been cancelled", "ok");
-                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+                    await OnPickupCancelled();
                 });
             });
 
@@ -275,10 +333,7 @@ namespace ZTaxiApp.Services
             {
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    var ride = AppHelper.CurrentRide;
-                    ride.CurrentStatus = RideStatus.Started;
-                    AppHelper.SaveRideInfo(ride);
-                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+                    await TripStarted();
                 });
             });
 
@@ -286,10 +341,7 @@ namespace ZTaxiApp.Services
             {
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    var ride = AppHelper.CurrentRide;
-                    ride.CurrentStatus = RideStatus.Completed;
-                    AppHelper.SaveRideInfo(ride);
-                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+                    await TripCompleted();
                 });
             });
 
@@ -297,9 +349,7 @@ namespace ZTaxiApp.Services
             {
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    var ride = AppHelper.CurrentRide;
-                    ride.CurrentStatus = RideStatus.Cancelled;
-                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+                    await TripCancelled();
                 });
             });
 
@@ -308,17 +358,7 @@ namespace ZTaxiApp.Services
                 // Handle received OTPs
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    // Store or update UI
-                    Console.WriteLine($"Start OTP: {tripOtp.StartOtp}");
-                    Console.WriteLine($"End OTP: {tripOtp.EndOtp}");
-
-                    var ride = AppHelper.CurrentRide;
-                    ride.CurrentStatus = RideStatus.Assigned;
-                    ride.TripOtpInfo = tripOtp;
-                    AppHelper.CurrentRide = null;
-                    RideStorageService.Save(ride);
-                    OnTripOtpReceived?.Invoke(tripOtp);
-                    await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
+                    await ReceiveOTP(tripOtp);
                 });
             });
         }

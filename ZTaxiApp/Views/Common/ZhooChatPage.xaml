@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Common.ZhooChatPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:converters="clr-namespace:ZTaxiApp.Converters"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:model="clr-namespace:ZTaxiApp.UIModel"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:Name="ZhooChatUI"
+    x:TypeArguments="vm:ZhooChatViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ChatBubbleColorConverter x:Key="ChatBubbleColorConverter" />
+            <converters:ChatAlignmentConverter x:Key="ChatAlignmentConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid
+            HorizontalOptions="Fill"
+            RowDefinitions="Auto, *"
+            VerticalOptions="Fill">
+
+            <!--  Title  -->
+            <header:CustomNavigationHeader Grid.Row="0" />
+
+
+            <!--  ChatBox  -->
+
+            <Grid
+                Grid.Row="1"
+                Padding="10"
+                RowDefinitions="*,Auto">
+                <!--  Message List  -->
+                <CollectionView
+                    x:Name="MessageList"
+                    Margin="0,10"
+                    ItemsSource="{Binding Messages}"
+                    VerticalOptions="Fill">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:ChatMessage">
+                            <ctrl:CustomBorder
+                                Margin="5"
+                                Padding="10"
+                                BackgroundColor="{Binding IsIncoming, Converter={StaticResource ChatBubbleColorConverter}}"
+                                HorizontalOptions="{Binding IsIncoming, Converter={StaticResource ChatAlignmentConverter}}"
+                                StrokeShape="RoundRectangle 10">
+                                <StackLayout>
+                                    <Label Text="{Binding Text}" TextColor="Black" />
+                                    <Label
+                                        FontSize="10"
+                                        HorizontalOptions="End"
+                                        Text="{Binding Time, StringFormat='{0:t}'}"
+                                        TextColor="Gray" />
+                                </StackLayout>
+                            </ctrl:CustomBorder>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!--  Quick Chat + Input  -->
+                <StackLayout Grid.Row="1" Spacing="8">
+                    <!--  Quick Chat  -->
+                    <CollectionView
+                        HorizontalOptions="Center"
+                        ItemsSource="{Binding QuickMessages}"
+                        SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="5">
+                                    <Label Text="{Binding}" />
+                                    <ctrl:CustomImage Source="done.png" WidthRequest="30" />
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SendQuickMessageCommand, Source={x:Reference ZhooChatUI}}" CommandParameter="{Binding .}" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!--  Text Input  -->
+                    <Grid Padding="5" ColumnDefinitions="*,Auto">
+                        <ctrl:CustomBorder Stroke="LightGray" StrokeShape="RoundRectangle 10">
+                            <Entry
+                                Grid.Column="0"
+                                Placeholder="Type here..."
+                                Text="{Binding MessageText}" />
+                        </ctrl:CustomBorder>
+
+                        <ImageButton
+                            Grid.Column="1"
+                            Command="{Binding SendMessageCommand}"
+                            Source="car_icon.png" />
+                    </Grid>
+                </StackLayout>
+            </Grid>
+
+
+        </Grid>
+    </Grid>
+</base:BaseContentPage>
