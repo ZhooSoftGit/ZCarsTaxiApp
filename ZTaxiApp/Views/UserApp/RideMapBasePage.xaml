@@ -36,6 +36,7 @@
                 ClickCommand="{Binding BackCommand}"
                 HeightRequest="60"
                 HorizontalOptions="Start"
+                IsVisible="{Binding ShowPickup}"
                 Stroke="{DynamicResource Primary}"
                 StrokeShape="RoundRectangle 30"
                 WidthRequest="60">
@@ -248,6 +249,7 @@
 
                     <ctrl:CustomBorder
                         Grid.Row="3"
+                        Padding="0,6"
                         ClickCommand="{Binding OpenChatCmd}"
                         Stroke="LightGray"
                         StrokeShape="RoundRectangle 6">

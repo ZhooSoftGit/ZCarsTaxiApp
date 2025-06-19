@@ -65,7 +65,10 @@
                 </CollectionView>
 
                 <!--  Quick Chat + Input  -->
-                <StackLayout Grid.Row="1" Spacing="8">
+                <StackLayout
+                    Grid.Row="1"
+                    HorizontalOptions="End"
+                    Spacing="8">
                     <!--  Quick Chat  -->
                     <CollectionView
                         HorizontalOptions="Center"
@@ -76,9 +79,15 @@
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Padding="5">
+                                <Grid
+                                    Padding="5"
+                                    ColumnDefinitions="*,auto"
+                                    HorizontalOptions="End">
                                     <Label Text="{Binding}" />
-                                    <ctrl:CustomImage Source="done.png" WidthRequest="30" />
+                                    <ctrl:CustomImage
+                                        Grid.Column="1"
+                                        Source="done.png"
+                                        WidthRequest="30" />
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding BindingContext.SendQuickMessageCommand, Source={x:Reference ZhooChatUI}}" CommandParameter="{Binding .}" />
                                     </Grid.GestureRecognizers>

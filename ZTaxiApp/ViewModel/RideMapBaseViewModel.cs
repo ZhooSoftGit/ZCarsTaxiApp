@@ -115,23 +115,9 @@ namespace ZTaxiApp.ViewModel
 
         private async Task OnShowDetails()
         {
-            var model = new BookingRequestModel
-            {
-                BookingType = RideTypeEnum.Local,
-                Fare = "₹ 194",
-                DistanceAndPayment = "0.1 Km / Cash",
-                PickupLocation = PickupLocation.Address,
-                PickupAddress = PickupLocation.Address,
-                PickupLatitude = PickupLocation.Latitude,
-                PickupLongitude = PickupLocation.Longitude,
-                PickupTime = "06 Feb 2024, 07:15 PM",
-                DropoffLocation = DropLocation.Address,
-                DropLatitude = DropLocation.Latitude,
-                DropLongitude = DropLocation.Longitude,
-                RemainingBids = 3
-            };
+            var bookingdetails = AppHelper.CurrentRide.BookingRequest;
 
-            var nvparam = new Dictionary<string, object> { { "BookingDetails", model } };
+            var nvparam = new Dictionary<string, object> { { "BookingDetails", bookingdetails } };
 
             await _navigationService.OpenPopup(ServiceHelper.GetService<BookingDetailsPopup>(), nvparam);
         }
@@ -168,14 +154,13 @@ namespace ZTaxiApp.ViewModel
                 BookingType = RideTypeEnum.Local,
                 Fare = "₹ 194",
                 DistanceAndPayment = "0.1 Km / Cash",
-                PickupLocation = PickupLocation.Address,
                 PickupAddress = PickupLocation.Address,
                 PickupLatitude = PickupLocation.Latitude,
                 PickupLongitude = PickupLocation.Longitude,
                 PickupTime = DateTime.Now.ToString(),
-                DropoffLocation = DropLocation.Address,
                 DropLatitude = DropLocation.Latitude,
                 DropLongitude = DropLocation.Longitude,
+                DropAddress = DropLocation.Address,
                 RemainingBids = 3,
                 UserId = UserDetails.Instance.CurrentUser.UserId,
                 BoookingRequestId = bookingResult.Data.RideRequestId
@@ -186,7 +171,7 @@ namespace ZTaxiApp.ViewModel
             //{
             //    var ids = NearbyDrivers.Select(x => x.DriverId);
 
-               
+
             //    _bookingPopup = new BookingPopup();
             //    _navigationService.OpenPopup(_bookingPopup);
             //    Task.Run(async () => await _signalR.SendBookingRequest(ids.ToList(), model));
@@ -264,6 +249,7 @@ namespace ZTaxiApp.ViewModel
         private async Task UpdateOnTripStarted()
         {
             ShowDriver = true;
+            ShowMessage = true;
         }
 
         public async void InitializeMap()
@@ -413,6 +399,7 @@ namespace ZTaxiApp.ViewModel
 
             if (AppHelper.CurrentRide != null)
             {
+                UpdateLocationInfo();
                 ShowPickup = false;
                 ShowDriver = true;
                 OngoingTrip();
@@ -424,6 +411,29 @@ namespace ZTaxiApp.ViewModel
             }
         }
 
+        private void UpdateLocationInfo()
+        {
+            if (PickupLocation.Latitude == 0 && AppHelper.CurrentRide?.BookingRequest != null)
+            {
+                PickupLocation = new LocationInfo
+                {
+                    Latitude = AppHelper.CurrentRide.BookingRequest.PickupLatitude,
+                    Longitude = AppHelper.CurrentRide.BookingRequest.PickupLongitude,
+                    Address = AppHelper.CurrentRide.BookingRequest.PickupAddress,
+                    LocationType = UIHelper.LocationType.Pickup
+                };
+                DropLocation = new LocationInfo
+                {
+                    Latitude = AppHelper.CurrentRide.BookingRequest.DropLatitude,
+                    Longitude = AppHelper.CurrentRide.BookingRequest.DropLongitude,
+                    Address = AppHelper.CurrentRide.BookingRequest.DropAddress,
+                    LocationType = UIHelper.LocationType.Pickup
+                };
+            }
+        }
+
+        [ObservableProperty]
+        private bool _showMessage;
         private async Task UpdateUIView()
         {
             if (AppHelper.CurrentRide != null && AppHelper.CurrentRide.TripOtpInfo != null)
@@ -435,6 +445,7 @@ namespace ZTaxiApp.ViewModel
                 }
                 if (AppHelper.CurrentRide.CurrentStatus == RideStatus.Started)
                 {
+                    ShowMessage = false;
                     DriverInfo = "Happy journey Buddy";
                     OTPText = $"End OTP is {AppHelper.CurrentRide.TripOtpInfo.EndOtp}";
                 }

@@ -23,6 +23,7 @@ namespace ZTaxiApp.Helpers
             {
                 if (value == null)
                 {
+                    ChatMessages?.Clear();
                     RideStorageService.Clear();
                 }
                 _currentRide = value;
@@ -36,6 +37,8 @@ namespace ZTaxiApp.Helpers
         public static List<DriverLocation> AvailableDrivers { get; internal set; }
         public static VehicleOption SelectedVehicleType { get; internal set; }
         public static ActionEnum SelectedAction { get; internal set; }
+
+        public static List<ChatMessage>? ChatMessages { get; set; } = new();
 
         public static async Task<Location> GetUserLocation()
         {

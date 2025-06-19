@@ -6,102 +6,105 @@
     xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
     xmlns:resource="clr-namespace:ZhooSoft.Auth.Resources.Strings"
     Title="LoginPage"
+    Padding="0"
     NavigationPage.HasNavigationBar="False">
-    <!--<VerticalStackLayout Padding="20">
-        <Label Text="Enter your phone number" FontSize="20" />
 
-        <ctrl:SfEntry SfText="{Binding PhoneNumber}"
-                                Hint="Phone Number"
-                                Keyboard="Telephone"
-                                CharMaxLength="10"
-                                Stroke="Gray"
-                                FocusedStrokeThickness="2"
-                                OutlineCornerRadius="5"
-                                Margin="0,10"/>
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Offset="0.0" Color="#4DB6AC" />
+            <!--  Top  -->
+            <GradientStop Offset="0.9" Color="#4DB6AC" />
+            <!--  90% Teal  -->
+            <GradientStop Offset="1.0" Color="White" />
+            <!--  Top: Accent/Teal  -->
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
-        <Button Text="Send OTP"
-                Command="{Binding SendOtpCommand}"
-                IsEnabled="{Binding IsPhoneValid}"
-                Margin="0,20" />
-
-        <Label Text="{Binding ErrorMessage}" TextColor="Red" />
-    </VerticalStackLayout>-->
     <VerticalStackLayout
-        Padding="30"
+        Padding="10,0"
         HorizontalOptions="Center"
         MaximumWidthRequest="400"
-        Spacing="20"
-        VerticalOptions="Center">
+        VerticalOptions="End">
+
+        <ctrl:CustomBorder BackgroundColor="Transparent" Stroke="Transparent">
+            <Image Source="drivericon.png" />
+        </ctrl:CustomBorder>
 
         <Label
             FontAttributes="Bold"
-            FontSize="24"
+            FontSize="36"
             HorizontalOptions="Center"
-            Text="Welcome to ZCars"
-            TextColor="#00796B" />
+            Text="ZCARS"
+            TextColor="White" />
+
 
         <ctrl:CustomBorder
-            BackgroundColor="#00796B"
-            BorderColor="#D84315"
-            HeightRequest="100"
-            WidthRequest="100">
-            <Image
-                HeightRequest="80"
-                Source="drivericon.png"
-                WidthRequest="80" />
+            Padding="30,30,30,100"
+            BackgroundColor="White"
+            Stroke="White"
+            StrokeShape="RoundRectangle 20,20,0,0">
+
+            <VerticalStackLayout Spacing="10">
+                <ctrl:CustomLabel Text="Enter your mobile no" />
+                <!--  Phone Number Container  -->
+                <ctrl:SfEntry
+                    Margin="0"
+                    CharMaxLength="10"
+                    FocusedStrokeThickness="2"
+                    HeightRequest="80"
+                    Hint="Phone Number"
+                    Keyboard="Telephone"
+                    OutlineCornerRadius="5"
+                    SfText="{Binding PhoneNumber}"
+                    Stroke="LightGray">
+                    <ctrl:SfEntry.Triggers>
+                        <DataTrigger
+                            Binding="{Binding IsPhoneValid}"
+                            TargetType="ctrl:SfEntry"
+                            Value="False">
+                            <Setter Property="Stroke" Value="LightGray" />
+                        </DataTrigger>
+                        <DataTrigger
+                            Binding="{Binding IsPhoneValid}"
+                            TargetType="ctrl:SfEntry"
+                            Value="True">
+                            <Setter Property="Stroke" Value="#00796B" />
+                        </DataTrigger>
+                    </ctrl:SfEntry.Triggers>
+                </ctrl:SfEntry>
+
+                <!--  Continue Button  -->
+                <Button
+                    BackgroundColor="#00796B"
+                    Command="{Binding SendOtpCommand}"
+                    CornerRadius="30"
+                    FontSize="16"
+                    HeightRequest="50"
+                    IsEnabled="{Binding IsPhoneValid}"
+                    Text="Continue"
+                    TextColor="White"
+                    VerticalOptions="End">
+                    <Button.Triggers>
+                        <DataTrigger
+                            Binding="{Binding IsPhoneValid}"
+                            TargetType="Button"
+                            Value="False">
+                            <Setter Property="Opacity" Value="0.7" />
+                        </DataTrigger>
+                        <DataTrigger
+                            Binding="{Binding IsPhoneValid}"
+                            TargetType="Button"
+                            Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </VerticalStackLayout>
+
+
         </ctrl:CustomBorder>
-        <!--  Title  -->
-        <Label
-            FontAttributes="Bold"
-            FontSize="20"
-            HorizontalOptions="Center"
-            Text="{x:Static resource:AppResources.LoginOrRegTitle}"
-            TextColor="Black" />
 
-        <!--  Subtitle  -->
-        <Label
-            FontSize="14"
-            Text="{x:Static resource:AppResources.LoginSubtitle}"
-            TextColor="Gray" />
 
-        <!--  Phone Number Container  -->
-        <ctrl:SfEntry
-            Margin="0"
-            CharMaxLength="10"
-            FocusedStrokeThickness="2"
-            HeightRequest="100"
-            Hint="Phone Number"
-            Keyboard="Telephone"
-            OutlineCornerRadius="5"
-            SfText="{Binding PhoneNumber}"
-            Stroke="Gray" />
-
-        <!--  Continue Button  -->
-        <Button
-            BackgroundColor="#00796B"
-            Command="{Binding SendOtpCommand}"
-            CornerRadius="30"
-            FontSize="16"
-            HeightRequest="50"
-            IsEnabled="{Binding IsPhoneValid}"
-            Text="Continue"
-            TextColor="White"
-            VerticalOptions="EndAndExpand">
-            <Button.Triggers>
-                <DataTrigger
-                    Binding="{Binding IsPhoneValid}"
-                    TargetType="Button"
-                    Value="False">
-                    <Setter Property="Opacity" Value="0.7" />
-                </DataTrigger>
-                <DataTrigger
-                    Binding="{Binding IsPhoneValid}"
-                    TargetType="Button"
-                    Value="True">
-                    <Setter Property="Opacity" Value="1" />
-                </DataTrigger>
-            </Button.Triggers>
-        </Button>
 
     </VerticalStackLayout>
 </ContentPage>

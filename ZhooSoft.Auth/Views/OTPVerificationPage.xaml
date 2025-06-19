@@ -7,24 +7,38 @@
     xmlns:resource="clr-namespace:ZhooSoft.Auth.Resources.Strings"
     Title="OTPVerificationPage"
     NavigationPage.HasNavigationBar="False">
-    <ScrollView>
-        <Border StrokeShape="Rectangle, 2,2,2,2">
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Offset="0.0" Color="#4DB6AC" />
+            <!--  Top  -->
+            <GradientStop Offset="0.9" Color="#4DB6AC" />
+            <!--  90% Teal  -->
+            <GradientStop Offset="1.0" Color="White" />
+            <!--  Top: Accent/Teal  -->
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    <ScrollView Padding="20,20,20,0">
+        <ctrl:CustomBorder
+            MaximumHeightRequest="500"
+            MaximumWidthRequest="400"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 20,20,0,0"
+            VerticalOptions="End">
             <VerticalStackLayout
                 Padding="20"
                 BackgroundColor="White"
-                MaximumHeightRequest="500"
-                MaximumWidthRequest="400"
                 Spacing="15"
-                VerticalOptions="Center">
+                VerticalOptions="End">
 
                 <ctrl:CustomBorder
                     BackgroundColor="#00796B"
-                    BorderColor="#D84315"
+                    BorderColor="Transparent"
                     HeightRequest="100"
+                    StrokeShape="RoundRectangle 50"
                     WidthRequest="100">
                     <Image
                         HeightRequest="80"
-                        Source="drivericon.png"
+                        Source="car_icon.png"
                         WidthRequest="80" />
                 </ctrl:CustomBorder>
 
@@ -148,6 +162,6 @@
                     WidthRequest="200" />
             </VerticalStackLayout>
 
-        </Border>
+        </ctrl:CustomBorder>
     </ScrollView>
 </ContentPage>

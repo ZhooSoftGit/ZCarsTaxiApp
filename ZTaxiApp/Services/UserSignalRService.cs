@@ -29,6 +29,8 @@ namespace ZTaxiApp.Services
 
         public event Action<TripOtpInfo>? OnTripOtpReceived;
 
+        public event Action<string>? OnMessageReceived;
+
         public UserSignalRService()
         {
 
@@ -75,6 +77,7 @@ namespace ZTaxiApp.Services
                         OnDriverLocationUpdated?.Invoke(location);
                 });
             });
+
         }
 
         public async Task ConnectAsync()
@@ -305,11 +308,26 @@ namespace ZTaxiApp.Services
             await ServiceHelper.GetService<IAppNavigation>().LaunchUserDashBoard();
         }
 
+        private void OnDriverMessageReceived(string obj)
+        {
+            if (AppHelper.ChatMessages != null)
+            {
+                AppHelper.ChatMessages.Add(new ChatMessage
+                {
+                    IsIncoming = true,
+                    Text = obj,
+                    Time = DateTime.Now
+                });
+            }
+
+            OnMessageReceived?.Invoke(obj);
+        }
+
         public void RegisterHandler()
         {
             _connection.On<string>("OnStartPickup", rideId =>
             {
-                
+
             });
             _connection.On<string>("OnPickupReached", rideId =>
             {
@@ -318,7 +336,7 @@ namespace ZTaxiApp.Services
                     await OnPickupReached();
                 });
             });
-            
+
 
             _connection.On<string>("OnTripCancelled", rideId =>
             {
@@ -361,6 +379,20 @@ namespace ZTaxiApp.Services
                     await ReceiveOTP(tripOtp);
                 });
             });
+
+            _connection.On<string>("messagefromdriver", OnDriverMessageReceived);
+        }
+
+        internal void SendMessageToDriver(string message)
+        {
+            try
+            {
+                _connection.SendAsync("sendmessagetodriver", message);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

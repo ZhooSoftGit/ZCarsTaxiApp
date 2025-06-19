@@ -4,57 +4,55 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Padding="0"
+    WidthRequest="300">
 
     <VerticalStackLayout
-        Padding="20"
+        Margin="0"
+        Padding="0"
         BackgroundColor="White"
-        Spacing="6">
+        Spacing="10">
 
-        <Grid HorizontalOptions="Fill" RowDefinitions="auto,auto">
-
+        <Grid ColumnDefinitions="*,auto">
             <Label
                 FontAttributes="Bold"
                 FontSize="20"
-                HorizontalOptions="Center"
-                Text="Booking Details" />
+                HorizontalOptions="Start"
+                Text="Booking Details"
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center" />
 
             <ctrl:CustomBorder
-                Grid.Row="1"
-                BackgroundColor="{x:StaticResource Primary}"
-                CornerRadius="10"
-                HorizontalOptions="End">
-                <Label
-                    Padding="5"
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    HorizontalOptions="Center"
-                    HorizontalTextAlignment="Center"
-                    TextColor="{x:StaticResource White}">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Booking Type:" />
-                            <Span
-                                FontSize="18"
-                                Text="{Binding BookingRequest.BookingType}"
-                                TextColor="{DynamicResource Primary}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                Grid.Column="1"
+                Padding="20,6"
+                BackgroundColor="{DynamicResource Primary}"
+                StrokeShape="RoundRectangle 6">
+                <Label Text="{Binding BookingRequest.BookingType}" TextColor="{DynamicResource White}" />
             </ctrl:CustomBorder>
         </Grid>
 
-        <Label
-            FontAttributes="Bold"
-            FontSize="36"
-            HorizontalOptions="Start"
-            Text="{Binding BookingRequest.Fare}" />
-        <Label FontSize="14" Text="{Binding BookingRequest.DistanceAndPayment}" />
+        <ctrl:CustomBorder
+            Padding="20,10"
+            BackgroundColor="{DynamicResource PrimaryLight}"
+            HorizontalOptions="Center"
+            StrokeShape="RoundRectangle 10">
+            <VerticalStackLayout HorizontalOptions="Center">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="36"
+                    HorizontalOptions="Start"
+                    Text="{Binding BookingRequest.Fare}" />
+                <Label FontSize="14" Text="{Binding BookingRequest.DistanceAndPayment}" />
+            </VerticalStackLayout>
+        </ctrl:CustomBorder>
+
 
         <ctrl:CustomBorder
             Padding="6"
             BackgroundColor="{x:StaticResource Primary}"
-            CornerRadius="10">
+            CornerRadius="10"
+            StrokeShape="RoundRectangle 10">
             <VerticalStackLayout Spacing="10">
                 <Label LineBreakMode="WordWrap" TextColor="{x:StaticResource White}">
                     <Label.FormattedText>
@@ -62,16 +60,12 @@
                             <Span Text="Pickup Location: " TextColor="{x:StaticResource White}" />
                             <Span
                                 FontAttributes="Bold"
-                                Text="{Binding BookingRequest.PickupLocation}"
+                                Text="{Binding BookingRequest.PickupAddress}"
                                 TextColor="{x:StaticResource White}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Label
-                    FontAttributes="Bold"
-                    LineBreakMode="WordWrap"
-                    Text="{Binding BookingRequest.PickupAddress}"
-                    TextColor="{x:StaticResource White}" />
+
                 <Label
                     FontAttributes="Bold"
                     LineBreakMode="WordWrap"
@@ -80,10 +74,10 @@
                 <Label LineBreakMode="WordWrap">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="DropoffLocation: " TextColor="{x:StaticResource White}" />
+                            <Span Text="Drop Location: " TextColor="{x:StaticResource White}" />
                             <Span
                                 FontAttributes="Bold"
-                                Text="{Binding BookingRequest.DropoffLocation}"
+                                Text="{Binding BookingRequest.DropAddress}"
                                 TextColor="{x:StaticResource White}" />
                         </FormattedString>
                     </Label.FormattedText>
@@ -96,9 +90,10 @@
             ColumnSpacing="20"
             HorizontalOptions="Fill">
             <Button
+                Padding="50,10"
                 BackgroundColor="{x:StaticResource Primary}"
                 Command="{Binding AcceptCommand}"
-                HorizontalOptions="Fill"
+                HorizontalOptions="Center"
                 Text="Ok"
                 TextColor="{x:StaticResource White}" />
         </Grid>

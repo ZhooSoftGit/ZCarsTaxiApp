@@ -4,6 +4,7 @@ using ZhooSoft.Auth.Views;
 using ZhooSoft.Core;
 using ZhooSoft.Core.Alerts;
 using ZTaxi.Core.Storage;
+using ZTaxiApp.Helpers;
 using ZTaxiApp.PlatformHelper;
 using ZTaxiApp.Services.Session;
 using ZTaxiApp.Views;
@@ -68,7 +69,7 @@ namespace ZTaxiApp.CoreHelper
             //AppHelper.CurrentRide = null;
             //return true;
 
-            var rideInfo = RideStorageService.Load();
+            var rideInfo = AppHelper.CurrentRide;
             if (rideInfo != null)
             {
                 return true;

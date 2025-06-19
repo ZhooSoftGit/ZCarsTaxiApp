@@ -81,7 +81,7 @@ namespace ZTaxiApp.ViewModel
             }
             Console.WriteLine($"Selected reason: {SelectedReason}");
             //call the API
-            RideStorageService.Clear();
+            AppHelper.CurrentRide = null;
             await _navigationService.PopAsync();
         }
 
