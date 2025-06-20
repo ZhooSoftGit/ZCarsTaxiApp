@@ -18,7 +18,7 @@
         <Label
             Grid.Column="0"
             BackgroundColor="Transparent"
-            FontFamily="icomoon"
+            FontFamily="zappfont"
             FontSize="32"
             HorizontalOptions="Center"
             Text="&#xea40;"

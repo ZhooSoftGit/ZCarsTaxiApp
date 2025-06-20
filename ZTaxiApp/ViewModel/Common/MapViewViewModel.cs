@@ -89,8 +89,10 @@ namespace ZTaxiApp.ViewModel
         {
             if (obj is Location location)
             {
+                IsBusy = true;
                 _selectedLocation = location;
                 PinLocationDetails = await GetAddressFromCoordinates(location.Latitude, location.Longitude);
+                IsBusy = false;
             }
         }
 

@@ -56,7 +56,7 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                fonts.AddFont("icomoon.ttf", "icomoon");
+                fonts.AddFont("zapp.ttf", "zappfont");
             });
 
 #if DEBUG
@@ -113,6 +113,13 @@ public static class MauiProgram
 #endif
         });
         Microsoft.Maui.Handlers.DatePickerHandler.Mapper.AppendToMapping("DatePickerCustomization", (handler, view) =>
+        {
+#if ANDROID
+        handler.PlatformView.BackgroundTintList = ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#endif
+        });
+
+        Microsoft.Maui.Handlers.TimePickerHandler.Mapper.AppendToMapping("TimePickerCustomization", (handler, view) =>
         {
 #if ANDROID
         handler.PlatformView.BackgroundTintList = ColorStateList.ValueOf(Android.Graphics.Color.Transparent);

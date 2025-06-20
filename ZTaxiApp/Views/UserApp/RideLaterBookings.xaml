@@ -7,6 +7,7 @@
     xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
     xmlns:header="clr-namespace:ZTaxiApp.Templates"
     xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
     x:TypeArguments="vm:RideLaterBookingsViewModel"
@@ -56,7 +57,7 @@
                                 WidthRequest="40">
                                 <Label
                                     BackgroundColor="Transparent"
-                                    FontFamily="icomoon"
+                                    FontFamily="zappfont"
                                     FontSize="24"
                                     HorizontalOptions="Center"
                                     Text="&#xea40;"
@@ -80,7 +81,7 @@
                                 WidthRequest="30">
                                 <Label
                                     BackgroundColor="Transparent"
-                                    FontFamily="icomoon"
+                                    FontFamily="zappfont"
                                     FontSize="18"
                                     HorizontalOptions="Center"
                                     Text="&#xe989;"
@@ -154,7 +155,7 @@
                                             WidthRequest="40">
                                             <Label
                                                 BackgroundColor="Transparent"
-                                                FontFamily="icomoon"
+                                                FontFamily="zappfont"
                                                 FontSize="24"
                                                 HorizontalOptions="Center"
                                                 Text="&#xe948;"
@@ -211,7 +212,7 @@
                                             WidthRequest="40">
                                             <Label
                                                 BackgroundColor="Transparent"
-                                                FontFamily="icomoon"
+                                                FontFamily="zappfont"
                                                 FontSize="24"
                                                 HorizontalOptions="Center"
                                                 Text="&#xe947;"
@@ -233,14 +234,18 @@
                                     <VerticalStackLayout Grid.Column="0">
                                         <Label Text="Pickup Date" />
                                         <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
-                                            <DatePicker Date="{Binding PickupDate}" />
+                                            <DatePicker
+                                                x:Name="pickupdate"
+                                                Date="{Binding PickupDate}"
+                                                DateSelected="pickupdate_DateSelected"
+                                                MinimumDate="{x:Static sys:DateTime.Today}" />
                                         </ctrl:CustomBorder>
                                     </VerticalStackLayout>
 
                                     <VerticalStackLayout Grid.Column="1">
                                         <Label Text="Pickup Time" />
                                         <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
-                                            <TimePicker Time="{Binding PickupTime}" />
+                                            <TimePicker x:Name="pickuptime" Time="{Binding PickupTime}" />
                                         </ctrl:CustomBorder>
                                     </VerticalStackLayout>
                                 </Grid>
@@ -254,14 +259,18 @@
                                     <VerticalStackLayout Grid.Column="0">
                                         <Label Text="Drop Date" />
                                         <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
-                                            <DatePicker Date="{Binding ReturnDate}" />
+                                            <DatePicker
+                                                x:Name="dropdate"
+                                                Date="{Binding ReturnDate}"
+                                                DateSelected="dropdate_DateSelected"
+                                                MinimumDate="{Binding PickupDate}" />
                                         </ctrl:CustomBorder>
                                     </VerticalStackLayout>
 
                                     <VerticalStackLayout Grid.Column="1">
                                         <Label Text="Drop Time" />
                                         <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
-                                            <TimePicker Time="{Binding ReturnTime}" />
+                                            <TimePicker x:Name="droptime" Time="{Binding ReturnTime}" />
                                         </ctrl:CustomBorder>
                                     </VerticalStackLayout>
                                 </Grid>

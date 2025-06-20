@@ -39,15 +39,17 @@
 
 
         <ctrl:CustomBorder
-            Padding="30,30,30,100"
+            Padding="30,30,30,50"
             BackgroundColor="White"
             Stroke="White"
-            StrokeShape="RoundRectangle 20,20,0,0">
+            StrokeShape="RoundRectangle 20,20,0,0"
+            VerticalOptions="Fill">
 
-            <VerticalStackLayout Spacing="10">
+            <Grid RowDefinitions="auto,auto,auto,*" RowSpacing="10">
                 <ctrl:CustomLabel Text="Enter your mobile no" />
                 <!--  Phone Number Container  -->
                 <ctrl:SfEntry
+                    Grid.Row="1"
                     Margin="0"
                     CharMaxLength="10"
                     FocusedStrokeThickness="2"
@@ -75,6 +77,7 @@
 
                 <!--  Continue Button  -->
                 <Button
+                    Grid.Row="2"
                     BackgroundColor="#00796B"
                     Command="{Binding SendOtpCommand}"
                     CornerRadius="30"
@@ -99,7 +102,36 @@
                         </DataTrigger>
                     </Button.Triggers>
                 </Button>
-            </VerticalStackLayout>
+
+                <ctrl:CustomLabel
+                    Grid.Row="3"
+                    Margin="0,20,0,0"
+                    VerticalOptions="End">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="By Continuing, you agree to the " TextColor="#00796B" />
+                            <Span
+                                Text="T&amp;C"
+                                TextColor="Blue"
+                                TextDecorations="Underline">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenLinkCommand}" CommandParameter="https://example.com" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                            <Span Text=" and " TextColor="#00796B" />
+                            <Span
+                                Text="Private Policy"
+                                TextColor="Blue"
+                                TextDecorations="Underline">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenLinkCommand}" CommandParameter="https://example.com" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </ctrl:CustomLabel>
+
+            </Grid>
 
 
         </ctrl:CustomBorder>

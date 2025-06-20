@@ -93,10 +93,10 @@ namespace ZTaxiApp.ViewModel
         TimeSpan _pickupTime = TimeSpan.FromHours(9);
 
         [ObservableProperty]
-        DateTime? _returnDate;
+        DateTime? _returnDate = DateTime.Now.AddDays(2);
 
         [ObservableProperty]
-        TimeSpan? _returnTime;
+        TimeSpan? _returnTime = TimeSpan.FromHours(9);
 
         [ObservableProperty]
         string _selectedVehicleType;
@@ -151,6 +151,7 @@ namespace ZTaxiApp.ViewModel
             if (!IsLoaded)
             {
                 await GetCurrentLocationInfo();
+                await UpdateMapUI();
             }
 
             if (NavigationParams != null && NavigationParams.ContainsKey("selectedlocation"))
@@ -160,6 +161,10 @@ namespace ZTaxiApp.ViewModel
                     if (locinfo.LocationType == UIHelper.LocationType.Pickup)
                     {
                         PickupLocation = locinfo;
+                        if (!IsOutstation)
+                        {
+                            await UpdateMapUI();
+                        }
                     }
                     else
                     {
@@ -204,16 +209,24 @@ namespace ZTaxiApp.ViewModel
 
         private async Task EvaluateRideOptionsVisibility()
         {
-            var isValid = !string.IsNullOrWhiteSpace(PickupLocation?.Address)
+            if (IsOutstation)
+            {
+                var isValid = !string.IsNullOrWhiteSpace(PickupLocation?.Address)
                           && !string.IsNullOrWhiteSpace(DropLocation?.Address);
 
-            if (isValid)
-            {
-                IsBusy = true;
-                await Task.Delay(100);
-                await PlotRouteOnMap(new Location(PickupLocation.Latitude, PickupLocation.Longitude), new Location(DropLocation.Latitude, DropLocation.Longitude));
-                IsBusy = false;
+                if (isValid)
+                {
+                    IsBusy = true;
+                    await Task.Delay(100);
+                    await PlotRouteOnMap(new Location(PickupLocation.Latitude, PickupLocation.Longitude), new Location(DropLocation.Latitude, DropLocation.Longitude));
+                    IsBusy = false;
+                }
             }
+            else
+            {
+                await UpdateMapUI();
+            }
+            
         }
 
         private async Task GetCurrentLocationInfo()
@@ -232,7 +245,7 @@ namespace ZTaxiApp.ViewModel
                     DropLocation = new LocationInfo();
                     var placedetails = await ServiceHelper.GetService<IAddressService>().GetPlaceNameAsync(location.Latitude, location.Longitude);
                     PickupLocation = new LocationInfo { Address = placedetails, Latitude = location.Latitude, Longitude = location.Longitude, LocationType = UIHelper.LocationType.Pickup };
-                    await UpdateMapUI();
+                    
                 }
             }
             catch (Exception ex)

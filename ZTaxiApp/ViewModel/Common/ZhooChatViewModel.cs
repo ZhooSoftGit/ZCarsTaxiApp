@@ -34,8 +34,8 @@ namespace ZTaxiApp.ViewModel
         #endregion
 
         #region Properties
-
-        public ObservableCollection<ChatMessage> Messages { get; set; } = new();
+        [ObservableProperty]
+        private ObservableCollection<ChatMessage> _messages;
 
         public ObservableCollection<string> QuickMessages { get; } = new()
                                 {
@@ -57,10 +57,11 @@ namespace ZTaxiApp.ViewModel
         {
             base.OnAppearing();
 
-            //if (AppHelper.ChatMessages != null)
-            //{
-            //    Messages = new ObservableCollection<ChatMessage>(AppHelper.ChatMessages);
-            //}
+            if (AppHelper.ChatMessages != null)
+            {
+                var messages = AppHelper.ChatMessages.ToList();
+                Messages = new ObservableCollection<ChatMessage>(messages);
+            }
         }
 
         private void _userSignalRService_OnMessageReceived(string obj)

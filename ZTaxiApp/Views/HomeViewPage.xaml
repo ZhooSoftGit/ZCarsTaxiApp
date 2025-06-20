@@ -34,7 +34,7 @@
                         x:Name="headerLayout"
                         Grid.Row="0"
                         Margin="0,0,0,-1"
-                        Padding="15"
+                        Padding="6,15"
                         Background="{DynamicResource Primary}"
                         HorizontalOptions="Fill"
                         VerticalOptions="Center">
@@ -45,20 +45,24 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Image
-                            x:Name="menuImage"
+                        <Label
                             Grid.Row="0"
                             Grid.Column="0"
-                            Margin="10,0,0,0"
-                            HeightRequest="30"
+                            Margin="0"
+                            FontFamily="zappfont"
+                            FontSize="30"
                             HorizontalOptions="Start"
-                            Source="menu.png"
-                            VerticalOptions="Center">
-
-                            <Image.GestureRecognizers>
+                            HorizontalTextAlignment="Center"
+                            Text=" &#xe96e;"
+                            TextColor="{DynamicResource White}"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" />
-                            </Image.GestureRecognizers>
-                        </Image>
+                            </Label.GestureRecognizers>
+                        </Label>
+
+
                         <Image
                             Grid.Row="0"
                             HorizontalOptions="Center"

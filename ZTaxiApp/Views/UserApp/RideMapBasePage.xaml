@@ -265,7 +265,7 @@
                                 VerticalTextAlignment="Center" />
                             <ctrl:CustomLabel
                                 Grid.Column="1"
-                                FontFamily="icomoon"
+                                FontFamily="zappfont"
                                 FontSize="32"
                                 Text="&#xe96b;"
                                 TextColor="LightGray"

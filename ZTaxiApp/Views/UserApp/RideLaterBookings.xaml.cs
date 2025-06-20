@@ -1,5 +1,6 @@
 using ZTaxiApp.ViewModel;
 using ZhooSoft.Core;
+using Microsoft.Maui.Handlers;
 
 namespace ZTaxiApp.Views.Driver;
 
@@ -23,5 +24,29 @@ public partial class RideLaterBookingsPage : BaseContentPage<RideLaterBookingsVi
         {
             AbsoluteLayout.SetLayoutBounds(bottomsheet, new Rect(0, 1, 1, 0.5));
         }
+    }
+
+
+    private async void pickupdate_DateSelected(object sender, DateChangedEventArgs e)
+    {
+        if (!ViewModel.IsLoaded) return;
+
+#if ANDROID
+        var handler = pickuptime.Handler as ITimePickerHandler;
+        await Task.Delay(50);
+        handler.PlatformView.PerformClick();
+#endif
+    }
+
+    private async void dropdate_DateSelected(object sender, DateChangedEventArgs e)
+    {
+        if (!ViewModel.IsLoaded) return;
+
+#if ANDROID
+        var handler = droptime.Handler as ITimePickerHandler;
+        await Task.Delay(50);
+        handler.PlatformView.PerformClick();
+#endif
+
     }
 }
