@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Common.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:converters="clr-namespace:ZTaxiApp.Converters"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:model="clr-namespace:ZTaxiApp.UIModel"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:TypeArguments="vm:SettingsViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <!--  Full-screen content  -->
+    <Grid
+        x:Name="maincontent"
+        Padding="20"
+        BackgroundColor="White"
+        HorizontalOptions="Fill"
+        RowDefinitions="auto,*,auto"
+        RowSpacing="10"
+        VerticalOptions="Fill">
+
+        <!--  Top: Menu Title  -->
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Spacing="10"
+            VerticalOptions="Start">
+            <!--  Back Button  -->
+            <Label
+                BackgroundColor="Transparent"
+                FontFamily="zappfont"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="&#xea40;"
+                TextColor="{DynamicResource Black}"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Settings"
+                VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+
+        <!--  Main Scroll Content  -->
+        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+
+            <VerticalStackLayout>
+
+                <!--  Menu Items  -->
+                <VerticalStackLayout>
+
+                    <!--  Profile  -->
+                    <Border
+                        Padding="12"
+                        BackgroundColor="White"
+                        StrokeThickness="0">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Label
+                                FontFamily="zappfont"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe975;"
+                                TextColor="{DynamicResource Primary}"
+                                VerticalTextAlignment="Center" />
+                            <VerticalStackLayout Grid.Column="1" Padding="8,0">
+                                <Label FontAttributes="Bold" Text="Profile" />
+                                <Label
+                                    FontSize="Small"
+                                    Text="+91 8344273152"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="zappfont"
+                                FontSize="24"
+                                Text="&#xe9b2;"
+                                TextColor="Black"
+                                WidthRequest="20" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding MenuCommand}" CommandParameter="Profile" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Border>
+
+                </VerticalStackLayout>
+
+                <!--  OTHERS Section  -->
+                <Label
+                    FontAttributes="Bold"
+                    Text="OTHERS"
+                    TextColor="Gray" />
+
+                <VerticalStackLayout Spacing="5">
+                    <!--  About  -->
+                    <Border Padding="12" BackgroundColor="White">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Label
+                                FontFamily="zappfont"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xea0c;"
+                                TextColor="{DynamicResource Primary}"
+                                VerticalTextAlignment="Center" />
+                            <VerticalStackLayout Grid.Column="1" Padding="8,0">
+                                <Label FontAttributes="Bold" Text="About" />
+                                <Label
+                                    FontSize="Small"
+                                    Text="8.65.0"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="zappfont"
+                                FontSize="24"
+                                Text="&#xe9b2;"
+                                TextColor="Black"
+                                WidthRequest="20" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding MenuCommand}" CommandParameter="About" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Border>
+
+                    <!--  Logout  -->
+                    <Border Padding="12" BackgroundColor="White">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Label
+                                FontFamily="zappfont"
+                                FontSize="24"
+                                HorizontalTextAlignment="Center"
+                                Text="&#xe9b6;"
+                                TextColor="{DynamicResource Primary}"
+                                VerticalTextAlignment="Center" />
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                Text="Logout" />
+                            <Label
+                                Grid.Column="2"
+                                FontFamily="zappfont"
+                                FontSize="24"
+                                Text="&#xe9b2;"
+                                TextColor="Black"
+                                WidthRequest="20" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding MenuCommand}" CommandParameter="Logout" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Border>
+
+                    <!--  Subscribe to Beta, Logout, Delete Account  -->
+                    <!--  Repeat similarly for other list items  -->
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+        <Grid
+            Grid.Row="2"
+            HorizontalOptions="Fill"
+            RowDefinitions="auto,auto">
+            <Label HorizontalOptions="Center" Text="Zhoosoft Pvt Limited" />
+            <Label
+                Grid.Row="1"
+                HorizontalOptions="Center"
+                Text="version 1.0" />
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

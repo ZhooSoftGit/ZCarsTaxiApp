@@ -45,22 +45,22 @@ public static class MauiProgram
 {
     public static string GoogleMapsKey = "AIzaSyDz-0CVEdMMiWHfuXm_zXZp2t69963hCkY";
     public static MauiApp CreateMauiApp()
-	{
+    {
 
-		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.UseMauiCommunityToolkit()
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .ConfigureSyncfusionToolkit()
             .ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("zapp.ttf", "zappfont");
             });
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
         builder.Services.AddServices();
@@ -166,6 +166,10 @@ public static class MauiProgram
         services.AddTransient<BookingInfoPage>();
         services.AddTransient<ReviewBookingPage>();
         services.AddTransient<ZhooChatPage>();
+        services.AddTransient<SliderMenuPage>();
+        services.AddTransient<SettingsPage>();
+        services.AddTransient<AboutPage>();
+        services.AddTransient<ProfilePage>();
         return services;
     }
 
@@ -254,6 +258,10 @@ public static class MauiProgram
         services.AddTransient<BookingInfoViewModel>();
         services.AddTransient<ReviewBookingViewModel>();
         services.AddTransient<ZhooChatViewModel>();
+
+        services.AddTransient<SliderMenuViewModel>();
+        services.AddTransient<SettingsViewModel>();
+        services.AddTransient<ProfileViewModel>();
         return services;
     }
 }

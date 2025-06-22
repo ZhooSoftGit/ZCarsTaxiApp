@@ -62,6 +62,11 @@ namespace ZTaxiApp.CoreHelper
             }
         }
 
+        public void OnLogout()
+        {
+            Application.Current.Windows[0].Page = new NavigationPage(new LoginPage());
+        }
+
         private async Task<bool> CheckOpenRide()
         {
 

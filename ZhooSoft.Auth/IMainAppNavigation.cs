@@ -7,5 +7,6 @@
         void NavigateToDetail(NavigationPage detailPage);
 
         void NavigateToNotification();
+        void OnLogout();
     }
 }

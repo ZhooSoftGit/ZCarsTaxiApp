@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Common.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:converters="clr-namespace:ZTaxiApp.Converters"
+    xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:model="clr-namespace:ZTaxiApp.UIModel"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:TypeArguments="vm:ProfileViewModel"
+    NavigationPage.HasNavigationBar="False">
+    <!--  Full-screen content  -->
+    <Grid
+        x:Name="maincontent"
+        Padding="20"
+        BackgroundColor="White"
+        HorizontalOptions="Fill"
+        RowDefinitions="auto,*,auto"
+        RowSpacing="10"
+        VerticalOptions="Fill">
+
+        <!--  Top: Menu Title  -->
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Spacing="10"
+            VerticalOptions="Start">
+            <!--  Back Button  -->
+            <Label
+                BackgroundColor="Transparent"
+                FontFamily="zappfont"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="&#xea40;"
+                TextColor="{DynamicResource Black}"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Settings"
+                VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+
+        <!--  Main Scroll Content  -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="24" Spacing="24">
+
+                <!--  Name  -->
+                <Grid Padding="0,8" ColumnDefinitions="Auto,*,Auto">
+                    <Label
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe918;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                    <VerticalStackLayout Grid.Column="1" Padding="8,0">
+                        <Label FontAttributes="Bold" Text="Name" />
+                        <Label Text="{Binding Name}" TextColor="Gray" />
+                    </VerticalStackLayout>
+                    <Label
+                        Grid.Column="2"
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe9b2;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+
+                </Grid>
+                <BoxView HeightRequest="1" Color="#ddd" />
+
+                <!--  Phone Number  -->
+                <Grid Padding="0,8" ColumnDefinitions="Auto,*,Auto">
+                    <Label
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe942;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                    <VerticalStackLayout Grid.Column="1" Padding="8,0">
+                        <Label FontAttributes="Bold" Text="Phone Number" />
+                        <Label Text="{Binding PhoneNumber}" TextColor="Gray" />
+                    </VerticalStackLayout>
+                </Grid>
+                <BoxView HeightRequest="1" Color="#ddd" />
+
+                <!--  Email  -->
+                <Grid Padding="0,8" ColumnDefinitions="Auto,*,Auto">
+                    <Label
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe945;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                    <VerticalStackLayout Grid.Column="1" Padding="8,0">
+                        <Label FontAttributes="Bold" Text="Email" />
+                        <Label Text="{Binding Email}" TextColor="Gray" />
+                    </VerticalStackLayout>
+                    <Label
+                        Grid.Column="2"
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe9b2;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                </Grid>
+                <BoxView HeightRequest="1" Color="#ddd" />
+
+                <!--  Gender  -->
+                <Grid Padding="0,8" ColumnDefinitions="Auto,*,Auto">
+                    <Label
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe918;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                    <VerticalStackLayout Grid.Column="1" Padding="8,0">
+                        <Label FontAttributes="Bold" Text="Gender" />
+                        <Label Text="{Binding Gender}" TextColor="Gray" />
+                    </VerticalStackLayout>
+                    <Label
+                        Grid.Column="2"
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe9b2;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                </Grid>
+                <BoxView HeightRequest="1" Color="#ddd" />
+
+                <!--  DOB  -->
+                <Grid Padding="0,8" ColumnDefinitions="Auto,*,Auto">
+                    <Label
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe953;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                    <VerticalStackLayout Grid.Column="1" Padding="8,0">
+                        <Label FontAttributes="Bold" Text="Date of Birth" />
+                        <Label Text="{Binding DateOfBirthDisplay}" TextColor="{Binding DateOfBirthColor}" />
+                    </VerticalStackLayout>
+                    <Label
+                        Grid.Column="2"
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe9b2;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                </Grid>
+                <BoxView HeightRequest="1" Color="#ddd" />
+
+                <!--  Member Since  -->
+                <Grid Padding="0,8" ColumnDefinitions="Auto,*">
+                    <Label
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe936;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                    <VerticalStackLayout Grid.Column="1" Padding="8,0">
+                        <Label FontAttributes="Bold" Text="Member Since" />
+                        <Label Text="{Binding MemberSinceDisplay}" TextColor="Gray" />
+                    </VerticalStackLayout>
+                </Grid>
+                <BoxView HeightRequest="1" Color="#ddd" />
+
+                <!--  Emergency Contact  -->
+                <Grid Padding="0,8" ColumnDefinitions="Auto,*,Auto">
+                    <Label
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe942;"
+                        TextColor="Black"
+                        WidthRequest="20" />
+                    <VerticalStackLayout Grid.Column="1" Padding="8,0">
+                        <Label FontAttributes="Bold" Text="Emergency contact" />
+                        <Label Text="{Binding EmergencyContactDisplay}" TextColor="{Binding EmergencyContactColor}" />
+                    </VerticalStackLayout>
+                    <Label
+                        Grid.Column="2"
+                        FontAttributes="Bold"
+                        HorizontalOptions="End"
+                        Text="Add"
+                        TextColor="{Binding EmergencyContactColor}"
+                        VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding EditCommand}" CommandParameter="EmergencyContact" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid
+            Grid.Row="2"
+            HorizontalOptions="Fill"
+            RowDefinitions="auto,auto">
+            <Label HorizontalOptions="Center" Text="Zhoosoft Pvt Limited" />
+            <Label
+                Grid.Row="1"
+                HorizontalOptions="Center"
+                Text="version 1.0" />
+        </Grid>
+    </Grid>
+</base:BaseContentPage>

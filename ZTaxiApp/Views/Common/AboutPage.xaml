@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ZTaxiApp.Views.Common.AboutPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    NavigationPage.HasNavigationBar="False">
+    <!--  Full-screen content  -->
+    <Grid
+        x:Name="maincontent"
+        Padding="20"
+        BackgroundColor="White"
+        HorizontalOptions="Fill"
+        RowDefinitions="auto,*,auto"
+        RowSpacing="10"
+        VerticalOptions="Fill">
+
+        <!--  Top: Menu Title  -->
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Spacing="10"
+            VerticalOptions="Start">
+            <!--  Back Button  -->
+            <Label
+                BackgroundColor="Transparent"
+                FontFamily="zappfont"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="&#xea40;"
+                TextColor="{DynamicResource Black}"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="About"
+                VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+
+        <!--  Main Scroll Content  -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="24" Spacing="16">
+
+                <!--  App Icon  -->
+                <Image
+                    HeightRequest="100"
+                    HorizontalOptions="Center"
+                    Source="driver_book.png" />
+
+                <!--  App Name  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="32"
+                    HorizontalOptions="Center"
+                    Text="ZTaxi"
+                    TextColor="{DynamicResource Primary}" />
+
+                <!--  Version  -->
+                <Label
+                    HorizontalOptions="Center"
+                    Text="Version 1.0.0"
+                    TextColor="Gray" />
+
+                <!--  Description  -->
+                <Label
+                    Margin="0,16,0,8"
+                    FontSize="Medium"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="ZTaxi is your trusted ride-hailing app, delivering safe, affordable, and comfortable travel experiences." />
+
+                <!--  Sponsored by  -->
+                <Label
+                    Margin="0,24,0,4"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Text="Sponsored by"
+                    TextColor="{DynamicResource Primary}" />
+
+                <Image
+                    HeightRequest="50"
+                    HorizontalOptions="Center"
+                    Source="driver_book.png.png" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    HorizontalOptions="Center"
+                    Text="Zhoosoft Technology" />
+
+                <!--  Contact / Website  -->
+                <Label
+                    Margin="0,24,0,0"
+                    HorizontalOptions="Center"
+                    Text="Visit: www.zhoosoft.com"
+                    TextColor="Blue"
+                    TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding VisitWebsiteCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid
+            Grid.Row="2"
+            HorizontalOptions="Fill"
+            RowDefinitions="auto,auto">
+            <Label HorizontalOptions="Center" Text="Zhoosoft Pvt Limited" />
+            <Label
+                Grid.Row="1"
+                HorizontalOptions="Center"
+                Text="version 1.0" />
+        </Grid>
+    </Grid>
+</ContentPage>

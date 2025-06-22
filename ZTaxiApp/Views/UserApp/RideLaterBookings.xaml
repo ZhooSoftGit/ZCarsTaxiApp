@@ -234,11 +234,26 @@
                                     <VerticalStackLayout Grid.Column="0">
                                         <Label Text="Pickup Date" />
                                         <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
-                                            <DatePicker
-                                                x:Name="pickupdate"
-                                                Date="{Binding PickupDate}"
-                                                DateSelected="pickupdate_DateSelected"
-                                                MinimumDate="{x:Static sys:DateTime.Today}" />
+                                            <Grid ColumnDefinitions="*,auto">
+                                                <DatePicker
+                                                    x:Name="pickupdate"
+                                                    Date="{Binding PickupDate}"
+                                                    DateSelected="pickupdate_DateSelected"
+                                                    MinimumDate="{x:Static sys:DateTime.Today}" />
+
+                                                <Label
+                                                    Grid.Column="1"
+                                                    Margin="0"
+                                                    FontFamily="zappfont"
+                                                    FontSize="16"
+                                                    HorizontalOptions="Start"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="&#xe94e;"
+                                                    TextColor="{DynamicResource Primary}"
+                                                    VerticalOptions="Center"
+                                                    VerticalTextAlignment="Center" />
+                                            </Grid>
+
                                         </ctrl:CustomBorder>
                                     </VerticalStackLayout>
 
@@ -259,11 +274,26 @@
                                     <VerticalStackLayout Grid.Column="0">
                                         <Label Text="Drop Date" />
                                         <ctrl:CustomBorder StrokeShape="RoundRectangle 6">
-                                            <DatePicker
-                                                x:Name="dropdate"
-                                                Date="{Binding ReturnDate}"
-                                                DateSelected="dropdate_DateSelected"
-                                                MinimumDate="{Binding PickupDate}" />
+                                            <Grid ColumnDefinitions="*,auto">
+                                                <DatePicker
+                                                    x:Name="dropdate"
+                                                    Date="{Binding ReturnDate}"
+                                                    DateSelected="dropdate_DateSelected"
+                                                    MinimumDate="{Binding PickupDate}" />
+                                                <Label
+                                                    Grid.Column="1"
+                                                    Margin="0"
+                                                    FontFamily="zappfont"
+                                                    FontSize="16"
+                                                    HorizontalOptions="Start"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="&#xe953;"
+                                                    TextColor="{DynamicResource Primary}"
+                                                    VerticalOptions="Center"
+                                                    VerticalTextAlignment="Center" />
+                                            </Grid>
+
+
                                         </ctrl:CustomBorder>
                                     </VerticalStackLayout>
 

@@ -170,7 +170,22 @@
                         FontSize="18"
                         IsEnabled="{Binding ShowCabOptions}"
                         Text="Confirm Booking"
-                        TextColor="White" />
+                        TextColor="White">
+                        <Button.Triggers>
+                            <DataTrigger
+                                Binding="{Binding ShowCabOptions}"
+                                TargetType="Button"
+                                Value="False">
+                                <Setter Property="Opacity" Value="0.7" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ShowCabOptions}"
+                                TargetType="Button"
+                                Value="True">
+                                <Setter Property="Opacity" Value="1" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
                 </Grid>
 
             </ctrl:CustomBorder>
@@ -287,34 +302,77 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Button
+                        <!--  Cancel Booking  -->
+                        <Border
                             Grid.Column="0"
                             BackgroundColor="{DynamicResource Primary}"
-                            BorderColor="White"
-                            BorderWidth="2"
-                            Command="{Binding CancelCommand}"
-                            ContentLayout="Top,5"
-                            ImageSource="close_w.png"
-                            Text="Cancel Booking"
-                            TextColor="Black" />
+                            Stroke="White"
+                            StrokeThickness="2">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CancelCommand}" />
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout
+                                HorizontalOptions="Center"
+                                Spacing="5"
+                                VerticalOptions="Center">
+                                <Image
+                                    HeightRequest="24"
+                                    Source="close_w.png"
+                                    WidthRequest="24" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Text="Cancel Booking"
+                                    TextColor="Black" />
+                            </VerticalStackLayout>
+                        </Border>
 
-                        <Button
+                        <!--  Trip Details  -->
+                        <Border
                             Grid.Column="1"
                             BackgroundColor="{DynamicResource Primary}"
-                            Command="{Binding ShareCommand}"
-                            ContentLayout="Top,5"
-                            ImageSource="settings_menu.png"
-                            Text="Trip Details"
-                            TextColor="Black" />
+                            Stroke="White"
+                            StrokeThickness="2">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShareCommand}" />
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout
+                                HorizontalOptions="Center"
+                                Spacing="5"
+                                VerticalOptions="Center">
+                                <Image
+                                    HeightRequest="24"
+                                    Source="settings_menu.png"
+                                    WidthRequest="24" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Text="Trip Details"
+                                    TextColor="Black" />
+                            </VerticalStackLayout>
+                        </Border>
 
-                        <Button
+                        <!--  Call Driver  -->
+                        <Border
                             Grid.Column="2"
                             BackgroundColor="{DynamicResource Primary}"
-                            Command="{Binding CallCommand}"
-                            ContentLayout="Top,5"
-                            ImageSource="cell_icon.png"
-                            Text="Call Driver"
-                            TextColor="Black" />
+                            Stroke="White"
+                            StrokeThickness="2">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CallCommand}" />
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout
+                                HorizontalOptions="Center"
+                                Spacing="5"
+                                VerticalOptions="Center">
+                                <Image
+                                    HeightRequest="24"
+                                    Source="cell_icon.png"
+                                    WidthRequest="24" />
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Text="Call Driver"
+                                    TextColor="Black" />
+                            </VerticalStackLayout>
+                        </Border>
                     </Grid>
 
                 </ctrl:CustomGrid>

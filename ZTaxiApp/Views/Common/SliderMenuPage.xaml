@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<toolkit:Popup
-    x:Class="ZTaxiApp.DPopup.CommonMenuPopup"
+<base:BaseContentPage
+    x:Class="ZTaxiApp.Views.Common.SliderMenuPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:ZhooSoft.Core;assembly=ZhooSoft.Core"
+    xmlns:converters="clr-namespace:ZTaxiApp.Converters"
     xmlns:ctrl="clr-namespace:ZhooSoft.Controls;assembly=ZhooSoft.Controls"
+    xmlns:header="clr-namespace:ZTaxiApp.Templates"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:model="clr-namespace:ZTaxiApp.UIModel"
+    xmlns:resource="clr-namespace:ZTaxiApp.Resources.Strings"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    HorizontalOptions="Fill"
-    VerticalOptions="Fill">
-
+    xmlns:vm="clr-namespace:ZTaxiApp.ViewModel"
+    x:TypeArguments="vm:SliderMenuViewModel"
+    NavigationPage.HasNavigationBar="False">
     <!--  Full-screen content  -->
     <Grid
-        x:Name="PopupContent"
+        x:Name="maincontent"
         Padding="20"
         BackgroundColor="White"
         HorizontalOptions="Fill"
         RowDefinitions="auto,auto,*,auto"
         RowSpacing="10"
-        TranslationX="-5000"
         VerticalOptions="Fill">
 
         <!--  Top: Menu Title  -->
@@ -24,7 +29,19 @@
             Grid.Row="0"
             Spacing="10"
             VerticalOptions="Start">
-            <ctrl:CustomImage Command="{Binding CloseCommand}" Source="back.png" />
+            <!--  Back Button  -->
+            <Label
+                BackgroundColor="Transparent"
+                FontFamily="zappfont"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="&#xea40;"
+                TextColor="{DynamicResource Black}"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
             <Label
                 FontAttributes="Bold"
                 FontSize="20"
@@ -61,7 +78,12 @@
                             Text="8344273152"
                             TextColor="Gray" />
                     </VerticalStackLayout>
-                    <Image HorizontalOptions="EndAndExpand" Source="chevron_right.png" />
+                    <Label
+                        FontFamily="zappfont"
+                        FontSize="24"
+                        Text="&#xe9b2;"
+                        TextColor="Black"
+                        WidthRequest="20" />
                 </HorizontalStackLayout>
 
                 <ctrl:CustomBorder
@@ -70,10 +92,14 @@
                     BorderColor="Yellow"
                     CornerRadius="8">
                     <HorizontalStackLayout>
-                        <Image
-                            HeightRequest="16"
-                            Source="star_icon.png"
-                            WidthRequest="16" />
+                        <Label
+                            BackgroundColor="Transparent"
+                            FontFamily="zappfont"
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            Text=" &#xe9d9;"
+                            TextColor="{DynamicResource Primary}"
+                            VerticalOptions="Center" />
                         <Label
                             Margin="5,0,0,0"
                             FontSize="14"
@@ -112,6 +138,10 @@
                         TextColor="Black"
                         WidthRequest="20" />
 
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MenuCommand}" CommandParameter="Help" />
+                    </Grid.GestureRecognizers>
+
                 </Grid>
 
                 <BoxView BackgroundColor="{DynamicResource Primary}" HeightRequest="1" />
@@ -139,7 +169,7 @@
                         TextColor="Black"
                         WidthRequest="20" />
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OnRideHistoryCmd}" />
+                        <TapGestureRecognizer Command="{Binding MenuCommand}" CommandParameter="RideHistory" />
                     </Grid.GestureRecognizers>
                 </Grid>
                 <BoxView BackgroundColor="{DynamicResource Primary}" HeightRequest="1" />
@@ -167,7 +197,7 @@
                         TextColor="Black"
                         WidthRequest="20" />
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OnSettingsCmd}" />
+                        <TapGestureRecognizer Command="{Binding MenuCommand}" CommandParameter="Settings" />
                     </Grid.GestureRecognizers>
                 </Grid>
 
@@ -187,4 +217,4 @@
                 Text="version 1.0" />
         </Grid>
     </Grid>
-</toolkit:Popup>
+</base:BaseContentPage>

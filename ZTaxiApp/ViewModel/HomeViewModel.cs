@@ -84,8 +84,8 @@ namespace ZTaxiApp.ViewModel
                 new QuickAction { Name = "Sell Vehicle", Icon = "sell.png", Action = ActionEnum.SellVehicle, ActionType = DashboardActionType.Service },
                 new QuickAction { Name = "Insurance", Icon = "insurance.png", Action = ActionEnum.Insurance, ActionType = DashboardActionType.Service },
                 new QuickAction { Name = "Loan", Icon = "loan.png", Action = ActionEnum.Loan, ActionType = DashboardActionType.Service },
-                new QuickAction { Name = "FastTag", Icon = "fasttag.png", Action = ActionEnum.FastTag, ActionType = DashboardActionType.Service },
-                new QuickAction { Name = "Emergency", Icon = "emergency.png", Action = ActionEnum.Emergency, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "FastTag", Icon = "car_icon.png", Action = ActionEnum.FastTag, ActionType = DashboardActionType.Service },
+                new QuickAction { Name = "Emergency", Icon = "car_icon.png", Action = ActionEnum.Emergency, ActionType = DashboardActionType.Service },
             };
 
             BannerImages = new List<string>

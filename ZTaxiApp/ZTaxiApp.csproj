@@ -127,6 +127,9 @@
 	  <MauiXaml Update="Templates\CustomNavigationHeader.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Common\AboutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Common\CommonMenu.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -134,6 +137,15 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Common\MapViewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Common\ProfilePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Common\SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Common\SliderMenuPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Common\SplashScreen.xaml">
