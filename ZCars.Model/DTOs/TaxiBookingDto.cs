@@ -114,7 +114,15 @@ namespace ZTaxiApp.Model.DTOs
 
         public RideTypeEnum RideType { get; set; }
 
+        public RideStatus RideStatus { get; set; }
+
         public VehicleTypeEnum VehicleType { get; set; }
+
+        public DateTime PickupDateTime { get; set; }
+
+        public DateTime? DropDateTime { get; set; }
+
+        public int? RentalHours { get; set; }
 
         #endregion
     }
@@ -129,5 +137,4 @@ namespace ZTaxiApp.Model.DTOs
 
         #endregion
     }
-
 }

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using ZhooSoft.Controls;
 using ZhooSoft.Core;
 using ZTaxi.Services.Contracts;
+using ZTaxiApp.Common;
 using ZTaxiApp.Helpers;
 using ZTaxiApp.Services.AppService;
 using ZTaxiApp.UIModel;
@@ -112,6 +113,7 @@ namespace ZTaxiApp.ViewModel
         {
             IsOutstation = AppHelper.SelectedAction == ActionEnum.OutStation;
             PageTitleName = IsOutstation ? "Outstation Trip" : "Rental Trip";
+            
             TripType = "OneWay";
             ValidateForm();
             _osrmService = ServiceHelper.GetService<IOsrmService>();
@@ -226,7 +228,7 @@ namespace ZTaxiApp.ViewModel
             {
                 await UpdateMapUI();
             }
-            
+
         }
 
         private async Task GetCurrentLocationInfo()
@@ -245,7 +247,7 @@ namespace ZTaxiApp.ViewModel
                     DropLocation = new LocationInfo();
                     var placedetails = await ServiceHelper.GetService<IAddressService>().GetPlaceNameAsync(location.Latitude, location.Longitude);
                     PickupLocation = new LocationInfo { Address = placedetails, Latitude = location.Latitude, Longitude = location.Longitude, LocationType = UIHelper.LocationType.Pickup };
-                    
+
                 }
             }
             catch (Exception ex)
@@ -256,7 +258,7 @@ namespace ZTaxiApp.ViewModel
 
         private void LoadDatas()
         {
-            VehicleTypes = new ObservableCollection<string>(new List<string> { "Hatchback", "Sedan", "SUV", "MPV", "Luxury", "Bike Taxi" });
+            VehicleTypes = new ObservableCollection<string>(Enum.GetNames(typeof(VehicleTypeEnum)).ToList());
 
             Packages = new()
                             {
@@ -278,8 +280,10 @@ namespace ZTaxiApp.ViewModel
                 EndDateTime = ReturnDate ?? null,
                 EstimatedFare = 120,
                 InsuranceCost = 20,
+                RentelHrs = IsOutstation ? null : SelectedPackage.Hours,
                 VehicleType = SelectedVehicleType,
                 TripType = TripType,
+                RideType = IsOutstation ? RideTypeEnum.Outstation : RideTypeEnum.Rental,
                 RideInclusions =
                                 [
                                     "Regularly audited cars",

@@ -82,6 +82,7 @@
     public enum RideStatus
     {
         Requested,      // Ride request is created by the customer
+        Scheduled,
         Assigned,       // Driver is assigned to the ride request
         Reached,        // Driver has reached the pickup location
         Started,        // Ride has started

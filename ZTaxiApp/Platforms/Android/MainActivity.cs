@@ -13,5 +13,16 @@ public class MainActivity : MauiAppCompatActivity
         base.OnCreate(savedInstanceState);
         Window.SetSoftInputMode(SoftInput.AdjustResize);
 
+        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+        {
+            var ex = (Exception)args.ExceptionObject;
+            Android.Util.Log.Error("ZhooSoftCrash", ex.ToString());
+        };
+
+        TaskScheduler.UnobservedTaskException += (sender, args) =>
+        {
+            Android.Util.Log.Error("ZhooSoftCrash", args.Exception.ToString());
+        };
+
     }
 }

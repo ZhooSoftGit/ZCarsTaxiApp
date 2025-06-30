@@ -24,15 +24,15 @@ namespace ZhooSoft.ServiceBase
         {
             try
             {
-                await Task.Delay(500); // Simulating API delay
+                //await Task.Delay(500); // Simulating API delay
 
-                var dummyData = DummyDataGenerator.CreateDummy<T>();
+                //var dummyData = DummyDataGenerator.CreateDummy<T>();
 
-                return new ApiResponse<T?>
-                {
-                    IsSuccess = true,
-                    Data = dummyData
-                };
+                //return new ApiResponse<T?>
+                //{
+                //    IsSuccess = true,
+                //    Data = dummyData
+                //};
                 await SetAuthData();
                 var response = await _httpClient.GetAsync(url);
                 return await HandleResponse<T>(response);
@@ -47,15 +47,15 @@ namespace ZhooSoft.ServiceBase
         {
             try
             {
-                await Task.Delay(500); // Simulating API delay
+                //await Task.Delay(500); // Simulating API delay
 
-                var dummyData = DummyDataGenerator.CreateDummy<T>();
+                //var dummyData = DummyDataGenerator.CreateDummy<T>();
 
-                return new ApiResponse<T?>
-                {
-                    IsSuccess = true,
-                    Data = dummyData
-                };
+                //return new ApiResponse<T?>
+                //{
+                //    IsSuccess = true,
+                //    Data = dummyData
+                //};
 
                 await SetAuthData();
                 var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
